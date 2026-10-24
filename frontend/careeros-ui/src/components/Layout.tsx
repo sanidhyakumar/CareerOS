@@ -13,6 +13,7 @@ import PersonIcon from '@mui/icons-material/Person'
 import MenuIcon from '@mui/icons-material/Menu'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch'
+import BusinessIcon from '@mui/icons-material/Business'
 
 const DRAWER_WIDTH = 240
 const DRAWER_COLLAPSED = 72
@@ -20,6 +21,7 @@ const DRAWER_COLLAPSED = 72
 const navItems = [
   { label: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard' },
   { label: 'Profile', icon: <PersonIcon />, path: '/profile' },
+  { label: 'Companies', icon: <BusinessIcon />, path: '/companies' },
   { label: 'Jobs', icon: <WorkIcon />, path: '/jobs' },
   { label: 'Contacts', icon: <PeopleIcon />, path: '/contacts' },
   { label: 'Resumes', icon: <DescriptionIcon />, path: '/resumes' },

@@ -11,5 +11,6 @@ public interface IUnitOfWork : IDisposable
     ITagRepository Tags { get; }
     IUserProfileRepository Profiles { get; }
     IResumeCenterRepository ResumeCenter { get; }
+    ICompanyRepository Companies { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

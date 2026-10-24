@@ -7,6 +7,7 @@ using CareerOS.Application.Features.Tags.DTOs;
 using CareerOS.Application.Features.Documents.DTOs;
 using CareerOS.Application.Features.Profile.DTOs;
 using CareerOS.Application.Features.ResumeCenter.DTOs;
+using CareerOS.Application.Features.Companies.DTOs;
 using CareerOS.Domain.Entities;
 
 namespace CareerOS.Application.Common.Mappings;
@@ -79,5 +80,10 @@ public class MappingProfile : Profile
             .ForMember(d => d.PortfolioName, opt => opt.MapFrom(s => s.PortfolioVersion != null ? s.PortfolioVersion.Name : null));
 
         CreateMap<SubmissionSnapshot, SubmissionSnapshotDto>();
+
+        // Phase 5: Company CRM mappings
+        CreateMap<Company, CompanyDto>()
+            .ForMember(d => d.JobsCount, opt => opt.MapFrom(s => s.Jobs.Count))
+            .ForMember(d => d.ContactsCount, opt => opt.MapFrom(s => s.Contacts.Count));
     }
 }

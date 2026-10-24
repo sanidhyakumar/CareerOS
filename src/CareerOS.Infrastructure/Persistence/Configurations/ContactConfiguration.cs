@@ -15,6 +15,10 @@ public class ContactConfiguration : IEntityTypeConfiguration<Contact>
         builder.Property(c => c.Company).HasMaxLength(200);
         builder.Property(c => c.JobTitle).HasMaxLength(200);
         builder.Property(c => c.LinkedIn).HasMaxLength(500);
+        builder.HasOne(c => c.CompanyEntity)
+            .WithMany(comp => comp.Contacts)
+            .HasForeignKey(c => c.CompanyId)
+            .OnDelete(DeleteBehavior.SetNull);
         builder.HasIndex(c => c.Name);
     }
 }

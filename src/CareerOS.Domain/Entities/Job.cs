@@ -7,6 +7,8 @@ public class Job : BaseEntity
 {
     public string Title { get; set; } = string.Empty;
     public string Company { get; set; } = string.Empty;
+    public Guid? CompanyId { get; set; }
+    public Company? CompanyEntity { get; set; }
     public string? Location { get; set; }
     public string? Url { get; set; }
     public string? Description { get; set; }

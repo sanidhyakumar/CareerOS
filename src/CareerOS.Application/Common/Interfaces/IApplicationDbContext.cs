@@ -25,5 +25,6 @@ public interface IApplicationDbContext
     DbSet<PortfolioVersion> PortfolioVersions { get; }
     DbSet<ResumeSubmission> ResumeSubmissions { get; }
     DbSet<SubmissionSnapshot> SubmissionSnapshots { get; }
+    DbSet<Company> Companies { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

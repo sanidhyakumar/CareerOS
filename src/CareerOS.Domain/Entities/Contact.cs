@@ -8,6 +8,8 @@ public class Contact : BaseEntity
     public string? Email { get; set; }
     public string? Phone { get; set; }
     public string? Company { get; set; }
+    public Guid? CompanyId { get; set; }
+    public Company? CompanyEntity { get; set; }
     public string? JobTitle { get; set; }
     public string? LinkedIn { get; set; }
     public string? Notes { get; set; }

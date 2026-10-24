@@ -81,6 +81,16 @@ CareerOS.API             → Controllers, Middleware, Serilog, Swagger
 - ✅ **Resume Strategy Analytics** — Real-time analytics measuring response rates, interview conversion, offer generation, and strategy effectiveness across channels
 - ✅ **Unified Resume Center UI** — Multi-tab React + Material UI console with profile management, version clone tools, snapshot inspection modals, and performance charts
 
+### Phase 5 — Company CRM
+- ✅ **Company CRM & Database** — Store comprehensive employer records: Name, Description, Headquarters, Size, Stage, Founded Year, Websites, Tech Blog, LinkedIn, Glassdoor rating
+- ✅ **Visa Sponsorship Tracking** — Track company-specific visa sponsorship policies (Yes, Case-by-Case, No), supported visa categories (H-1B, O-1, TN, E-3, Green Card), and filing notes
+- ✅ **Relocation Policies** — Log relocation support tiers (Full Package, Domestic Only, International) and assistance details
+- ✅ **Evaluation & Ratings** — 1-to-5 star personal ratings, engineering culture score, work-life balance rating, pros/cons, and personal assessment notes
+- ✅ **Dream Targets** — Star and filter high-priority target employers
+- ✅ **Search & Filtering Engine** — Filter by keyword, industry, visa sponsorship policy, minimum personal rating, and target status
+- ✅ **Reusable Entity Architecture** — Foreign key integration with Jobs (`Job.CompanyId`) and Contacts (`Contact.CompanyId`)
+- ✅ **Company CRM UI** — Multi-tab React + Material UI directory with grid cards and table view toggles, company stats banner, quick web/careers links, and dialog forms
+
 ---
 
 ## 🏃 How to Run CareerOS

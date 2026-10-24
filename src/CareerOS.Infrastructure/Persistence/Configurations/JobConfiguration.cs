@@ -15,6 +15,10 @@ public class JobConfiguration : IEntityTypeConfiguration<Job>
         builder.Property(j => j.Url).HasMaxLength(500);
         builder.Property(j => j.Salary).HasMaxLength(100);
         builder.Property(j => j.Status).HasConversion<int>();
+        builder.HasOne(j => j.CompanyEntity)
+            .WithMany(c => c.Jobs)
+            .HasForeignKey(j => j.CompanyId)
+            .OnDelete(DeleteBehavior.SetNull);
         builder.HasIndex(j => j.Status);
         builder.HasIndex(j => j.CreatedAt);
     }

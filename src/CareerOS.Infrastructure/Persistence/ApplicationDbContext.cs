@@ -28,6 +28,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<PortfolioVersion> PortfolioVersions => Set<PortfolioVersion>();
     public DbSet<ResumeSubmission> ResumeSubmissions => Set<ResumeSubmission>();
     public DbSet<SubmissionSnapshot> SubmissionSnapshots => Set<SubmissionSnapshot>();
+    public DbSet<Company> Companies => Set<Company>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
