@@ -108,7 +108,7 @@ public class CreateApplicationCommandHandler : IRequestHandler<CreateApplication
         string? referralName = null;
         if (request.ReferralContactId.HasValue)
         {
-            var contact = await _uow.Contacts.GetByIdAsync(request.ReferralContactId.Value, cancellationToken);
+            var contact = await _uow.Contacts.GetByIdAsync(request.ReferralContactId.Value, cancellationToken: cancellationToken);
             if (contact != null)
             {
                 referralName = contact.Name;

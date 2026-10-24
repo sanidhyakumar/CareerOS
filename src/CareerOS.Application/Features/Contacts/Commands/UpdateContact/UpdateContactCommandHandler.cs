@@ -19,15 +19,39 @@ public sealed class UpdateContactCommandHandler : IRequestHandler<UpdateContactC
 
     public async Task<ContactDto> Handle(UpdateContactCommand request, CancellationToken cancellationToken)
     {
-        var contact = await _uow.Contacts.GetByIdAsync(request.Id, cancellationToken)
+        var contact = await _uow.Contacts.GetByIdAsync(request.Id, includeInteractions: true, cancellationToken: cancellationToken)
             ?? throw new NotFoundException("Contact", request.Id);
 
-        contact.Update(request.Name, request.Email, request.Phone, request.Company,
-            request.JobTitle, request.LinkedIn, request.Notes);
+        contact.Update(
+            name: request.Name,
+            category: request.Category,
+            email: request.Email,
+            phone: request.Phone,
+            company: request.Company,
+            companyId: request.CompanyId,
+            jobTitle: request.JobTitle,
+            department: request.Department,
+            linkedin: request.LinkedIn,
+            location: request.Location,
+            isStarred: request.IsStarred,
+            notes: request.Notes,
+            tags: request.Tags,
+            nextFollowUpDate: request.NextFollowUpDate);
+
+        contact.Twitter = request.Twitter?.Trim();
+        contact.JobId = request.JobId;
+
+        if (request.CompanyId.HasValue && string.IsNullOrWhiteSpace(contact.Company))
+        {
+            var comp = await _uow.Companies.GetByIdAsync(request.CompanyId.Value, cancellationToken: cancellationToken);
+            if (comp != null)
+            {
+                contact.Company = comp.Name;
+            }
+        }
 
         await _uow.Contacts.UpdateAsync(contact, cancellationToken);
         await _uow.SaveChangesAsync(cancellationToken);
         return _mapper.Map<ContactDto>(contact);
     }
 }
-

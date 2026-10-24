@@ -18,7 +18,12 @@ public class MappingProfile : Profile
     {
         CreateMap<Job, JobDto>()
             .ForMember(d => d.CompanyName, opt => opt.MapFrom(s => s.CompanyEntity != null ? s.CompanyEntity.Name : s.Company));
-        CreateMap<Contact, ContactDto>().ReverseMap();
+        CreateMap<Contact, ContactDto>()
+            .ForMember(d => d.CompanyName, opt => opt.MapFrom(s => s.CompanyEntity != null ? s.CompanyEntity.Name : s.Company))
+            .ForMember(d => d.PositionTitle, opt => opt.MapFrom(s => s.JobEntity != null ? s.JobEntity.Title : null))
+            .ForMember(d => d.InteractionsCount, opt => opt.MapFrom(s => s.Interactions != null ? s.Interactions.Count : 0))
+            .ForMember(d => d.Interactions, opt => opt.MapFrom(s => s.Interactions != null ? s.Interactions.OrderByDescending(i => i.InteractionDate).ToList() : new List<ContactInteraction>()));
+        CreateMap<ContactInteraction, ContactInteractionDto>();
         CreateMap<Resume, ResumeDto>().ReverseMap();
 
         CreateMap<Country, CountryDto>()

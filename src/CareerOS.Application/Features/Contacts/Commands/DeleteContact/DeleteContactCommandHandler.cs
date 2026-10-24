@@ -12,7 +12,7 @@ public sealed class DeleteContactCommandHandler : IRequestHandler<DeleteContactC
 
     public async Task Handle(DeleteContactCommand request, CancellationToken cancellationToken)
     {
-        var contact = await _uow.Contacts.GetByIdAsync(request.Id, cancellationToken)
+        var contact = await _uow.Contacts.GetByIdAsync(request.Id, cancellationToken: cancellationToken)
             ?? throw new NotFoundException("Contact", request.Id);
 
         await _uow.Contacts.DeleteAsync(contact.Id, cancellationToken);

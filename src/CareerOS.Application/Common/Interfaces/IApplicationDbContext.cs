@@ -7,6 +7,7 @@ public interface IApplicationDbContext
 {
     DbSet<Job> Jobs { get; }
     DbSet<Contact> Contacts { get; }
+    DbSet<ContactInteraction> ContactInteractions { get; }
     DbSet<Resume> Resumes { get; }
     DbSet<Country> Countries { get; }
     DbSet<Region> Regions { get; }

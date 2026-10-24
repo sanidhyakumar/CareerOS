@@ -10,6 +10,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
     public DbSet<Job> Jobs => Set<Job>();
     public DbSet<Contact> Contacts => Set<Contact>();
+    public DbSet<ContactInteraction> ContactInteractions => Set<ContactInteraction>();
     public DbSet<Resume> Resumes => Set<Resume>();
     public DbSet<Country> Countries => Set<Country>();
     public DbSet<Region> Regions => Set<Region>();

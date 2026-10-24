@@ -19,7 +19,7 @@ public sealed class GetContactByIdQueryHandler : IRequestHandler<GetContactByIdQ
 
     public async Task<ContactDto?> Handle(GetContactByIdQuery request, CancellationToken cancellationToken)
     {
-        var contact = await _uow.Contacts.GetByIdAsync(request.Id, cancellationToken)
+        var contact = await _uow.Contacts.GetByIdAsync(request.Id, includeInteractions: true, cancellationToken: cancellationToken)
             ?? throw new NotFoundException("Contact", request.Id);
         return _mapper.Map<ContactDto>(contact);
     }

@@ -18,8 +18,13 @@ public sealed class GetAllContactsQueryHandler : IRequestHandler<GetAllContactsQ
 
     public async Task<IEnumerable<ContactDto>> Handle(GetAllContactsQuery request, CancellationToken cancellationToken)
     {
-        var contacts = await _uow.Contacts.GetAllAsync(cancellationToken);
+        var contacts = await _uow.Contacts.GetAllAsync(
+            searchTerm: request.SearchTerm,
+            category: request.Category,
+            companyId: request.CompanyId,
+            isStarred: request.IsStarred,
+            cancellationToken: cancellationToken);
+
         return _mapper.Map<IEnumerable<ContactDto>>(contacts);
     }
 }
-
