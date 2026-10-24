@@ -19,5 +19,11 @@ public interface IApplicationDbContext
     DbSet<WorkAuthorization> WorkAuthorizations { get; }
     DbSet<SocialLink> SocialLinks { get; }
     DbSet<Address> Addresses { get; }
+    DbSet<ResumeProfile> ResumeProfiles { get; }
+    DbSet<ResumeVersion> ResumeVersions { get; }
+    DbSet<CoverLetter> CoverLetters { get; }
+    DbSet<PortfolioVersion> PortfolioVersions { get; }
+    DbSet<ResumeSubmission> ResumeSubmissions { get; }
+    DbSet<SubmissionSnapshot> SubmissionSnapshots { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

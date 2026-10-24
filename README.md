@@ -71,6 +71,16 @@ CareerOS.API             → Controllers, Middleware, Serilog, Swagger
 - ✅ **Document Version Control** — Version chains preserving previous revisions while maintaining document identity and linked usages
 - ✅ **Rich Vault UI** — Modern tabbed Material UI vault interface with category badges, expiration status alerts, usage viewer dialog, and version management
 
+### Phase 4 — Resume Center
+- ✅ **Resume Profile Strategies** — Multiple career archetype personas (e.g., Staff Systems Lead, AI/ML Architect, Engineering Manager) with target roles, target industries, and skills taxonomy
+- ✅ **Tailored Resume Versions & Cloning** — Company-specific resume variations, base templates, ATS keyword tailoring, change logs, and direct integration with Document Vault
+- ✅ **Cover Letter Management** — Reusable cover letter templates and customized application pitches with recipient targeting and markdown support
+- ✅ **Portfolio Variations** — Audience-specific portfolio links, targeted case studies, and featured project showcases
+- ✅ **Submission Tracking** — End-to-end logging of where, when, and through what channel (LinkedIn, Referral, Direct) each resume version was submitted
+- ✅ **Immutable Snapshot System** — Automatic cryptographic freeze of exact resume content/SHA-256, cover letter text, and portfolio URL at the moment of submission
+- ✅ **Resume Strategy Analytics** — Real-time analytics measuring response rates, interview conversion, offer generation, and strategy effectiveness across channels
+- ✅ **Unified Resume Center UI** — Multi-tab React + Material UI console with profile management, version clone tools, snapshot inspection modals, and performance charts
+
 ---
 
 ## 🏃 How to Run CareerOS

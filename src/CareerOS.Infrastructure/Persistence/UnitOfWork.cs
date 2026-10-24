@@ -14,6 +14,7 @@ public class UnitOfWork : IUnitOfWork
     private IDocumentRepository? _documents;
     private ITagRepository? _tags;
     private IUserProfileRepository? _profiles;
+    private IResumeCenterRepository? _resumeCenter;
 
     public UnitOfWork(ApplicationDbContext context) => _context = context;
 
@@ -25,6 +26,7 @@ public class UnitOfWork : IUnitOfWork
     public IDocumentRepository Documents => _documents ??= new DocumentRepository(_context);
     public ITagRepository Tags => _tags ??= new TagRepository(_context);
     public IUserProfileRepository Profiles => _profiles ??= new UserProfileRepository(_context);
+    public IResumeCenterRepository ResumeCenter => _resumeCenter ??= new ResumeCenterRepository(_context);
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         => await _context.SaveChangesAsync(cancellationToken);

@@ -10,5 +10,6 @@ public interface IUnitOfWork : IDisposable
     IDocumentRepository Documents { get; }
     ITagRepository Tags { get; }
     IUserProfileRepository Profiles { get; }
+    IResumeCenterRepository ResumeCenter { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

@@ -22,6 +22,12 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<WorkAuthorization> WorkAuthorizations => Set<WorkAuthorization>();
     public DbSet<SocialLink> SocialLinks => Set<SocialLink>();
     public DbSet<Address> Addresses => Set<Address>();
+    public DbSet<ResumeProfile> ResumeProfiles => Set<ResumeProfile>();
+    public DbSet<ResumeVersion> ResumeVersions => Set<ResumeVersion>();
+    public DbSet<CoverLetter> CoverLetters => Set<CoverLetter>();
+    public DbSet<PortfolioVersion> PortfolioVersions => Set<PortfolioVersion>();
+    public DbSet<ResumeSubmission> ResumeSubmissions => Set<ResumeSubmission>();
+    public DbSet<SubmissionSnapshot> SubmissionSnapshots => Set<SubmissionSnapshot>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

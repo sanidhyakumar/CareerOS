@@ -6,6 +6,7 @@ using CareerOS.Application.Features.Countries.DTOs;
 using CareerOS.Application.Features.Tags.DTOs;
 using CareerOS.Application.Features.Documents.DTOs;
 using CareerOS.Application.Features.Profile.DTOs;
+using CareerOS.Application.Features.ResumeCenter.DTOs;
 using CareerOS.Domain.Entities;
 
 namespace CareerOS.Application.Common.Mappings;
@@ -51,5 +52,32 @@ public class MappingProfile : Profile
             .ForMember(d => d.CountryCode, opt => opt.MapFrom(s => s.Country != null ? s.Country.Code : string.Empty))
             .ForMember(d => d.RegionName, opt => opt.MapFrom(s => s.Region != null ? s.Region.Name : null))
             .ForMember(d => d.RegionCode, opt => opt.MapFrom(s => s.Region != null ? s.Region.Code : null));
+
+        // Phase 4: Resume Center mappings
+        CreateMap<ResumeProfile, ResumeProfileDto>()
+            .ForMember(d => d.VersionCount, opt => opt.MapFrom(s => s.Versions.Count))
+            .ForMember(d => d.SubmissionCount, opt => opt.MapFrom(s => s.Submissions.Count))
+            .ForMember(d => d.Versions, opt => opt.MapFrom(s => s.Versions));
+
+        CreateMap<ResumeVersion, ResumeVersionDto>()
+            .ForMember(d => d.ProfileName, opt => opt.MapFrom(s => s.ResumeProfile != null ? s.ResumeProfile.Name : null))
+            .ForMember(d => d.DocumentFileName, opt => opt.MapFrom(s => s.Document != null ? s.Document.OriginalFileName : null))
+            .ForMember(d => d.DocumentSha256, opt => opt.MapFrom(s => s.Document != null ? s.Document.Sha256Hash : null))
+            .ForMember(d => d.SubmissionCount, opt => opt.MapFrom(s => s.Submissions.Count));
+
+        CreateMap<CoverLetter, CoverLetterDto>()
+            .ForMember(d => d.ProfileName, opt => opt.MapFrom(s => s.ResumeProfile != null ? s.ResumeProfile.Name : null));
+
+        CreateMap<PortfolioVersion, PortfolioVersionDto>()
+            .ForMember(d => d.SubmissionCount, opt => opt.MapFrom(s => s.Submissions.Count));
+
+        CreateMap<ResumeSubmission, ResumeSubmissionDto>()
+            .ForMember(d => d.ProfileName, opt => opt.MapFrom(s => s.ResumeProfile != null ? s.ResumeProfile.Name : null))
+            .ForMember(d => d.VersionName, opt => opt.MapFrom(s => s.ResumeVersion != null ? s.ResumeVersion.VersionName : null))
+            .ForMember(d => d.VersionNumber, opt => opt.MapFrom(s => s.ResumeVersion != null ? s.ResumeVersion.VersionNumber : 1))
+            .ForMember(d => d.CoverLetterTitle, opt => opt.MapFrom(s => s.CoverLetter != null ? s.CoverLetter.Title : null))
+            .ForMember(d => d.PortfolioName, opt => opt.MapFrom(s => s.PortfolioVersion != null ? s.PortfolioVersion.Name : null));
+
+        CreateMap<SubmissionSnapshot, SubmissionSnapshotDto>();
     }
 }
