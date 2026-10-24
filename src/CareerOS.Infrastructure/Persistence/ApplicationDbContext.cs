@@ -29,6 +29,9 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<ResumeSubmission> ResumeSubmissions => Set<ResumeSubmission>();
     public DbSet<SubmissionSnapshot> SubmissionSnapshots => Set<SubmissionSnapshot>();
     public DbSet<Company> Companies => Set<Company>();
+    public DbSet<JobApplication> JobApplications => Set<JobApplication>();
+    public DbSet<ApplicationTimelineEvent> ApplicationTimelineEvents => Set<ApplicationTimelineEvent>();
+    public DbSet<ApplicationSnapshot> ApplicationSnapshots => Set<ApplicationSnapshot>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

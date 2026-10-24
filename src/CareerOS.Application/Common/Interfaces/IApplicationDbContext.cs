@@ -26,5 +26,8 @@ public interface IApplicationDbContext
     DbSet<ResumeSubmission> ResumeSubmissions { get; }
     DbSet<SubmissionSnapshot> SubmissionSnapshots { get; }
     DbSet<Company> Companies { get; }
+    DbSet<JobApplication> JobApplications { get; }
+    DbSet<ApplicationTimelineEvent> ApplicationTimelineEvents { get; }
+    DbSet<ApplicationSnapshot> ApplicationSnapshots { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

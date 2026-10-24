@@ -86,5 +86,26 @@ public class MappingProfile : Profile
         CreateMap<Company, CompanyDto>()
             .ForMember(d => d.JobsCount, opt => opt.MapFrom(s => s.Jobs.Count))
             .ForMember(d => d.ContactsCount, opt => opt.MapFrom(s => s.Contacts.Count));
+
+        // Phase 7: Application Tracking mappings
+        CreateMap<JobApplication, CareerOS.Application.Features.Applications.DTOs.JobApplicationDto>()
+            .ForMember(d => d.JobTitle, opt => opt.MapFrom(s => s.Job != null ? s.Job.Title : string.Empty))
+            .ForMember(d => d.CompanyName, opt => opt.MapFrom(s => s.Job != null && !string.IsNullOrEmpty(s.Job.Company) ? s.Job.Company : (s.Company != null ? s.Company.Name : string.Empty)))
+            .ForMember(d => d.JobDepartment, opt => opt.MapFrom(s => s.Job != null ? s.Job.Department : null))
+            .ForMember(d => d.JobLocation, opt => opt.MapFrom(s => s.Job != null ? s.Job.Location : null))
+            .ForMember(d => d.JobSalary, opt => opt.MapFrom(s => s.Job != null ? s.Job.Salary : null))
+            .ForMember(d => d.TechStack, opt => opt.MapFrom(s => s.Job != null ? s.Job.TechStack : null))
+            .ForMember(d => d.ResumeVersionName, opt => opt.MapFrom(s => s.ResumeVersion != null ? s.ResumeVersion.VersionName : null))
+            .ForMember(d => d.ResumeProfileName, opt => opt.MapFrom(s => s.ResumeVersion != null && s.ResumeVersion.ResumeProfile != null ? s.ResumeVersion.ResumeProfile.Name : null))
+            .ForMember(d => d.CoverLetterTitle, opt => opt.MapFrom(s => s.CoverLetter != null ? s.CoverLetter.Title : null))
+            .ForMember(d => d.PortfolioName, opt => opt.MapFrom(s => s.PortfolioVersion != null ? s.PortfolioVersion.Name : null))
+            .ForMember(d => d.ReferralContactName, opt => opt.MapFrom(s => s.ReferralContact != null ? s.ReferralContact.Name : null))
+            .ForMember(d => d.TimelineEventsCount, opt => opt.MapFrom(s => s.TimelineEvents != null ? s.TimelineEvents.Count : 0))
+            .ForMember(d => d.LatestEventTitle, opt => opt.MapFrom(s => s.TimelineEvents != null && s.TimelineEvents.Any() ? s.TimelineEvents.OrderByDescending(e => e.EventDate).First().Title : null))
+            .ForMember(d => d.LatestEventDate, opt => opt.MapFrom(s => s.TimelineEvents != null && s.TimelineEvents.Any() ? s.TimelineEvents.OrderByDescending(e => e.EventDate).First().EventDate : (DateTime?)null))
+            .ForMember(d => d.TimelineEvents, opt => opt.MapFrom(s => s.TimelineEvents != null ? s.TimelineEvents.OrderBy(e => e.EventDate).ToList() : new List<ApplicationTimelineEvent>()));
+
+        CreateMap<ApplicationTimelineEvent, CareerOS.Application.Features.Applications.DTOs.ApplicationTimelineEventDto>();
+        CreateMap<ApplicationSnapshot, CareerOS.Application.Features.Applications.DTOs.ApplicationSnapshotDto>();
     }
 }

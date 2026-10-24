@@ -12,5 +12,6 @@ public interface IUnitOfWork : IDisposable
     IUserProfileRepository Profiles { get; }
     IResumeCenterRepository ResumeCenter { get; }
     ICompanyRepository Companies { get; }
+    IApplicationRepository Applications { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }
