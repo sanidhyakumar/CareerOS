@@ -16,6 +16,11 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Document> Documents => Set<Document>();
     public DbSet<Tag> Tags => Set<Tag>();
     public DbSet<DocumentTag> DocumentTags => Set<DocumentTag>();
+    public DbSet<UserProfile> Profiles => Set<UserProfile>();
+    public DbSet<ProfileCitizenship> ProfileCitizenships => Set<ProfileCitizenship>();
+    public DbSet<WorkAuthorization> WorkAuthorizations => Set<WorkAuthorization>();
+    public DbSet<SocialLink> SocialLinks => Set<SocialLink>();
+    public DbSet<Address> Addresses => Set<Address>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

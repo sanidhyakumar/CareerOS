@@ -9,6 +9,7 @@ import WorkIcon from '@mui/icons-material/Work'
 import PeopleIcon from '@mui/icons-material/People'
 import DescriptionIcon from '@mui/icons-material/Description'
 import FolderIcon from '@mui/icons-material/Folder'
+import PersonIcon from '@mui/icons-material/Person'
 import MenuIcon from '@mui/icons-material/Menu'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch'
@@ -18,6 +19,7 @@ const DRAWER_COLLAPSED = 72
 
 const navItems = [
   { label: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard' },
+  { label: 'Profile', icon: <PersonIcon />, path: '/profile' },
   { label: 'Jobs', icon: <WorkIcon />, path: '/jobs' },
   { label: 'Contacts', icon: <PeopleIcon />, path: '/contacts' },
   { label: 'Resumes', icon: <DescriptionIcon />, path: '/resumes' },

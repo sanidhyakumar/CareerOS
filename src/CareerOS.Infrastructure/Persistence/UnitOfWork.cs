@@ -13,6 +13,7 @@ public class UnitOfWork : IUnitOfWork
     private IRegionRepository? _regions;
     private IDocumentRepository? _documents;
     private ITagRepository? _tags;
+    private IUserProfileRepository? _profiles;
 
     public UnitOfWork(ApplicationDbContext context) => _context = context;
 
@@ -23,6 +24,7 @@ public class UnitOfWork : IUnitOfWork
     public IRegionRepository Regions => _regions ??= new RegionRepository(_context);
     public IDocumentRepository Documents => _documents ??= new DocumentRepository(_context);
     public ITagRepository Tags => _tags ??= new TagRepository(_context);
+    public IUserProfileRepository Profiles => _profiles ??= new UserProfileRepository(_context);
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         => await _context.SaveChangesAsync(cancellationToken);

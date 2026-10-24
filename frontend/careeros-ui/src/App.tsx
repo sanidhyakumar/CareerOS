@@ -5,6 +5,7 @@ import JobsPage from './pages/JobsPage'
 import ContactsPage from './pages/ContactsPage'
 import ResumesPage from './pages/ResumesPage'
 import DocumentsPage from './pages/DocumentsPage'
+import ProfilePage from './pages/ProfilePage'
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
         <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
         <Route path="/jobs" element={<JobsPage />} />
         <Route path="/contacts" element={<ContactsPage />} />
         <Route path="/resumes" element={<ResumesPage />} />

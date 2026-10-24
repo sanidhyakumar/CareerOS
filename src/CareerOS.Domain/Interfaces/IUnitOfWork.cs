@@ -9,5 +9,6 @@ public interface IUnitOfWork : IDisposable
     IRegionRepository Regions { get; }
     IDocumentRepository Documents { get; }
     ITagRepository Tags { get; }
+    IUserProfileRepository Profiles { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

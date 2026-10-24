@@ -13,5 +13,10 @@ public interface IApplicationDbContext
     DbSet<Document> Documents { get; }
     DbSet<Tag> Tags { get; }
     DbSet<DocumentTag> DocumentTags { get; }
+    DbSet<UserProfile> Profiles { get; }
+    DbSet<ProfileCitizenship> ProfileCitizenships { get; }
+    DbSet<WorkAuthorization> WorkAuthorizations { get; }
+    DbSet<SocialLink> SocialLinks { get; }
+    DbSet<Address> Addresses { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

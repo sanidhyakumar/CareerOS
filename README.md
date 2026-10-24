@@ -55,6 +55,14 @@ CareerOS.API             → Controllers, Middleware, Serilog, Swagger
 - ✅ **File Operations** — Upload, new version upload, move across subfolders, download, and cascade delete
 - ✅ **Document Management UI** — React + TypeScript + Material UI interface for browsing, filtering, uploading, and version viewing
 
+### Phase 2 — Personal Profile
+- ✅ **Personal Information** — Core identity, professional headline, multiple emails, phones, bio, and avatar
+- ✅ **Citizenship Registry** — Multi-citizenship support, primary nationality flag, passport records, and country linkages
+- ✅ **Work Authorization & Visas** — Track visas, expiration dates, country rights, and future sponsorship requirements
+- ✅ **Addresses & Relocation** — Current, mailing, and target locations with remote work & relocation preference flags
+- ✅ **Social & Portfolio Links** — LinkedIn, GitHub, personal site, and tech platform footprint with custom ordering
+- ✅ **Unified Profile UI** — Multi-tabbed responsive React interface with live validation, dialogs, and country dropdowns
+
 ---
 
 ## 🏃 How to Run CareerOS
@@ -177,11 +185,12 @@ CareerOS/
 
 - **Phase 0** ✅ Foundation & Architecture
 - **Phase 1** ✅ Core Storage Engine (SQLite, Documents, Versions, SHA-256, Tags, Countries, Regions)
-- **Phase 2** 🔜 Job Pipeline Kanban Board
-- **Phase 3** 🔜 AI-Powered Resume Tailoring
-- **Phase 4** 🔜 Interview Prep & Notes
-- **Phase 5** 🔜 Networking CRM
-- **Phase 6** 🔜 Analytics & Insights
+- **Phase 2** ✅ Personal Profile (Info, Citizenships, Visas, Authorizations, Addresses, Social Links)
+- **Phase 3** 🔜 Job Pipeline Kanban Board
+- **Phase 4** 🔜 AI-Powered Resume Tailoring
+- **Phase 5** 🔜 Interview Prep & Notes
+- **Phase 6** 🔜 Networking CRM
+- **Phase 7** 🔜 Analytics & Insights
 
 ---
 
