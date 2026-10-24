@@ -29,6 +29,11 @@ public class DataPortabilityService : IDataPortabilityService
 
     public async Task<byte[]> ExportFullBackupJsonAsync(CancellationToken cancellationToken = default)
     {
+        var profiles = await _context.CareerProfiles
+            .Include(p => p.Preferences)
+            .Include(p => p.Addresses)
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
         var companies = await _context.Companies.AsNoTracking().ToListAsync(cancellationToken);
         var jobs = await _context.Jobs.AsNoTracking().ToListAsync(cancellationToken);
         var applications = await _context.JobApplications
@@ -52,6 +57,7 @@ public class DataPortabilityService : IDataPortabilityService
                 Platform = "CareerOS Local-First",
                 RecordCounts = new Dictionary<string, int>
                 {
+                    { "CareerProfiles", profiles.Count },
                     { "Companies", companies.Count },
                     { "Jobs", jobs.Count },
                     { "Applications", applications.Count },
@@ -64,6 +70,7 @@ public class DataPortabilityService : IDataPortabilityService
                     { "Reminders", reminders.Count }
                 }
             },
+            CareerProfiles = profiles,
             Companies = companies,
             Jobs = jobs,
             Applications = applications,
@@ -232,6 +239,7 @@ public class DataPortabilityService : IDataPortabilityService
     {
         var summary = new Dictionary<string, int>
         {
+            { "CareerProfiles", 0 },
             { "Companies", 0 },
             { "Jobs", 0 },
             { "Applications", 0 },
@@ -245,6 +253,34 @@ public class DataPortabilityService : IDataPortabilityService
         using var transaction = await _context.Database.BeginTransactionAsync(cancellationToken);
         try
         {
+            // 0. Import CareerProfiles (Root Aggregates)
+            if (root.TryGetProperty("careerProfiles", out var profilesElement) && profilesElement.ValueKind == JsonValueKind.Array)
+            {
+                foreach (var item in profilesElement.EnumerateArray())
+                {
+                    string slug = GetStringProp(item, "slug") ?? "";
+                    string name = GetStringProp(item, "name") ?? "";
+                    if (string.IsNullOrWhiteSpace(slug) || string.IsNullOrWhiteSpace(name)) continue;
+
+                    var existing = await _context.CareerProfiles.FirstOrDefaultAsync(p => p.Slug == slug, cancellationToken);
+                    if (existing == null)
+                    {
+                        var cp = new CareerProfile
+                        {
+                            Name = name,
+                            Slug = slug,
+                            Relationship = GetStringProp(item, "relationship") ?? "Self",
+                            ColorCode = GetStringProp(item, "colorCode") ?? "#2563eb",
+                            Headline = GetStringProp(item, "headline"),
+                            Email = GetStringProp(item, "email") ?? $"{slug}@local.careeros"
+                        };
+                        _context.CareerProfiles.Add(cp);
+                        summary["CareerProfiles"]++;
+                    }
+                }
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+
             // 1. Import Companies
             if (root.TryGetProperty("companies", out var compElement) && compElement.ValueKind == JsonValueKind.Array)
             {

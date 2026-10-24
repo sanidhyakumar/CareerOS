@@ -8,7 +8,8 @@ namespace CareerOS.Application.Features.Search.Queries.GlobalSearch;
 public record GlobalSearchQuery(
     string Query,
     string? EntityType = null,
-    int Limit = 30
+    int Limit = 30,
+    Guid? ProfileId = null
 ) : IRequest<SearchSummaryDto>;
 
 public class GlobalSearchQueryHandler : IRequestHandler<GlobalSearchQuery, SearchSummaryDto>
@@ -40,6 +41,7 @@ public class GlobalSearchQueryHandler : IRequestHandler<GlobalSearchQuery, Searc
             request.Query,
             request.EntityType,
             request.Limit,
+            request.ProfileId,
             cancellationToken);
 
         stopwatch.Stop();

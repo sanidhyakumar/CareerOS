@@ -26,6 +26,7 @@ public class SearchService : ISearchService
         string query,
         string? entityType = null,
         int limit = 30,
+        Guid? profileId = null,
         CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(query))
@@ -62,6 +63,12 @@ public class SearchService : ISearchService
         }
 
         await EnrichResultsWithProfileOwnershipAsync(results, cancellationToken);
+
+        if (profileId.HasValue)
+        {
+            results = results.Where(r => r.CareerProfileId == profileId.Value).ToList();
+        }
+
         return results;
     }
 
@@ -112,11 +119,13 @@ public class SearchService : ISearchService
 
                 if (profileId.HasValue && profileLookup.TryGetValue(profileId.Value, out var prof))
                 {
+                    r.CareerProfileId = prof.Id;
                     r.ProfileName = prof.Name;
                     r.ProfileColor = prof.ColorCode;
                 }
                 else if (primaryProfile != null)
                 {
+                    r.CareerProfileId = primaryProfile.Id;
                     r.ProfileName = primaryProfile.Name;
                     r.ProfileColor = primaryProfile.ColorCode;
                 }

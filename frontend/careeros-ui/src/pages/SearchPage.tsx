@@ -17,6 +17,10 @@ import {
   Snackbar,
   Grid,
   Paper,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
@@ -26,6 +30,7 @@ import SpeedIcon from '@mui/icons-material/Speed';
 import StorageIcon from '@mui/icons-material/Storage';
 import { searchApi, type SearchSummary, type SearchStats, type SearchResultItem } from '../api/search';
 import { getEntityIcon, getEntityColor } from '../components/SearchModal';
+import { useProfile } from '../context/ProfileContext';
 
 const CATEGORIES = [
   'All',
@@ -39,6 +44,8 @@ const CATEGORIES = [
 ];
 
 export const SearchPage: React.FC = () => {
+  const { profiles } = useProfile();
+  const [selectedProfileId, setSelectedProfileId] = useState<string>('all');
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -65,7 +72,7 @@ export const SearchPage: React.FC = () => {
     }
   };
 
-  // Perform search on query / type change with debounce
+  // Perform search on query / type / profile change with debounce
   useEffect(() => {
     if (!query.trim()) {
       setSummary(null);
@@ -76,7 +83,12 @@ export const SearchPage: React.FC = () => {
     const timer = setTimeout(async () => {
       setLoading(true);
       try {
-        const res = await searchApi.search(query.trim(), selectedType, 50);
+        const res = await searchApi.search(
+          query.trim(),
+          selectedType,
+          50,
+          selectedProfileId !== 'all' ? selectedProfileId : undefined
+        );
         setSummary(res);
         // Sync URL query param
         setSearchParams({ q: query.trim() }, { replace: true });
@@ -88,7 +100,7 @@ export const SearchPage: React.FC = () => {
     }, 250);
 
     return () => clearTimeout(timer);
-  }, [query, selectedType, setSearchParams]);
+  }, [query, selectedType, selectedProfileId, setSearchParams]);
 
   const handleReindex = async () => {
     setReindexing(true);
@@ -210,8 +222,8 @@ export const SearchPage: React.FC = () => {
         />
       </Paper>
 
-      {/* Category Tabs */}
-      <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}>
+      {/* Category Tabs & Profile Scope Filter */}
+      <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
         <Tabs
           value={selectedType}
           onChange={(_, newVal) => setSelectedType(newVal)}
@@ -234,6 +246,22 @@ export const SearchPage: React.FC = () => {
             );
           })}
         </Tabs>
+        <FormControl size="small" sx={{ minWidth: 220 }}>
+          <InputLabel id="search-profile-scope-label">Profile Scope</InputLabel>
+          <Select
+            labelId="search-profile-scope-label"
+            value={selectedProfileId}
+            label="Profile Scope"
+            onChange={(e) => setSelectedProfileId(e.target.value)}
+          >
+            <MenuItem value="all">🌐 All Workspace Profiles</MenuItem>
+            {profiles.map((p) => (
+              <MenuItem key={p.id} value={p.id}>
+                👤 {p.name} ({p.relationship})
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
       </Box>
 
       {/* Results Header Info */}

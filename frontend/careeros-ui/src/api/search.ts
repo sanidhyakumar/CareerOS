@@ -30,10 +30,13 @@ export interface SearchStats {
 }
 
 export const searchApi = {
-  search: async (q: string, type?: string, limit: number = 30): Promise<SearchSummary> => {
+  search: async (q: string, type?: string, limit: number = 30, profileId?: string): Promise<SearchSummary> => {
     const params: Record<string, any> = { q, limit };
     if (type && type !== 'All') {
       params.type = type;
+    }
+    if (profileId && profileId !== 'all') {
+      params.profileId = profileId;
     }
     const response = await axios.get<SearchSummary>(API_BASE, { params });
     return response.data;

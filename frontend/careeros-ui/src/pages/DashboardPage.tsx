@@ -61,11 +61,15 @@ export default function DashboardPage() {
   const [timeframeDays, setTimeframeDays] = useState<number>(0);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchAnalytics = async (days?: number) => {
+  const fetchAnalytics = async (days?: number, profileId?: string) => {
     setLoading(true);
     setError(null);
     try {
-      const data = await analyticsApi.getAnalytics(days && days > 0 ? days : undefined);
+      const targetProfileId = profileId !== undefined ? profileId : selectedProfileId;
+      const data = await analyticsApi.getAnalytics(
+        days && days > 0 ? days : undefined,
+        targetProfileId !== 'all' ? targetProfileId : undefined
+      );
       setAnalytics(data);
     } catch (err) {
       console.error('Failed to load career analytics:', err);
@@ -76,8 +80,8 @@ export default function DashboardPage() {
   };
 
   useEffect(() => {
-    fetchAnalytics(timeframeDays);
-  }, [timeframeDays]);
+    fetchAnalytics(timeframeDays, selectedProfileId);
+  }, [timeframeDays, selectedProfileId]);
 
   if (loading && !analytics) {
     return (

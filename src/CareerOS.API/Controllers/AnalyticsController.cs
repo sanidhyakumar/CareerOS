@@ -21,9 +21,11 @@ public class AnalyticsController : ControllerBase
     /// </summary>
     [HttpGet]
     [ProducesResponseType(typeof(CareerAnalyticsDto), StatusCodes.Status200OK)]
-    public async Task<ActionResult<CareerAnalyticsDto>> GetAnalytics([FromQuery] int? days = null)
+    public async Task<ActionResult<CareerAnalyticsDto>> GetAnalytics(
+        [FromQuery] int? days = null,
+        [FromQuery] Guid? profileId = null)
     {
-        var result = await _mediator.Send(new GetCareerAnalyticsQuery(days));
+        var result = await _mediator.Send(new GetCareerAnalyticsQuery(days, profileId));
         return Ok(result);
     }
 
@@ -32,9 +34,11 @@ public class AnalyticsController : ControllerBase
     /// </summary>
     [HttpGet("funnel")]
     [ProducesResponseType(typeof(List<ApplicationFunnelStageDto>), StatusCodes.Status200OK)]
-    public async Task<ActionResult<List<ApplicationFunnelStageDto>>> GetFunnel([FromQuery] int? days = null)
+    public async Task<ActionResult<List<ApplicationFunnelStageDto>>> GetFunnel(
+        [FromQuery] int? days = null,
+        [FromQuery] Guid? profileId = null)
     {
-        var result = await _mediator.Send(new GetCareerAnalyticsQuery(days));
+        var result = await _mediator.Send(new GetCareerAnalyticsQuery(days, profileId));
         return Ok(result.Funnel);
     }
 
@@ -43,9 +47,11 @@ public class AnalyticsController : ControllerBase
     /// </summary>
     [HttpGet("resumes")]
     [ProducesResponseType(typeof(List<ResumeEffectivenessDto>), StatusCodes.Status200OK)]
-    public async Task<ActionResult<List<ResumeEffectivenessDto>>> GetResumeEffectiveness([FromQuery] int? days = null)
+    public async Task<ActionResult<List<ResumeEffectivenessDto>>> GetResumeEffectiveness(
+        [FromQuery] int? days = null,
+        [FromQuery] Guid? profileId = null)
     {
-        var result = await _mediator.Send(new GetCareerAnalyticsQuery(days));
+        var result = await _mediator.Send(new GetCareerAnalyticsQuery(days, profileId));
         return Ok(result.ResumeEffectiveness);
     }
 
@@ -54,9 +60,11 @@ public class AnalyticsController : ControllerBase
     /// </summary>
     [HttpGet("rejections")]
     [ProducesResponseType(typeof(RejectionAnalyticsDto), StatusCodes.Status200OK)]
-    public async Task<ActionResult<RejectionAnalyticsDto>> GetRejections([FromQuery] int? days = null)
+    public async Task<ActionResult<RejectionAnalyticsDto>> GetRejections(
+        [FromQuery] int? days = null,
+        [FromQuery] Guid? profileId = null)
     {
-        var result = await _mediator.Send(new GetCareerAnalyticsQuery(days));
+        var result = await _mediator.Send(new GetCareerAnalyticsQuery(days, profileId));
         return Ok(result.RejectionAnalytics);
     }
 }

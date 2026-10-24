@@ -81,8 +81,10 @@ export interface CareerAnalytics {
 }
 
 export const analyticsApi = {
-  getAnalytics: async (days?: number): Promise<CareerAnalytics> => {
-    const params = days ? { days } : {};
+  getAnalytics: async (days?: number, profileId?: string): Promise<CareerAnalytics> => {
+    const params: Record<string, string | number> = {};
+    if (days && days > 0) params.days = days;
+    if (profileId && profileId !== 'all') params.profileId = profileId;
     const response = await axios.get<CareerAnalytics>(API_BASE, { params });
     return response.data;
   },

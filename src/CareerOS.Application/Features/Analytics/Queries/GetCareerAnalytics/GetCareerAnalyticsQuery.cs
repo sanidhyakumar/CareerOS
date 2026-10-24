@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CareerOS.Application.Features.Analytics.Queries.GetCareerAnalytics;
 
-public record GetCareerAnalyticsQuery(int? Days = null) : IRequest<CareerAnalyticsDto>;
+public record GetCareerAnalyticsQuery(int? Days = null, Guid? ProfileId = null) : IRequest<CareerAnalyticsDto>;
 
 public class GetCareerAnalyticsQueryHandler : IRequestHandler<GetCareerAnalyticsQuery, CareerAnalyticsDto>
 {
@@ -33,13 +33,29 @@ public class GetCareerAnalyticsQueryHandler : IRequestHandler<GetCareerAnalytics
             applicationsQuery = applicationsQuery.Where(a => a.ApplicationDate >= cutoff);
         }
 
+        if (request.ProfileId.HasValue)
+        {
+            applicationsQuery = applicationsQuery.Where(a => a.CareerProfileId == request.ProfileId.Value);
+        }
+
         var applications = await applicationsQuery.ToListAsync(cancellationToken);
-        var interviews = await _context.Interviews.AsNoTracking().ToListAsync(cancellationToken);
-        var companies = await _context.Companies.AsNoTracking().ToListAsync(cancellationToken);
-        var resumeVersions = await _context.ResumeVersions
+        
+        var interviewsQuery = _context.Interviews.AsNoTracking();
+        var companiesQuery = _context.Companies.AsNoTracking();
+        var resumeVersionsQuery = _context.ResumeVersions
             .Include(rv => rv.ResumeProfile)
-            .AsNoTracking()
-            .ToListAsync(cancellationToken);
+            .AsNoTracking();
+
+        if (request.ProfileId.HasValue)
+        {
+            interviewsQuery = interviewsQuery.Where(i => i.CareerProfileId == request.ProfileId.Value);
+            companiesQuery = companiesQuery.Where(c => c.CareerProfileId == request.ProfileId.Value);
+            resumeVersionsQuery = resumeVersionsQuery.Where(rv => rv.ResumeProfile != null && rv.ResumeProfile.CareerProfileId == request.ProfileId.Value);
+        }
+
+        var interviews = await interviewsQuery.ToListAsync(cancellationToken);
+        var companies = await companiesQuery.ToListAsync(cancellationToken);
+        var resumeVersions = await resumeVersionsQuery.ToListAsync(cancellationToken);
 
         int totalApps = applications.Count;
 

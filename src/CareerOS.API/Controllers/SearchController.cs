@@ -26,9 +26,10 @@ public class SearchController : ControllerBase
     public async Task<ActionResult<SearchSummaryDto>> Search(
         [FromQuery] string q,
         [FromQuery] string? type = null,
-        [FromQuery] int limit = 30)
+        [FromQuery] int limit = 30,
+        [FromQuery] Guid? profileId = null)
     {
-        var result = await _mediator.Send(new GlobalSearchQuery(q, type, limit));
+        var result = await _mediator.Send(new GlobalSearchQuery(q, type, limit, profileId));
         return Ok(result);
     }
 
