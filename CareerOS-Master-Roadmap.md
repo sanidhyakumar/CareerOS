@@ -620,30 +620,7 @@ Sensitive data encrypted.
 
 CURRENT PHASE
 
-Phase 17 - Git Integration
-
-Build Backup Center.
-
-Support:
-
-- Commit
-- Snapshot
-- Tag
-- Restore
-
-Generate:
-
-- Git Services
-- APIs
-- UI
-
-Success Criteria:
-
-Git-based backups operational.
-
-CURRENT PHASE
-
-Phase 18 - Import Export
+Phase 17 - Import Export
 
 Support:
 
@@ -660,7 +637,7 @@ Data portability enabled.
 
 CURRENT PHASE
 
-Phase 19 - Production Hardening
+Phase 18 - Production Hardening
 
 Implement:
 
@@ -674,11 +651,8 @@ Validate:
 
 Generate:
 
-- Benchmark Results
-- Optimization Strategy
 - Release Checklist
 
 Success Criteria:
 
 Production-ready CareerOS release.
-

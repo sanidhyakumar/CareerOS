@@ -14,6 +14,7 @@ import SponsorshipPage from './pages/SponsorshipPage'
 import KanbanPage from './pages/KanbanPage'
 import FollowUpPage from './pages/FollowUpPage'
 import { SearchPage } from './pages/SearchPage'
+import { SecurityPage } from './pages/SecurityPage'
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/search" element={<SearchPage />} />
+        <Route path="/security" element={<SecurityPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/companies" element={<CompaniesPage />} />
         <Route path="/jobs" element={<JobsPage />} />

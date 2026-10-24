@@ -43,9 +43,14 @@ public static class DependencyInjection
         services.AddScoped<ISponsorshipRepository, SponsorshipRepository>();
         services.AddScoped<IKanbanRepository, KanbanRepository>();
         services.AddScoped<IReminderRepository, ReminderRepository>();
+        services.AddScoped<ICredentialRepository, CredentialRepository>();
 
         // Search Service (SQLite FTS5)
         services.AddScoped<ISearchService, SearchService>();
+
+        // Security Layer (AES-256 GCM, PBKDF2, Key Management)
+        services.AddSingleton<IEncryptionService, AesGcmEncryptionService>();
+        services.AddSingleton<ISecurityKeyManager, SecurityKeyManager>();
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 

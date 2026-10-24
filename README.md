@@ -176,6 +176,14 @@ CareerOS.API             → Controllers, Middleware, Serilog, Swagger
 - ✅ **Tailored Resume Strategy Effectiveness** — Performance matrix measuring submission counts, callback rates, and offer conversion across tailored resume versions and career archetype profiles
 - ✅ **Visa Sponsorship Intelligence** — Domestic vs visa-requiring pipeline distribution, employer sponsorship policy breakdown, and sponsorship conversion yields
 
+### Phase 16 — Security Layer
+- ✅ **Authenticated AES-256 GCM Cryptography** — Industry-standard AES-256 Galois/Counter Mode encryption with 96-bit random nonces and 128-bit authentication tags protecting portal passwords and secret notes
+- ✅ **PBKDF2 Key Derivation with SHA-256** — 100,000 iterations of PBKDF2 stretching user master passphrases into 256-bit encryption keys with cryptographically random 32-byte salts
+- ✅ **Zero-Knowledge Local Key Lifecycle** — In-memory active key management with instant zeroization (`ZeroMemory`) on lock, ensuring decrypted keys never touch disk
+- ✅ **Portal Password Vault** — Structured credential storage with service presets (Workday, Greenhouse, Lever, Ashby, Taleo, SmartRecruiters, LinkedIn), portal links, usernames, and secret application notes
+- ✅ **Built-in Strong Password Generator** — Cryptographically secure (`crypto.getRandomValues`) random 16-character password generator with symbols and numbers
+- ✅ **Interactive Security Console UI** — Master passphrase setup and unlock modals, password reveal toggles, quick copy-to-clipboard, and password age review indicators
+
 ---
 
 ## 🏃 How to Run CareerOS

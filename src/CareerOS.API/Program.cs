@@ -183,6 +183,31 @@ try
                     ActionUrl UNINDEXED,
                     tokenize = 'porter unicode61'
                 );
+
+                CREATE TABLE IF NOT EXISTS ""Credentials"" (
+                    ""Id"" TEXT NOT NULL CONSTRAINT ""PK_Credentials"" PRIMARY KEY,
+                    ""ServiceName"" TEXT NOT NULL,
+                    ""PortalUrl"" TEXT NULL,
+                    ""Username"" TEXT NOT NULL,
+                    ""EncryptedPassword"" TEXT NOT NULL,
+                    ""EncryptedNotes"" TEXT NULL,
+                    ""CompanyId"" TEXT NULL,
+                    ""JobApplicationId"" TEXT NULL,
+                    ""LastUsedAt"" TEXT NULL,
+                    ""PasswordLastChangedAt"" TEXT NOT NULL,
+                    ""CreatedAt"" TEXT NOT NULL,
+                    ""UpdatedAt"" TEXT NOT NULL,
+                    CONSTRAINT ""FK_Credentials_Companies_CompanyId"" FOREIGN KEY (""CompanyId"") REFERENCES ""Companies"" (""Id"") ON DELETE SET NULL,
+                    CONSTRAINT ""FK_Credentials_JobApplications_JobApplicationId"" FOREIGN KEY (""JobApplicationId"") REFERENCES ""JobApplications"" (""Id"") ON DELETE SET NULL
+                );
+                CREATE INDEX IF NOT EXISTS ""IX_Credentials_ServiceName"" ON ""Credentials"" (""ServiceName"");
+                CREATE INDEX IF NOT EXISTS ""IX_Credentials_CompanyId"" ON ""Credentials"" (""CompanyId"");
+
+                CREATE TABLE IF NOT EXISTS ""SecuritySettings"" (
+                    ""Key"" TEXT NOT NULL CONSTRAINT ""PK_SecuritySettings"" PRIMARY KEY,
+                    ""Value"" TEXT NOT NULL,
+                    ""UpdatedAt"" TEXT NOT NULL
+                );
             ");
             Log.Information("Database initialization completed.");
 

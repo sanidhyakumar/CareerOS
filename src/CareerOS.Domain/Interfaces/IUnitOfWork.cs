@@ -18,5 +18,6 @@ public interface IUnitOfWork : IDisposable
     ISponsorshipRepository Sponsorship { get; }
     IKanbanRepository Kanban { get; }
     IReminderRepository Reminders { get; }
+    ICredentialRepository Credentials { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

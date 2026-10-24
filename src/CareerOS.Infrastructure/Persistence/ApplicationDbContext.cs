@@ -41,6 +41,8 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<SponsorshipEvidence> SponsorshipEvidences => Set<SponsorshipEvidence>();
     public DbSet<KanbanCard> KanbanCards => Set<KanbanCard>();
     public DbSet<ReminderItem> ReminderItems => Set<ReminderItem>();
+    public DbSet<CredentialItem> Credentials => Set<CredentialItem>();
+    public DbSet<SecuritySetting> SecuritySettings => Set<SecuritySetting>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

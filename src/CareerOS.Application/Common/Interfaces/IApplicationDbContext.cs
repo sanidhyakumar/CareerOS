@@ -38,5 +38,7 @@ public interface IApplicationDbContext
     DbSet<SponsorshipEvidence> SponsorshipEvidences { get; }
     DbSet<KanbanCard> KanbanCards { get; }
     DbSet<ReminderItem> ReminderItems { get; }
+    DbSet<CredentialItem> Credentials { get; }
+    DbSet<SecuritySetting> SecuritySettings { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }
