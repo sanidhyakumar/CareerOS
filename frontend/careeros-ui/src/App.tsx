@@ -12,6 +12,7 @@ import InterviewsPage from './pages/InterviewsPage'
 import WikiPage from './pages/WikiPage'
 import SponsorshipPage from './pages/SponsorshipPage'
 import KanbanPage from './pages/KanbanPage'
+import FollowUpPage from './pages/FollowUpPage'
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/jobs" element={<JobsPage />} />
         <Route path="/board" element={<KanbanPage />} />
         <Route path="/applications" element={<ApplicationsPage />} />
+        <Route path="/followup" element={<FollowUpPage />} />
         <Route path="/interviews" element={<InterviewsPage />} />
         <Route path="/wiki" element={<WikiPage />} />
         <Route path="/sponsorship" element={<SponsorshipPage />} />

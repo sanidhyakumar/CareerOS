@@ -19,6 +19,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 import MenuBookIcon from '@mui/icons-material/MenuBook'
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff'
 import ViewKanbanIcon from '@mui/icons-material/ViewKanban'
+import AlarmOnIcon from '@mui/icons-material/AlarmOn'
 
 const DRAWER_WIDTH = 240
 const DRAWER_COLLAPSED = 72
@@ -30,6 +31,7 @@ const navItems = [
   { label: 'Jobs', icon: <WorkIcon />, path: '/jobs' },
   { label: 'Board', icon: <ViewKanbanIcon />, path: '/board' },
   { label: 'Applications', icon: <AssignmentIcon />, path: '/applications' },
+  { label: 'Follow-Ups', icon: <AlarmOnIcon />, path: '/followup' },
   { label: 'Interviews', icon: <CalendarMonthIcon />, path: '/interviews' },
   { label: 'Knowledge Base', icon: <MenuBookIcon />, path: '/wiki' },
   { label: 'Sponsorship', icon: <FlightTakeoffIcon />, path: '/sponsorship' },

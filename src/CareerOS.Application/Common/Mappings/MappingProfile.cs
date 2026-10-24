@@ -157,5 +157,8 @@ public class MappingProfile : Profile
 
         // Kanban Mappings
         CreateMap<CareerOS.Domain.Entities.KanbanCard, CareerOS.Application.Features.Kanban.DTOs.KanbanCardDto>();
+
+        // Follow-Up Reminders Mappings
+        CreateMap<CareerOS.Domain.Entities.ReminderItem, CareerOS.Application.Features.FollowUp.DTOs.ReminderDto>();
     }
 }

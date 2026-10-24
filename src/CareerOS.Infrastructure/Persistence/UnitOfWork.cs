@@ -21,6 +21,7 @@ public class UnitOfWork : IUnitOfWork
     private IWikiRepository? _wiki;
     private ISponsorshipRepository? _sponsorship;
     private IKanbanRepository? _kanban;
+    private IReminderRepository? _reminders;
 
     public UnitOfWork(ApplicationDbContext context) => _context = context;
 
@@ -39,6 +40,7 @@ public class UnitOfWork : IUnitOfWork
     public IWikiRepository Wiki => _wiki ??= new WikiRepository(_context);
     public ISponsorshipRepository Sponsorship => _sponsorship ??= new SponsorshipRepository(_context);
     public IKanbanRepository Kanban => _kanban ??= new KanbanRepository(_context);
+    public IReminderRepository Reminders => _reminders ??= new ReminderRepository(_context);
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         => await _context.SaveChangesAsync(cancellationToken);

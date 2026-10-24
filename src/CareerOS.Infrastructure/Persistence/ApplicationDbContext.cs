@@ -40,6 +40,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<SponsorshipCase> SponsorshipCases => Set<SponsorshipCase>();
     public DbSet<SponsorshipEvidence> SponsorshipEvidences => Set<SponsorshipEvidence>();
     public DbSet<KanbanCard> KanbanCards => Set<KanbanCard>();
+    public DbSet<ReminderItem> ReminderItems => Set<ReminderItem>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

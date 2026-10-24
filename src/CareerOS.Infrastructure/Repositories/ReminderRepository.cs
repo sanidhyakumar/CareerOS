@@ -1,0 +1,246 @@
+using CareerOS.Domain.Entities;
+using CareerOS.Domain.Enums;
+using CareerOS.Domain.Interfaces;
+using CareerOS.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
+
+namespace CareerOS.Infrastructure.Repositories;
+
+public class ReminderRepository : IReminderRepository
+{
+    private readonly ApplicationDbContext _context;
+
+    public ReminderRepository(ApplicationDbContext context)
+    {
+        _context = context;
+    }
+
+    public async Task<ReminderItem?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        return await _context.ReminderItems
+            .FirstOrDefaultAsync(r => r.Id == id, cancellationToken);
+    }
+
+    public async Task<IEnumerable<ReminderItem>> GetAllAsync(
+        ReminderCategory? category = null,
+        ReminderSeverity? severity = null,
+        bool includeDismissed = false,
+        bool includeSnoozed = false,
+        CancellationToken cancellationToken = default)
+    {
+        var now = DateTime.UtcNow;
+        var query = _context.ReminderItems.AsQueryable();
+
+        if (!includeDismissed)
+        {
+            query = query.Where(r => !r.IsDismissed);
+        }
+
+        if (!includeSnoozed)
+        {
+            query = query.Where(r => !r.IsSnoozed || (r.SnoozedUntil != null && r.SnoozedUntil <= now));
+        }
+
+        if (category.HasValue)
+        {
+            query = query.Where(r => r.Category == category.Value);
+        }
+
+        if (severity.HasValue)
+        {
+            query = query.Where(r => r.Severity == severity.Value);
+        }
+
+        return await query
+            .OrderByDescending(r => r.Severity)
+            .ThenBy(r => r.DueDate ?? r.CreatedAt)
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<ReminderItem> AddAsync(ReminderItem item, CancellationToken cancellationToken = default)
+    {
+        await _context.ReminderItems.AddAsync(item, cancellationToken);
+        return item;
+    }
+
+    public Task UpdateAsync(ReminderItem item, CancellationToken cancellationToken = default)
+    {
+        _context.ReminderItems.Update(item);
+        return Task.CompletedTask;
+    }
+
+    public Task DeleteAsync(ReminderItem item, CancellationToken cancellationToken = default)
+    {
+        _context.ReminderItems.Remove(item);
+        return Task.CompletedTask;
+    }
+
+    public async Task DismissAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        var item = await _context.ReminderItems.FirstOrDefaultAsync(r => r.Id == id, cancellationToken);
+        if (item != null)
+        {
+            item.Dismiss();
+        }
+    }
+
+    public async Task SnoozeAsync(Guid id, TimeSpan duration, CancellationToken cancellationToken = default)
+    {
+        var item = await _context.ReminderItems.FirstOrDefaultAsync(r => r.Id == id, cancellationToken);
+        if (item != null)
+        {
+            item.Snooze(duration);
+        }
+    }
+
+    public async Task<int> RunProactiveScanAsync(CancellationToken cancellationToken = default)
+    {
+        var now = DateTime.UtcNow;
+        int createdCount = 0;
+
+        // Existing deduplication keys in database
+        var existingKeys = await _context.ReminderItems
+            .Where(r => r.DeduplicationKey != null && !r.IsDismissed)
+            .Select(r => r.DeduplicationKey!)
+            .ToListAsync(cancellationToken);
+
+        var existingKeySet = new HashSet<string>(existingKeys, StringComparer.OrdinalIgnoreCase);
+
+        // 1. Detect Stale Applications (Submitted > 7 days ago with status Applied or UnderReview)
+        var staleThreshold = now.AddDays(-7);
+        var staleApplications = await _context.JobApplications
+            .Include(a => a.Job)
+            .Include(a => a.Company)
+            .Where(a => (a.Status == ApplicationStatus.Applied || a.Status == ApplicationStatus.UnderReview) &&
+                        a.ApplicationDate <= staleThreshold)
+            .ToListAsync(cancellationToken);
+
+        foreach (var app in staleApplications)
+        {
+            var key = $"stale-app-{app.Id}";
+            if (!existingKeySet.Contains(key))
+            {
+                int daysAgo = (int)(now - app.ApplicationDate).TotalDays;
+                var severity = daysAgo >= 14 ? ReminderSeverity.High : ReminderSeverity.Medium;
+                var jobTitle = app.Job?.Title ?? "Application";
+                var compName = app.Company?.Name ?? "Company";
+
+                var reminder = ReminderItem.Create(
+                    category: ReminderCategory.StaleApplication,
+                    severity: severity,
+                    title: $"Follow-up needed: {jobTitle} at {compName}",
+                    message: $"Submitted {daysAgo} days ago with no status updates recorded. Consider reaching out to recruiter or interviewer.",
+                    entityType: "Application",
+                    entityId: app.Id,
+                    actionUrl: "/applications",
+                    dueDate: now.AddDays(2),
+                    isAutoGenerated: true,
+                    deduplicationKey: key);
+
+                await _context.ReminderItems.AddAsync(reminder, cancellationToken);
+                existingKeySet.Add(key);
+                createdCount++;
+            }
+        }
+
+        // 2. Detect Expiring Documents (Expires within 30 days or already expired)
+        var docThreshold = now.AddDays(30);
+        var expiringDocs = await _context.Documents
+            .Where(d => d.ExpiryDate != null && d.ExpiryDate <= docThreshold)
+            .ToListAsync(cancellationToken);
+
+        foreach (var doc in expiringDocs)
+        {
+            var key = $"expiring-doc-{doc.Id}";
+            if (!existingKeySet.Contains(key))
+            {
+                bool isExpired = doc.ExpiryDate!.Value <= now;
+                int daysLeft = (int)(doc.ExpiryDate.Value - now).TotalDays;
+
+                var reminder = ReminderItem.Create(
+                    category: ReminderCategory.ExpiringDocument,
+                    severity: isExpired ? ReminderSeverity.Critical : ReminderSeverity.High,
+                    title: isExpired ? $"Document Expired: {doc.FileName}" : $"Document Expiring Soon: {doc.FileName}",
+                    message: isExpired
+                        ? $"This critical document expired on {doc.ExpiryDate.Value:MMM dd, yyyy}. Upload a renewed version."
+                        : $"Expires in {daysLeft} days ({doc.ExpiryDate.Value:MMM dd, yyyy}). Ensure renewal before submission deadlines.",
+                    entityType: "Document",
+                    entityId: doc.Id,
+                    actionUrl: "/documents",
+                    dueDate: doc.ExpiryDate,
+                    isAutoGenerated: true,
+                    deduplicationKey: key);
+
+                await _context.ReminderItems.AddAsync(reminder, cancellationToken);
+                existingKeySet.Add(key);
+                createdCount++;
+            }
+        }
+
+        // 3. Detect Upcoming Interviews (Within next 48 hours)
+        var interviewWindowEnd = now.AddDays(2);
+        var upcomingInterviews = await _context.Interviews
+            .Include(i => i.Company)
+            .Include(i => i.Job)
+            .Where(i => i.Status == InterviewStatus.Scheduled &&
+                        i.ScheduledAt >= now &&
+                        i.ScheduledAt <= interviewWindowEnd)
+            .ToListAsync(cancellationToken);
+
+        foreach (var interview in upcomingInterviews)
+        {
+            var key = $"upcoming-interview-{interview.Id}";
+            if (!existingKeySet.Contains(key))
+            {
+                var hoursUntil = (int)(interview.ScheduledAt - now).TotalHours;
+                var compName = interview.Company?.Name ?? "Company";
+
+                var reminder = ReminderItem.Create(
+                    category: ReminderCategory.UpcomingInterview,
+                    severity: ReminderSeverity.High,
+                    title: $"Upcoming Interview in {hoursUntil}h: {interview.Title} at {compName}",
+                    message: $"Scheduled for {interview.ScheduledAt:MMM dd, yyyy HH:mm}. Review your STAR stories and questions in Knowledge Base.",
+                    entityType: "Interview",
+                    entityId: interview.Id,
+                    actionUrl: "/interviews",
+                    dueDate: interview.ScheduledAt,
+                    isAutoGenerated: true,
+                    deduplicationKey: key);
+
+                await _context.ReminderItems.AddAsync(reminder, cancellationToken);
+                existingKeySet.Add(key);
+                createdCount++;
+            }
+        }
+
+        // 4. Detect Contact Follow-Ups Due
+        var overdueContacts = await _context.Contacts
+            .Where(c => c.NextFollowUpDate != null && c.NextFollowUpDate <= now)
+            .ToListAsync(cancellationToken);
+
+        foreach (var contact in overdueContacts)
+        {
+            var key = $"contact-followup-{contact.Id}";
+            if (!existingKeySet.Contains(key))
+            {
+                var reminder = ReminderItem.Create(
+                    category: ReminderCategory.ContactFollowUp,
+                    severity: ReminderSeverity.Medium,
+                    title: $"Follow-up Due: {contact.Name}",
+                    message: $"Scheduled follow-up date has arrived ({contact.NextFollowUpDate:MMM dd}). Send an update or check-in message.",
+                    entityType: "Contact",
+                    entityId: contact.Id,
+                    actionUrl: "/contacts",
+                    dueDate: contact.NextFollowUpDate,
+                    isAutoGenerated: true,
+                    deduplicationKey: key);
+
+                await _context.ReminderItems.AddAsync(reminder, cancellationToken);
+                existingKeySet.Add(key);
+                createdCount++;
+            }
+        }
+
+        return createdCount;
+    }
+}

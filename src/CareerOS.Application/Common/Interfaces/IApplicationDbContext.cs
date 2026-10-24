@@ -37,5 +37,6 @@ public interface IApplicationDbContext
     DbSet<SponsorshipCase> SponsorshipCases { get; }
     DbSet<SponsorshipEvidence> SponsorshipEvidences { get; }
     DbSet<KanbanCard> KanbanCards { get; }
+    DbSet<ReminderItem> ReminderItems { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

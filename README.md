@@ -152,6 +152,13 @@ CareerOS.API             → Controllers, Middleware, Serilog, Swagger
 - ✅ **Optimistic State & Instant Persistence** — Zero-flicker optimistic drag updates coupled with backend PATCH persistence
 - ✅ **Dedicated Kanban Board UI** — Column headers with color coding, card counters, quick card creator, search and priority filter toolbar
 
+### Phase 13 — Follow-Up Engine
+- ✅ **Automated Proactive Detection** — Background engine scanning for stale applications (> 7/14 days), expiring documents (< 30 days or expired), upcoming interviews (< 48 hours), and overdue contact interactions
+- ✅ **Intelligent Deduplication & Severity Scoring** — Deduplication key tracking preventing duplicate alerts with multi-tier severity grading (Critical, High, Medium, Low)
+- ✅ **Snooze & Dismiss Lifecycle** — Flexible snooze windows (1 day, 3 days, 1 week, 2 weeks) and resolution dismissal
+- ✅ **Custom Reminders** — Ability to author custom action items and interview follow-up directives with direct navigation links
+- ✅ **Follow-Up Reminder Dashboard** — Dedicated console with category filter tabs, high/critical urgency alerts, on-demand proactive scanner trigger, and instant action launchers
+
 ---
 
 ## 🏃 How to Run CareerOS
