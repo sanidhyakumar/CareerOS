@@ -9,6 +9,7 @@ import ProfilePage from './pages/ProfilePage'
 import CompaniesPage from './pages/CompaniesPage'
 import ApplicationsPage from './pages/ApplicationsPage'
 import InterviewsPage from './pages/InterviewsPage'
+import WikiPage from './pages/WikiPage'
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/jobs" element={<JobsPage />} />
         <Route path="/applications" element={<ApplicationsPage />} />
         <Route path="/interviews" element={<InterviewsPage />} />
+        <Route path="/wiki" element={<WikiPage />} />
         <Route path="/contacts" element={<ContactsPage />} />
         <Route path="/resumes" element={<ResumesPage />} />
         <Route path="/documents" element={<DocumentsPage />} />

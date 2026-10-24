@@ -35,6 +35,8 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<ApplicationSnapshot> ApplicationSnapshots => Set<ApplicationSnapshot>();
     public DbSet<Interview> Interviews => Set<Interview>();
     public DbSet<InterviewInterviewer> InterviewInterviewers => Set<InterviewInterviewer>();
+    public DbSet<WikiArticle> WikiArticles => Set<WikiArticle>();
+    public DbSet<WikiArticleLink> WikiArticleLinks => Set<WikiArticleLink>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

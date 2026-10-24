@@ -18,6 +18,7 @@ public class UnitOfWork : IUnitOfWork
     private ICompanyRepository? _companies;
     private IApplicationRepository? _applications;
     private IInterviewRepository? _interviews;
+    private IWikiRepository? _wiki;
 
     public UnitOfWork(ApplicationDbContext context) => _context = context;
 
@@ -33,6 +34,7 @@ public class UnitOfWork : IUnitOfWork
     public ICompanyRepository Companies => _companies ??= new CompanyRepository(_context);
     public IApplicationRepository Applications => _applications ??= new ApplicationRepository(_context);
     public IInterviewRepository Interviews => _interviews ??= new InterviewRepository(_context);
+    public IWikiRepository Wiki => _wiki ??= new WikiRepository(_context);
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         => await _context.SaveChangesAsync(cancellationToken);

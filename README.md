@@ -126,6 +126,15 @@ CareerOS.API             → Controllers, Middleware, Serilog, Swagger
 - ✅ **Interview Conversion Analytics** — Real-time tracking of total rounds, upcoming pipeline, completed stages, technical rounds, system design, and overall pass rate percentage
 - ✅ **Interactive Interview Center UI** — Multi-view switcher (Timeline, Calendar Schedule, Data Table), stage filter tabs, quick outcome completion modal, and direct video call launch shortcuts
 
+### Phase 10 — Knowledge Base
+- ✅ **Personal Career Wiki** — Full Markdown support, article summaries, tag indexing, slug URLs, and view tracking
+- ✅ **Bi-Directional Backlink Engine** — Automatic wiki-link extraction `[[slug]]` and `[[slug|Link Title]]` generating inbound and outbound reference graphs
+- ✅ **STAR Story Vault** — Dedicated behavioral interview preparation framework (Situation, Task, Action, Result) with quick-insert templates
+- ✅ **System Design & Architecture Notes** — Templates for functional requirements, capacity estimation, component diagrams, and bottlenecks
+- ✅ **Company & Technical Research** — Reusable company culture notes, engineering values, and reverse-interview questions
+- ✅ **Tag Cloud & Category Filters** — Interactive multi-category classification (STAR Stories, System Design, Company Research, Interview Notes, Coding Patterns, Career Strategy)
+- ✅ **Knowledge Base UI** — Split-screen reading/previewing pane, quick-navigation backlink network, starred/pinned favorites, and template insertion helpers
+
 ---
 
 ## 🏃 How to Run CareerOS

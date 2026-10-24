@@ -123,5 +123,24 @@ public class MappingProfile : Profile
             .ForMember(d => d.ContactName, opt => opt.MapFrom(s => s.Contact != null ? s.Contact.Name : string.Empty))
             .ForMember(d => d.ContactEmail, opt => opt.MapFrom(s => s.Contact != null ? s.Contact.Email : null))
             .ForMember(d => d.ContactLinkedIn, opt => opt.MapFrom(s => s.Contact != null ? s.Contact.LinkedIn : null));
+
+        // Wiki Mappings
+        CreateMap<CareerOS.Domain.Entities.WikiArticle, CareerOS.Application.Features.Wiki.DTOs.WikiArticleDto>()
+            .ForMember(d => d.CompanyName, opt => opt.MapFrom(s => s.Company != null ? s.Company.Name : null))
+            .ForMember(d => d.JobTitle, opt => opt.MapFrom(s => s.Job != null ? s.Job.Title : null))
+            .ForMember(d => d.Backlinks, opt => opt.MapFrom(s => s.Inlinks.Select(l => new CareerOS.Application.Features.Wiki.DTOs.WikiBacklinkDto
+            {
+                ArticleId = l.SourceArticleId,
+                Title = l.SourceArticle != null ? l.SourceArticle.Title : string.Empty,
+                Slug = l.SourceArticle != null ? l.SourceArticle.Slug : string.Empty,
+                CategoryName = l.SourceArticle != null ? l.SourceArticle.Category.ToString() : string.Empty
+            })))
+            .ForMember(d => d.Outlinks, opt => opt.MapFrom(s => s.Outlinks.Select(l => new CareerOS.Application.Features.Wiki.DTOs.WikiOutlinkDto
+            {
+                TargetSlug = l.TargetSlug,
+                TargetTitle = l.TargetArticle != null ? l.TargetArticle.Title : null,
+                TargetArticleId = l.TargetArticleId,
+                LinkText = l.LinkText
+            })));
     }
 }

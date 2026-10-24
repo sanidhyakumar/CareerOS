@@ -208,6 +208,7 @@ Generate:
 Success Criteria:
 
 docker compose up launches CareerOS.
+
 CURRENT PHASE
 
 Phase 1 - Core Storage Engine
@@ -245,6 +246,7 @@ Generate:
 Success Criteria:
 
 User can upload files and metadata is stored correctly.
+
 CURRENT PHASE
 
 Phase 2 - Personal Profile
@@ -604,7 +606,6 @@ Implement:
 Encrypt:
 
 - Portal Passwords
-- Secure Notes
 - Credentials
 
 Generate:
@@ -663,10 +664,6 @@ Phase 19 - Production Hardening
 
 Implement:
 
-- Unit Tests
-- Integration Tests
-- Load Tests
-- Accessibility Tests
 - Performance Optimization
 
 Validate:

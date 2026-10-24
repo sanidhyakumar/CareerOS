@@ -32,5 +32,7 @@ public interface IApplicationDbContext
     DbSet<ApplicationSnapshot> ApplicationSnapshots { get; }
     DbSet<Interview> Interviews { get; }
     DbSet<InterviewInterviewer> InterviewInterviewers { get; }
+    DbSet<WikiArticle> WikiArticles { get; }
+    DbSet<WikiArticleLink> WikiArticleLinks { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

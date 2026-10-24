@@ -56,6 +56,39 @@ try
                 Directory.CreateDirectory(folder);
             }
             db.Database.EnsureCreated();
+            db.Database.ExecuteSqlRaw(@"
+                CREATE TABLE IF NOT EXISTS ""WikiArticles"" (
+                    ""Id"" TEXT NOT NULL CONSTRAINT ""PK_WikiArticles"" PRIMARY KEY,
+                    ""Title"" TEXT NOT NULL,
+                    ""Slug"" TEXT NOT NULL,
+                    ""Category"" INTEGER NOT NULL,
+                    ""Content"" TEXT NOT NULL,
+                    ""Summary"" TEXT NULL,
+                    ""Tags"" TEXT NULL,
+                    ""CompanyId"" TEXT NULL,
+                    ""JobId"" TEXT NULL,
+                    ""IsStarred"" INTEGER NOT NULL,
+                    ""IsPinned"" INTEGER NOT NULL,
+                    ""ViewCount"" INTEGER NOT NULL,
+                    ""CreatedAt"" TEXT NOT NULL,
+                    ""UpdatedAt"" TEXT NOT NULL,
+                    CONSTRAINT ""FK_WikiArticles_Companies_CompanyId"" FOREIGN KEY (""CompanyId"") REFERENCES ""Companies"" (""Id"") ON DELETE SET NULL,
+                    CONSTRAINT ""FK_WikiArticles_Jobs_JobId"" FOREIGN KEY (""JobId"") REFERENCES ""Jobs"" (""Id"") ON DELETE SET NULL
+                );
+                CREATE UNIQUE INDEX IF NOT EXISTS ""IX_WikiArticles_Slug"" ON ""WikiArticles"" (""Slug"");
+                CREATE TABLE IF NOT EXISTS ""WikiArticleLinks"" (
+                    ""Id"" TEXT NOT NULL CONSTRAINT ""PK_WikiArticleLinks"" PRIMARY KEY,
+                    ""SourceArticleId"" TEXT NOT NULL,
+                    ""TargetArticleId"" TEXT NULL,
+                    ""TargetSlug"" TEXT NOT NULL,
+                    ""LinkText"" TEXT NULL,
+                    ""CreatedAt"" TEXT NOT NULL,
+                    ""UpdatedAt"" TEXT NOT NULL,
+                    CONSTRAINT ""FK_WikiArticleLinks_WikiArticles_SourceArticleId"" FOREIGN KEY (""SourceArticleId"") REFERENCES ""WikiArticles"" (""Id"") ON DELETE CASCADE,
+                    CONSTRAINT ""FK_WikiArticleLinks_WikiArticles_TargetArticleId"" FOREIGN KEY (""TargetArticleId"") REFERENCES ""WikiArticles"" (""Id"") ON DELETE SET NULL
+                );
+                CREATE INDEX IF NOT EXISTS ""IX_WikiArticleLinks_SourceArticleId_TargetSlug"" ON ""WikiArticleLinks"" (""SourceArticleId"", ""TargetSlug"");
+            ");
             Log.Information("Database initialization completed.");
         }
         catch (Exception ex)

@@ -16,6 +16,7 @@ import RocketLaunchIcon from '@mui/icons-material/RocketLaunch'
 import BusinessIcon from '@mui/icons-material/Business'
 import AssignmentIcon from '@mui/icons-material/Assignment'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
+import MenuBookIcon from '@mui/icons-material/MenuBook'
 
 const DRAWER_WIDTH = 240
 const DRAWER_COLLAPSED = 72
@@ -27,6 +28,7 @@ const navItems = [
   { label: 'Jobs', icon: <WorkIcon />, path: '/jobs' },
   { label: 'Applications', icon: <AssignmentIcon />, path: '/applications' },
   { label: 'Interviews', icon: <CalendarMonthIcon />, path: '/interviews' },
+  { label: 'Knowledge Base', icon: <MenuBookIcon />, path: '/wiki' },
   { label: 'Contacts', icon: <PeopleIcon />, path: '/contacts' },
   { label: 'Resumes', icon: <DescriptionIcon />, path: '/resumes' },
   { label: 'Documents', icon: <FolderIcon />, path: '/documents' },
