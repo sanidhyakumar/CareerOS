@@ -11,6 +11,7 @@ import ApplicationsPage from './pages/ApplicationsPage'
 import InterviewsPage from './pages/InterviewsPage'
 import WikiPage from './pages/WikiPage'
 import SponsorshipPage from './pages/SponsorshipPage'
+import KanbanPage from './pages/KanbanPage'
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/companies" element={<CompaniesPage />} />
         <Route path="/jobs" element={<JobsPage />} />
+        <Route path="/board" element={<KanbanPage />} />
         <Route path="/applications" element={<ApplicationsPage />} />
         <Route path="/interviews" element={<InterviewsPage />} />
         <Route path="/wiki" element={<WikiPage />} />

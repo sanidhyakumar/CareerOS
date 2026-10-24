@@ -126,6 +126,29 @@ try
                     CONSTRAINT ""FK_SponsorshipEvidences_SponsorshipCases_SponsorshipCaseId"" FOREIGN KEY (""SponsorshipCaseId"") REFERENCES ""SponsorshipCases"" (""Id"") ON DELETE CASCADE,
                     CONSTRAINT ""FK_SponsorshipEvidences_Documents_DocumentId"" FOREIGN KEY (""DocumentId"") REFERENCES ""Documents"" (""Id"") ON DELETE SET NULL
                 );
+
+                CREATE TABLE IF NOT EXISTS ""KanbanCards"" (
+                    ""Id"" TEXT NOT NULL CONSTRAINT ""PK_KanbanCards"" PRIMARY KEY,
+                    ""Column"" INTEGER NOT NULL,
+                    ""Position"" INTEGER NOT NULL,
+                    ""Title"" TEXT NOT NULL,
+                    ""CompanyName"" TEXT NOT NULL,
+                    ""CompanyId"" TEXT NULL,
+                    ""JobId"" TEXT NULL,
+                    ""ApplicationId"" TEXT NULL,
+                    ""Priority"" INTEGER NOT NULL,
+                    ""Salary"" TEXT NULL,
+                    ""Location"" TEXT NULL,
+                    ""Notes"" TEXT NULL,
+                    ""Tags"" TEXT NULL,
+                    ""DueDate"" TEXT NULL,
+                    ""CreatedAt"" TEXT NOT NULL,
+                    ""UpdatedAt"" TEXT NOT NULL,
+                    CONSTRAINT ""FK_KanbanCards_Companies_CompanyId"" FOREIGN KEY (""CompanyId"") REFERENCES ""Companies"" (""Id"") ON DELETE SET NULL,
+                    CONSTRAINT ""FK_KanbanCards_Jobs_JobId"" FOREIGN KEY (""JobId"") REFERENCES ""Jobs"" (""Id"") ON DELETE SET NULL,
+                    CONSTRAINT ""FK_KanbanCards_JobApplications_ApplicationId"" FOREIGN KEY (""ApplicationId"") REFERENCES ""JobApplications"" (""Id"") ON DELETE SET NULL
+                );
+                CREATE INDEX IF NOT EXISTS ""IX_KanbanCards_Column_Position"" ON ""KanbanCards"" (""Column"", ""Position"");
             ");
             Log.Information("Database initialization completed.");
         }

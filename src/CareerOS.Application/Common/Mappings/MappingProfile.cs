@@ -154,5 +154,8 @@ public class MappingProfile : Profile
         CreateMap<CareerOS.Domain.Entities.SponsorshipEvidence, CareerOS.Application.Features.Sponsorship.DTOs.SponsorshipEvidenceDto>()
             .ForMember(d => d.DocumentName, opt => opt.MapFrom(s => s.Document != null ? s.Document.FileName : null))
             .ForMember(d => d.DocumentType, opt => opt.MapFrom(s => s.Document != null ? s.Document.Category.ToString() : null));
+
+        // Kanban Mappings
+        CreateMap<CareerOS.Domain.Entities.KanbanCard, CareerOS.Application.Features.Kanban.DTOs.KanbanCardDto>();
     }
 }

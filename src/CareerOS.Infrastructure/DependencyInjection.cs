@@ -41,6 +41,7 @@ public static class DependencyInjection
         services.AddScoped<IInterviewRepository, InterviewRepository>();
         services.AddScoped<IWikiRepository, WikiRepository>();
         services.AddScoped<ISponsorshipRepository, SponsorshipRepository>();
+        services.AddScoped<IKanbanRepository, KanbanRepository>();
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 

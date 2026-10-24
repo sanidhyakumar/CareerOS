@@ -144,6 +144,14 @@ CareerOS.API             → Controllers, Middleware, Serilog, Swagger
 - ✅ **PR & Dual Intent Pathways** — Direct tagging and filtering for permanent residency transitions and dual-intent immigrant visas
 - ✅ **Unified Sponsorship Center UI** — Dual-perspective view switcher (Interactive Cards with progress meters and Data Table), preset template launchers, and evidence checklist manager dialog
 
+### Phase 12 — Kanban Board
+- ✅ **Interactive Drag-and-Drop Workflow** — Full `@dnd-kit` implementation (`@dnd-kit/core`, `@dnd-kit/sortable`, `@dnd-kit/utilities`) with smooth pointer/touch interactions, drop previews, and animations
+- ✅ **Standard 6-Column Pipeline** — Explicit workflow columns: `Interested` ➔ `Saved` ➔ `Applied` ➔ `Interviewing` ➔ `Offer` ➔ `Rejected`
+- ✅ **Cross-Entity Real-Time Synchronization** — Dragging cards between columns automatically synchronizes underlying `Job.Status` and `JobApplication.Status` lifecycles
+- ✅ **Card Opportunity Details** — Priority badges (Dream, High, Medium, Low), company, compensation, location, tech tags, and notes
+- ✅ **Optimistic State & Instant Persistence** — Zero-flicker optimistic drag updates coupled with backend PATCH persistence
+- ✅ **Dedicated Kanban Board UI** — Column headers with color coding, card counters, quick card creator, search and priority filter toolbar
+
 ---
 
 ## 🏃 How to Run CareerOS

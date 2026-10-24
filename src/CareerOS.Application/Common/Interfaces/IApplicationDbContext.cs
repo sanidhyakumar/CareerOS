@@ -36,5 +36,6 @@ public interface IApplicationDbContext
     DbSet<WikiArticleLink> WikiArticleLinks { get; }
     DbSet<SponsorshipCase> SponsorshipCases { get; }
     DbSet<SponsorshipEvidence> SponsorshipEvidences { get; }
+    DbSet<KanbanCard> KanbanCards { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

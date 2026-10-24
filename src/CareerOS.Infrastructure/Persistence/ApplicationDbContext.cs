@@ -39,6 +39,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<WikiArticleLink> WikiArticleLinks => Set<WikiArticleLink>();
     public DbSet<SponsorshipCase> SponsorshipCases => Set<SponsorshipCase>();
     public DbSet<SponsorshipEvidence> SponsorshipEvidences => Set<SponsorshipEvidence>();
+    public DbSet<KanbanCard> KanbanCards => Set<KanbanCard>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
