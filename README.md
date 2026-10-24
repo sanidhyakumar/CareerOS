@@ -167,6 +167,15 @@ CareerOS.API             → Controllers, Middleware, Serilog, Swagger
 - ✅ **Global Quick Search Spotlight (Ctrl+K)** — Instant modal command palette accessible anywhere across CareerOS with live debounced search, keyboard navigation (↑/↓/Enter), and direct entity deep-linking
 - ✅ **Dedicated Search Center UI** — Full-page search console at `/search` featuring real-time index metrics, category facet filtering, BM25 score chips, and on-demand index rebuild trigger
 
+### Phase 15 — Analytics Dashboard
+- ✅ **Executive Career Intelligence Console** — Full-spectrum KPI ribbon tracking total applications, response rate %, avg response time (days), interview pass rate %, total offers, and average compensation
+- ✅ **Application Conversion Funnel** — 6-step conversion tracking (`Applied` ➔ `Phone Screen` ➔ `Technical Round` ➔ `Final Round` ➔ `Offer Received` ➔ `Offer Accepted`) with step-by-step conversion % and drop-off analysis
+- ✅ **Application Velocity & Monthly Trajectory** — Dynamic `Recharts` area chart plotting monthly velocity across applications sent, interviews conducted, and offers extended over time
+- ✅ **Interview Performance & Round Telemetry** — Round distribution and pass rates across Recruiter Screen, Technical Coding, System Design, Behavioral, and Final rounds with 5-star candidate ratings
+- ✅ **Rejection & Drop-Off Analytics** — Stage-by-stage exit tracking (Resume Screen, Phone Screen, Technical, Final, Ghosted/Stale) with donor charts and feedback notes summaries
+- ✅ **Tailored Resume Strategy Effectiveness** — Performance matrix measuring submission counts, callback rates, and offer conversion across tailored resume versions and career archetype profiles
+- ✅ **Visa Sponsorship Intelligence** — Domestic vs visa-requiring pipeline distribution, employer sponsorship policy breakdown, and sponsorship conversion yields
+
 ---
 
 ## 🏃 How to Run CareerOS
