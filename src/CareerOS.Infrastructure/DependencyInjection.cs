@@ -1,6 +1,8 @@
 using CareerOS.Application.Common.Interfaces;
 using CareerOS.Domain.Interfaces;
 using CareerOS.Infrastructure.Persistence;
+using CareerOS.Infrastructure.Repositories;
+using CareerOS.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,9 +22,21 @@ public static class DependencyInjection
         services.AddScoped<IApplicationDbContext>(provider =>
             provider.GetRequiredService<ApplicationDbContext>());
 
+        // Storage & Metadata Engine
+        services.AddSingleton<IMetadataEngine, MetadataEngine>();
+        services.AddSingleton<IFileStorageService, LocalFileStorageService>();
+
+        // Repositories & Unit of Work
+        services.AddScoped<IJobRepository, JobRepository>();
+        services.AddScoped<IContactRepository, ContactRepository>();
+        services.AddScoped<IResumeRepository, ResumeRepository>();
+        services.AddScoped<ICountryRepository, CountryRepository>();
+        services.AddScoped<IRegionRepository, RegionRepository>();
+        services.AddScoped<IDocumentRepository, DocumentRepository>();
+        services.AddScoped<ITagRepository, TagRepository>();
+
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return services;
     }
 }
-

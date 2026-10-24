@@ -4,6 +4,7 @@ import DashboardPage from './pages/DashboardPage'
 import JobsPage from './pages/JobsPage'
 import ContactsPage from './pages/ContactsPage'
 import ResumesPage from './pages/ResumesPage'
+import DocumentsPage from './pages/DocumentsPage'
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/jobs" element={<JobsPage />} />
         <Route path="/contacts" element={<ContactsPage />} />
         <Route path="/resumes" element={<ResumesPage />} />
+        <Route path="/documents" element={<DocumentsPage />} />
       </Routes>
     </Layout>
   )

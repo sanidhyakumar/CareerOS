@@ -8,6 +8,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard'
 import WorkIcon from '@mui/icons-material/Work'
 import PeopleIcon from '@mui/icons-material/People'
 import DescriptionIcon from '@mui/icons-material/Description'
+import FolderIcon from '@mui/icons-material/Folder'
 import MenuIcon from '@mui/icons-material/Menu'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch'
@@ -20,6 +21,7 @@ const navItems = [
   { label: 'Jobs', icon: <WorkIcon />, path: '/jobs' },
   { label: 'Contacts', icon: <PeopleIcon />, path: '/contacts' },
   { label: 'Resumes', icon: <DescriptionIcon />, path: '/resumes' },
+  { label: 'Documents', icon: <FolderIcon />, path: '/documents' },
 ]
 
 interface LayoutProps { children: React.ReactNode }

@@ -37,14 +37,23 @@ CareerOS.Infrastructure  → EF Core 9, SQLite, Repositories, Unit of Work
 CareerOS.API             → Controllers, Middleware, Serilog, Swagger
 ```
 
-## Features (Phase 0)
+## Features
 
+### Phase 0 — Foundation & Architecture
 - ✅ **Job Tracker** — Track every job application across 8 pipeline stages
 - ✅ **Contact Manager** — Maintain your professional network & CRM
 - ✅ **Resume Vault** — Store, tag, and manage resume versions with default selection
 - ✅ **Dashboard** — Real-time metrics on applications, interviews, and offers
 - ✅ **Local-First & Offline** — SQLite persistence, all data stays on your machine
 - ✅ **Swagger UI** — Interactive OpenAPI documentation at `/swagger`
+
+### Phase 1 — Core Storage Engine
+- ✅ **SQLite Schema & EF Core** — Relational storage with `Countries`, `Regions`, `Documents`, `Tags`, and `DocumentTags`
+- ✅ **File Storage Service** — Local filesystem storage engine with folder segregation, stream reading, and file lifecycle
+- ✅ **Metadata Engine** — Cryptographic SHA-256 hash calculation, MIME type detection, byte sizing, and version tracking
+- ✅ **Document Versioning** — Immutable version chain (`version`, `isLatestVersion`, `rootDocumentId`) with parent-child linkage
+- ✅ **File Operations** — Upload, new version upload, move across subfolders, download, and cascade delete
+- ✅ **Document Management UI** — React + TypeScript + Material UI interface for browsing, filtering, uploading, and version viewing
 
 ---
 
@@ -146,18 +155,18 @@ This means Docker Desktop is not installed or not added to your system `PATH`.
 ```
 CareerOS/
 ├── src/
-│   ├── CareerOS.Domain/          # Core entities, Enums, Interfaces, Domain Exceptions
-│   ├── CareerOS.Application/     # CQRS Handlers, DTOs, Validators, AutoMapper Profiles
-│   ├── CareerOS.Infrastructure/  # EF Core SQLite context, Configurations, Repositories
-│   └── CareerOS.API/             # Controllers, RFC-7807 Error Middleware, Serilog
+│   ├── CareerOS.Domain/          # Core entities (Documents, Tags, Countries, Regions), Enums, Interfaces
+│   ├── CareerOS.Application/     # CQRS Handlers, DTOs, Validators, AutoMapper Profiles, FileStorage Abstractions
+│   ├── CareerOS.Infrastructure/  # EF Core SQLite context, Configurations, Storage & Metadata Engines, Repositories
+│   └── CareerOS.API/             # Controllers (Documents, Tags, Countries, Regions), Middleware, Serilog
 ├── frontend/
-│   └── careeros-ui/              # React 18 + TS + Material UI UI
+│   └── careeros-ui/              # React 18 + TS + Material UI UI (Documents Vault, Jobs, Contacts)
 ├── docker/
 │   ├── Dockerfile.api            # Multi-stage .NET 9 API image with curl healthcheck
 │   ├── Dockerfile.ui             # Multi-stage Node build & nginx runtime
 │   └── nginx.conf                # SPA router fallback & security headers
 ├── .github/workflows/            # CI/CD pipeline definition
-├── data/                         # SQLite database storage (careeros.db)
+├── data/                         # SQLite database storage (careeros.db) & local files (data/storage/)
 ├── start-careeros.ps1            # One-click PowerShell launcher
 ├── start-careeros.bat            # One-click Windows CMD launcher
 ├── docker-compose.yml            # Multi-container orchestration
@@ -167,11 +176,12 @@ CareerOS/
 ## Roadmap
 
 - **Phase 0** ✅ Foundation & Architecture
-- **Phase 1** 🔜 Job Pipeline Kanban Board
-- **Phase 2** 🔜 AI-Powered Resume Tailoring
-- **Phase 3** 🔜 Interview Prep & Notes
-- **Phase 4** 🔜 Networking CRM
-- **Phase 5** 🔜 Analytics & Insights
+- **Phase 1** ✅ Core Storage Engine (SQLite, Documents, Versions, SHA-256, Tags, Countries, Regions)
+- **Phase 2** 🔜 Job Pipeline Kanban Board
+- **Phase 3** 🔜 AI-Powered Resume Tailoring
+- **Phase 4** 🔜 Interview Prep & Notes
+- **Phase 5** 🔜 Networking CRM
+- **Phase 6** 🔜 Analytics & Insights
 
 ---
 

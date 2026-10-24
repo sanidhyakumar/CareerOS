@@ -11,6 +11,11 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Job> Jobs => Set<Job>();
     public DbSet<Contact> Contacts => Set<Contact>();
     public DbSet<Resume> Resumes => Set<Resume>();
+    public DbSet<Country> Countries => Set<Country>();
+    public DbSet<Region> Regions => Set<Region>();
+    public DbSet<Document> Documents => Set<Document>();
+    public DbSet<Tag> Tags => Set<Tag>();
+    public DbSet<DocumentTag> DocumentTags => Set<DocumentTag>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -18,4 +23,3 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
     }
 }
-
