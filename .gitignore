@@ -147,3 +147,69 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+
+# ========================
+# .NET / C# patterns
+# ========================
+
+## Build outputs
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## NuGet
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## Visual Studio
+.vs/
+*.rsuser
+*.vsp
+*.vspx
+TestResults/
+
+## Rider
+.idea/
+*.sln.iml
+
+## Publish / deployment
+publish/
+PublishProfiles/
+
+## Migrations (keep if you want to track them)
+# Migrations/
+
+## App secrets
+appsettings.Development.json
+appsettings.Local.json
+secrets.json
+
+## Entity Framework
+*.db
+*.db-shm
+*.db-wal
+
+## Serilog / runtime logs
+src/*/logs/
+logs/
+
+# ========================
+# Docker / local data
+# ========================
+data/
+!data/.gitkeep
+
+# ========================
+# OS artifacts
+# ========================
+.DS_Store
+Thumbs.db
+desktop.ini

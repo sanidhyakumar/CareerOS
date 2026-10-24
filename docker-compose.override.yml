@@ -1,0 +1,16 @@
+version: '3.9'
+
+# Development overrides
+services:
+  careeros-api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - Serilog__MinimumLevel__Default=Debug
+    volumes:
+      - careeros-data:/app/data
+      - ./src/CareerOS.API/logs:/app/logs
+
+  careeros-ui:
+    # In dev, you typically run `pnpm dev` locally and only use Docker for the API
+    environment:
+      - NODE_ENV=development

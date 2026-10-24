@@ -1,0 +1,36 @@
+# ---- Build stage ----
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+WORKDIR /src
+
+# Copy solution and project files first (layer caching)
+COPY CareerOS.sln .
+COPY src/CareerOS.Domain/CareerOS.Domain.csproj src/CareerOS.Domain/
+COPY src/CareerOS.Application/CareerOS.Application.csproj src/CareerOS.Application/
+COPY src/CareerOS.Infrastructure/CareerOS.Infrastructure.csproj src/CareerOS.Infrastructure/
+COPY src/CareerOS.API/CareerOS.API.csproj src/CareerOS.API/
+
+RUN dotnet restore
+
+# Copy everything else
+COPY . .
+
+# Publish
+WORKDIR /src/src/CareerOS.API
+RUN dotnet publish -c Release -o /app/publish --no-restore
+
+# ---- Runtime stage ----
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
+WORKDIR /app
+
+# Install curl for healthcheck and create data directory for SQLite
+RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/* \
+    && mkdir -p /app/data && chmod 777 /app/data
+
+COPY --from=build /app/publish .
+
+ENV ASPNETCORE_ENVIRONMENT=Docker
+ENV ASPNETCORE_URLS=http://0.0.0.0:5000
+ENV ConnectionStrings__DefaultConnection="Data Source=/app/data/careeros.db"
+
+EXPOSE 5000
+ENTRYPOINT ["dotnet", "CareerOS.API.dll"]
