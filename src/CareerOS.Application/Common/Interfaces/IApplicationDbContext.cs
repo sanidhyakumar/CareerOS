@@ -30,5 +30,7 @@ public interface IApplicationDbContext
     DbSet<JobApplication> JobApplications { get; }
     DbSet<ApplicationTimelineEvent> ApplicationTimelineEvents { get; }
     DbSet<ApplicationSnapshot> ApplicationSnapshots { get; }
+    DbSet<Interview> Interviews { get; }
+    DbSet<InterviewInterviewer> InterviewInterviewers { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

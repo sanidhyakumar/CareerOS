@@ -13,5 +13,6 @@ public interface IUnitOfWork : IDisposable
     IResumeCenterRepository ResumeCenter { get; }
     ICompanyRepository Companies { get; }
     IApplicationRepository Applications { get; }
+    IInterviewRepository Interviews { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

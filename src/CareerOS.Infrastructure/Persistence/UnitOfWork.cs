@@ -17,6 +17,7 @@ public class UnitOfWork : IUnitOfWork
     private IResumeCenterRepository? _resumeCenter;
     private ICompanyRepository? _companies;
     private IApplicationRepository? _applications;
+    private IInterviewRepository? _interviews;
 
     public UnitOfWork(ApplicationDbContext context) => _context = context;
 
@@ -31,6 +32,7 @@ public class UnitOfWork : IUnitOfWork
     public IResumeCenterRepository ResumeCenter => _resumeCenter ??= new ResumeCenterRepository(_context);
     public ICompanyRepository Companies => _companies ??= new CompanyRepository(_context);
     public IApplicationRepository Applications => _applications ??= new ApplicationRepository(_context);
+    public IInterviewRepository Interviews => _interviews ??= new InterviewRepository(_context);
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         => await _context.SaveChangesAsync(cancellationToken);

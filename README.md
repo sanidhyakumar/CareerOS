@@ -117,6 +117,15 @@ CareerOS.API             → Controllers, Middleware, Serilog, Swagger
 - ✅ **CRM Analytics & Pipeline Dashboard** — Real-time KPI counters tracking total contacts, recruiters, hiring managers, employee referrals, immigration contacts, and follow-ups due
 - ✅ **Modern CRM Console UI** — Multi-tab category filtering, keyword search, interactive communication history modal, fast star toggling, and direct email/phone/LinkedIn links
 
+### Phase 9 — Interview Center
+- ✅ **Comprehensive Interview Stage Coverage** — Explicit round management for Recruiter Screens, Technical Coding, System Design, Behavioral & Leadership, Engineering Manager, and Final Round Onsites
+- ✅ **Timeline & Calendar Views** — Dual visual perspective with chronological stage-by-stage vertical timeline and schedule agenda cards with meeting links
+- ✅ **CRM Interviewer Binding** — Link interviewers directly to CRM contact profiles with contact information and roles
+- ✅ **Preparation & Questions Archive** — Dedicated storage for talking points, STAR stories to highlight, technical problem prompts, and whiteboard questions asked
+- ✅ **Debrief & Self-Assessment Engine** — Instant outcome recording (Pending, Passed, Strong Hire, Hire, Neutral, Did Not Advance), debrief notes, and 1-to-5 star self-rating
+- ✅ **Interview Conversion Analytics** — Real-time tracking of total rounds, upcoming pipeline, completed stages, technical rounds, system design, and overall pass rate percentage
+- ✅ **Interactive Interview Center UI** — Multi-view switcher (Timeline, Calendar Schedule, Data Table), stage filter tabs, quick outcome completion modal, and direct video call launch shortcuts
+
 ---
 
 ## 🏃 How to Run CareerOS

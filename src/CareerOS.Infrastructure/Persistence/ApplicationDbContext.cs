@@ -33,6 +33,8 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<JobApplication> JobApplications => Set<JobApplication>();
     public DbSet<ApplicationTimelineEvent> ApplicationTimelineEvents => Set<ApplicationTimelineEvent>();
     public DbSet<ApplicationSnapshot> ApplicationSnapshots => Set<ApplicationSnapshot>();
+    public DbSet<Interview> Interviews => Set<Interview>();
+    public DbSet<InterviewInterviewer> InterviewInterviewers => Set<InterviewInterviewer>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

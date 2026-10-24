@@ -8,6 +8,7 @@ import DocumentsPage from './pages/DocumentsPage'
 import ProfilePage from './pages/ProfilePage'
 import CompaniesPage from './pages/CompaniesPage'
 import ApplicationsPage from './pages/ApplicationsPage'
+import InterviewsPage from './pages/InterviewsPage'
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/companies" element={<CompaniesPage />} />
         <Route path="/jobs" element={<JobsPage />} />
         <Route path="/applications" element={<ApplicationsPage />} />
+        <Route path="/interviews" element={<InterviewsPage />} />
         <Route path="/contacts" element={<ContactsPage />} />
         <Route path="/resumes" element={<ResumesPage />} />
         <Route path="/documents" element={<DocumentsPage />} />

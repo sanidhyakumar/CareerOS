@@ -112,5 +112,16 @@ public class MappingProfile : Profile
 
         CreateMap<ApplicationTimelineEvent, CareerOS.Application.Features.Applications.DTOs.ApplicationTimelineEventDto>();
         CreateMap<ApplicationSnapshot, CareerOS.Application.Features.Applications.DTOs.ApplicationSnapshotDto>();
+
+        // Phase 9: Interview Center mappings
+        CreateMap<Interview, CareerOS.Application.Features.Interviews.DTOs.InterviewDto>()
+            .ForMember(d => d.JobTitle, opt => opt.MapFrom(s => s.Job != null ? s.Job.Title : (s.JobApplication != null && s.JobApplication.Job != null ? s.JobApplication.Job.Title : null)))
+            .ForMember(d => d.CompanyName, opt => opt.MapFrom(s => s.Company != null ? s.Company.Name : (s.Job != null ? s.Job.Company : (s.JobApplication != null && s.JobApplication.Job != null ? s.JobApplication.Job.Company : null))))
+            .ForMember(d => d.Interviewers, opt => opt.MapFrom(s => s.Interviewers));
+
+        CreateMap<InterviewInterviewer, CareerOS.Application.Features.Interviews.DTOs.InterviewInterviewerDto>()
+            .ForMember(d => d.ContactName, opt => opt.MapFrom(s => s.Contact != null ? s.Contact.Name : string.Empty))
+            .ForMember(d => d.ContactEmail, opt => opt.MapFrom(s => s.Contact != null ? s.Contact.Email : null))
+            .ForMember(d => d.ContactLinkedIn, opt => opt.MapFrom(s => s.Contact != null ? s.Contact.LinkedIn : null));
     }
 }

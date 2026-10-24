@@ -15,6 +15,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch'
 import BusinessIcon from '@mui/icons-material/Business'
 import AssignmentIcon from '@mui/icons-material/Assignment'
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 
 const DRAWER_WIDTH = 240
 const DRAWER_COLLAPSED = 72
@@ -25,6 +26,7 @@ const navItems = [
   { label: 'Companies', icon: <BusinessIcon />, path: '/companies' },
   { label: 'Jobs', icon: <WorkIcon />, path: '/jobs' },
   { label: 'Applications', icon: <AssignmentIcon />, path: '/applications' },
+  { label: 'Interviews', icon: <CalendarMonthIcon />, path: '/interviews' },
   { label: 'Contacts', icon: <PeopleIcon />, path: '/contacts' },
   { label: 'Resumes', icon: <DescriptionIcon />, path: '/resumes' },
   { label: 'Documents', icon: <FolderIcon />, path: '/documents' },
