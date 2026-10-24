@@ -9,3 +9,4 @@ public enum ReminderCategory
     ContactFollowUp = 4,      // Recruiter or referral follow-up due
     General = 5
 }
+

@@ -39,3 +39,4 @@ public class ContactInteraction : BaseEntity
         };
     }
 }
+

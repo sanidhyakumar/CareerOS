@@ -18,3 +18,4 @@ public class SecuritySettingConfiguration : IEntityTypeConfiguration<SecuritySet
             .IsRequired();
     }
 }
+

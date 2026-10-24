@@ -64,3 +64,4 @@ public class UpdateInterviewStatusCommandHandler : IRequestHandler<UpdateIntervi
         return _mapper.Map<InterviewDto>(updated ?? interview);
     }
 }
+

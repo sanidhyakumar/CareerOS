@@ -26,3 +26,4 @@ public class DeleteInterviewCommandHandler : IRequestHandler<DeleteInterviewComm
         return true;
     }
 }
+

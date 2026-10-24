@@ -17,3 +17,4 @@ public class CreateApplicationCommandValidator : AbstractValidator<CreateApplica
             .MaximumLength(4000);
     }
 }
+

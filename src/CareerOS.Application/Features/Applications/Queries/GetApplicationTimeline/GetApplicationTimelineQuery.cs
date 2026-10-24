@@ -24,3 +24,4 @@ public class GetApplicationTimelineQueryHandler : IRequestHandler<GetApplication
         return _mapper.Map<List<ApplicationTimelineEventDto>>(events);
     }
 }
+

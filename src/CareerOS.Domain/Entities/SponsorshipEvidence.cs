@@ -52,3 +52,4 @@ public class SponsorshipEvidence : BaseEntity
         UpdatedAt = DateTime.UtcNow;
     }
 }
+

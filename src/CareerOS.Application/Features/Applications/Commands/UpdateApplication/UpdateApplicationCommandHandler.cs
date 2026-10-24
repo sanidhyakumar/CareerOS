@@ -55,3 +55,4 @@ public class UpdateApplicationCommandHandler : IRequestHandler<UpdateApplication
         return _mapper.Map<JobApplicationDto>(updated ?? application);
     }
 }
+

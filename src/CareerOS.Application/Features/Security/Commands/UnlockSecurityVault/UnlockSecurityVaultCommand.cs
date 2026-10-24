@@ -19,3 +19,4 @@ public class UnlockSecurityVaultCommandHandler : IRequestHandler<UnlockSecurityV
         return await _keyManager.UnlockVaultAsync(request.MasterPassword, cancellationToken);
     }
 }
+

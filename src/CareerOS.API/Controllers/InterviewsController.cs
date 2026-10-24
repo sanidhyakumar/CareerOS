@@ -133,3 +133,4 @@ public class UpdateInterviewStatusRequest
     public string? FeedbackNotes { get; set; }
     public int? Rating { get; set; }
 }
+

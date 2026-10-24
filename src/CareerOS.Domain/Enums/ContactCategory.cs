@@ -11,3 +11,4 @@ public enum ContactCategory
     Executive = 6,
     Other = 7
 }
+

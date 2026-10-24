@@ -37,3 +37,4 @@ public class GetAllApplicationsQueryHandler : IRequestHandler<GetAllApplications
         return _mapper.Map<List<JobApplicationDto>>(applications);
     }
 }
+

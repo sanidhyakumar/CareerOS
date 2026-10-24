@@ -224,3 +224,4 @@ export const sponsorshipApi = {
     await client.delete(`/sponsorship/${caseId}/evidence/${evidenceId}`)
   },
 }
+

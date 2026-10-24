@@ -12,3 +12,4 @@ public record AddTimelineEventCommand : IRequest<ApplicationTimelineEventDto>
     public string Title { get; init; } = string.Empty;
     public string? Notes { get; init; }
 }
+

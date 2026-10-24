@@ -65,3 +65,4 @@ public class AddSponsorshipEvidenceCommandValidator : AbstractValidator<AddSpons
             .MaximumLength(150).WithMessage("Evidence type cannot exceed 150 characters.");
     }
 }
+

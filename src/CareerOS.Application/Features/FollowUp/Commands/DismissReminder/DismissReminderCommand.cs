@@ -20,3 +20,4 @@ public class DismissReminderCommandHandler : IRequestHandler<DismissReminderComm
         await _uow.SaveChangesAsync(cancellationToken);
     }
 }
+

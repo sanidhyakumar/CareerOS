@@ -86,3 +86,4 @@ public class CareerAnalyticsDto
     public RejectionAnalyticsDto RejectionAnalytics { get; set; } = new();
     public List<ApplicationTimelinePointDto> VelocityTimeline { get; set; } = new();
 }
+

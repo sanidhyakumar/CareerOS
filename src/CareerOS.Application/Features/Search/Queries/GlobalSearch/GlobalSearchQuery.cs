@@ -70,3 +70,4 @@ public class GlobalSearchQueryHandler : IRequestHandler<GlobalSearchQuery, Searc
         };
     }
 }
+

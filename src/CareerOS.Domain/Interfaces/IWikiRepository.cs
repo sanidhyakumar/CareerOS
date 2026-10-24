@@ -22,3 +22,4 @@ public interface IWikiRepository
     Task<List<string>> GetTagsAsync(CancellationToken cancellationToken = default);
     Task SyncBacklinksAsync(Guid articleId, string content, CancellationToken cancellationToken = default);
 }
+

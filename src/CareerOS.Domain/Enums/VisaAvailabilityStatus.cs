@@ -8,3 +8,4 @@ public enum VisaAvailabilityStatus
     ExpeditedProcessing = 3,   // Fast-track processing available (e.g. Canada GTS 2-week, US Premium)
     RestrictedOrPaused = 4     // Policy moratorium or restricted labor market
 }
+

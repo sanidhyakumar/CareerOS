@@ -25,3 +25,4 @@ public class SponsorshipEvidenceConfiguration : IEntityTypeConfiguration<Sponsor
             .OnDelete(DeleteBehavior.SetNull);
     }
 }
+

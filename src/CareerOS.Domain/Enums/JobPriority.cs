@@ -7,3 +7,4 @@ public enum JobPriority
     High = 2,
     Dream = 3
 }
+

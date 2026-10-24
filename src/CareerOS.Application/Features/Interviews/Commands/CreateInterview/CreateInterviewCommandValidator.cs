@@ -14,3 +14,4 @@ public class CreateInterviewCommandValidator : AbstractValidator<CreateInterview
             .GreaterThan(0).WithMessage("Duration must be greater than 0 minutes.");
     }
 }
+

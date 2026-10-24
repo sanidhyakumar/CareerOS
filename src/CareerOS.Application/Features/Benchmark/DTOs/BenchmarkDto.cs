@@ -41,3 +41,4 @@ public class RunBenchmarkRequest
     public int SearchRecordCount { get; set; } = 100000;
     public bool CleanupAfterBenchmark { get; set; } = true;
 }
+

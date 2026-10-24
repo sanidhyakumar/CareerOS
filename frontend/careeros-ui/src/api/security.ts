@@ -103,3 +103,4 @@ export const securityApi = {
     await axios.delete(`${API_BASE}/credentials/${id}`);
   },
 };
+

@@ -10,3 +10,4 @@ public enum InterviewOutcome
     Hire = 5,
     NoHire = 6
 }
+

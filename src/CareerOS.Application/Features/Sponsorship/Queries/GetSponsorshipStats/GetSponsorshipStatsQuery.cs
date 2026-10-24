@@ -36,3 +36,4 @@ public class GetSponsorshipStatsQueryHandler : IRequestHandler<GetSponsorshipSta
         };
     }
 }
+

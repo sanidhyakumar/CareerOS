@@ -28,3 +28,4 @@ public class InterviewInterviewerConfiguration : IEntityTypeConfiguration<Interv
         builder.HasIndex(ii => new { ii.InterviewId, ii.ContactId }).IsUnique();
     }
 }
+

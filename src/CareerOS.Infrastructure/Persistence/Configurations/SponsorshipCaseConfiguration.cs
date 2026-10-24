@@ -43,3 +43,4 @@ public class SponsorshipCaseConfiguration : IEntityTypeConfiguration<Sponsorship
             .OnDelete(DeleteBehavior.Cascade);
     }
 }
+

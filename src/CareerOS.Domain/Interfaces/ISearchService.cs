@@ -10,3 +10,4 @@ public interface ISearchService
     Task UpsertIndexItemAsync(string entityId, string entityType, string title, string subtitle, string content, string tags, string actionUrl, CancellationToken cancellationToken = default);
     Task DeleteIndexItemAsync(string entityId, CancellationToken cancellationToken = default);
 }
+

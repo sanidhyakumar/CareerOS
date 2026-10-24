@@ -16,3 +16,4 @@ public interface ICareerProfileService
     Task<ProfileAnalyticsDto> GetProfileAnalyticsAsync(Guid profileId, CancellationToken cancellationToken = default);
     Task EnsureDefaultProfilesAndDirectoriesAsync(CancellationToken cancellationToken = default);
 }
+

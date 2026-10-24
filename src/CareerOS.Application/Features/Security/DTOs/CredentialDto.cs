@@ -37,3 +37,4 @@ public class SecurityStatusDto
     public int TotalCredentials { get; set; }
     public int PasswordsNeedingReview { get; set; }
 }
+

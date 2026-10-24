@@ -85,3 +85,4 @@ public class CreateInterviewCommandHandler : IRequestHandler<CreateInterviewComm
         return _mapper.Map<InterviewDto>(full ?? interview);
     }
 }
+

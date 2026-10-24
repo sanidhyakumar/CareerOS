@@ -11,3 +11,4 @@ public enum SeniorityLevel
     Director = 6,
     Executive = 7
 }
+

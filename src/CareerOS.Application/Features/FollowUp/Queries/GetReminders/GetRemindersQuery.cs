@@ -39,3 +39,4 @@ public class GetRemindersQueryHandler : IRequestHandler<GetRemindersQuery, List<
         return _mapper.Map<List<ReminderDto>>(items);
     }
 }
+

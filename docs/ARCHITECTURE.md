@@ -193,3 +193,4 @@ Validated via `BenchmarkService` under synthetic enterprise workloads:
 ---
 
 *Architected for longevity, privacy, and performance. 100% Local-First.*
+

@@ -23,3 +23,4 @@ public class ApplicationTimelineEventConfiguration : IEntityTypeConfiguration<Ap
         builder.HasIndex(t => t.EventDate);
     }
 }
+

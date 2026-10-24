@@ -33,3 +33,4 @@ public class GetWikiStatsQueryHandler : IRequestHandler<GetWikiStatsQuery, WikiS
         };
     }
 }
+

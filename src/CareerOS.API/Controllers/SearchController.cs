@@ -54,3 +54,4 @@ public class SearchController : ControllerBase
         return Ok(new { totalIndexed = count, message = $"Indexed {count} records into SQLite FTS5" });
     }
 }
+

@@ -14,3 +14,4 @@ public class CreateWikiArticleCommandValidator : AbstractValidator<CreateWikiArt
             .NotNull().WithMessage("Content cannot be null.");
     }
 }
+

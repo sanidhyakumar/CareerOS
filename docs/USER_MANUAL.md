@@ -227,3 +227,4 @@ Navigate to **Backup & Export** (`/portability`) to safeguard your data:
 ---
 
 *CareerOS — 100% Local-First. Your Data, Your Career, Your Control.*
+

@@ -33,3 +33,4 @@ public class ReminderItemConfiguration : IEntityTypeConfiguration<ReminderItem>
         builder.HasIndex(x => new { x.IsDismissed, x.IsSnoozed });
     }
 }
+

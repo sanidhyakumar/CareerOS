@@ -9,3 +9,4 @@ public enum KanbanColumnType
     Offer = 4,
     Rejected = 5
 }
+

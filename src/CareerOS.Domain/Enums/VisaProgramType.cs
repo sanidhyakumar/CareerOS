@@ -14,3 +14,4 @@ public enum VisaProgramType
     TechNation_GlobalTalent = 9, // UK Global Talent Visa
     Other = 10
 }
+

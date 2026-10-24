@@ -80,3 +80,4 @@ public class UpdateKanbanCardCommandValidator : AbstractValidator<UpdateKanbanCa
             .MaximumLength(200).WithMessage("Title cannot exceed 200 characters.");
     }
 }
+

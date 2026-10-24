@@ -13,3 +13,4 @@ public interface IBenchmarkService
 
     Task<IDictionary<string, object>> GetSystemDiagnosticsAsync(CancellationToken cancellationToken = default);
 }
+

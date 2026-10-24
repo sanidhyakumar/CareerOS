@@ -29,3 +29,4 @@ public class GetApplicationByIdQueryHandler : IRequestHandler<GetApplicationById
         return _mapper.Map<JobApplicationDto>(application);
     }
 }
+

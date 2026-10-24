@@ -20,3 +20,4 @@ public class LockSecurityVaultCommandHandler : IRequestHandler<LockSecurityVault
         return Task.FromResult(true);
     }
 }
+

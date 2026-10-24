@@ -137,3 +137,4 @@ public class CareerProfileAddressConfiguration : IEntityTypeConfiguration<Career
             .HasMaxLength(100);
     }
 }
+

@@ -28,3 +28,4 @@ public class DeleteSponsorshipCaseCommandHandler : IRequestHandler<DeleteSponsor
         await _uow.SaveChangesAsync(cancellationToken);
     }
 }
+

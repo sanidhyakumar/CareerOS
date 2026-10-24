@@ -53,3 +53,4 @@ public class GetInterviewStatsQueryHandler : IRequestHandler<GetInterviewStatsQu
         };
     }
 }
+

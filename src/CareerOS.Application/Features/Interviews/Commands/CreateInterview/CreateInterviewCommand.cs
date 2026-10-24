@@ -20,3 +20,4 @@ public record CreateInterviewCommand : IRequest<InterviewDto>
     public string? PreparationNotes { get; init; }
     public List<Guid>? InterviewerContactIds { get; init; }
 }
+

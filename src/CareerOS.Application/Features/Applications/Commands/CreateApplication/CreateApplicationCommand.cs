@@ -17,3 +17,4 @@ public record CreateApplicationCommand : IRequest<JobApplicationDto>
     public Guid? ReferralContactId { get; init; }
     public string? Notes { get; init; }
 }
+

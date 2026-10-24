@@ -42,3 +42,4 @@ public class CreateWikiArticleCommandHandler : IRequestHandler<CreateWikiArticle
         return _mapper.Map<WikiArticleDto>(loaded ?? article);
     }
 }
+

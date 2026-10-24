@@ -17,3 +17,4 @@ public class UpdateWikiArticleCommandValidator : AbstractValidator<UpdateWikiArt
             .NotNull().WithMessage("Content cannot be null.");
     }
 }
+

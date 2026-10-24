@@ -38,3 +38,4 @@ public class CredentialItemConfiguration : IEntityTypeConfiguration<CredentialIt
         builder.HasIndex(c => c.CompanyId);
     }
 }
+

@@ -28,3 +28,4 @@ public class GetSearchStatsQueryHandler : IRequestHandler<GetSearchStatsQuery, S
         };
     }
 }
+

@@ -21,3 +21,4 @@ public interface IReminderRepository
     Task DismissAsync(Guid id, CancellationToken cancellationToken = default);
     Task SnoozeAsync(Guid id, TimeSpan duration, CancellationToken cancellationToken = default);
 }
+

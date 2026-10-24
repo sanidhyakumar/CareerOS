@@ -6,3 +6,4 @@ public enum WorkplaceType
     Hybrid = 1,
     Onsite = 2
 }
+

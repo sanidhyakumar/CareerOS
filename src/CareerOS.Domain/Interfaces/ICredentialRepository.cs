@@ -10,3 +10,4 @@ public interface ICredentialRepository
     Task UpdateAsync(CredentialItem item, CancellationToken cancellationToken = default);
     Task DeleteAsync(Guid id, CancellationToken cancellationToken = default);
 }
+

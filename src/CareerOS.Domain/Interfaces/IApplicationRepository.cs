@@ -20,3 +20,4 @@ public interface IApplicationRepository
     Task<ApplicationSnapshot?> GetSnapshotAsync(Guid applicationId, CancellationToken cancellationToken = default);
     Task<ApplicationSnapshot> AddSnapshotAsync(ApplicationSnapshot snapshot, CancellationToken cancellationToken = default);
 }
+

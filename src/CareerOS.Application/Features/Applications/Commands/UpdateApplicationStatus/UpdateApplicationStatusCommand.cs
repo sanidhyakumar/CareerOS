@@ -11,3 +11,4 @@ public record UpdateApplicationStatusCommand : IRequest<JobApplicationDto>
     public string? EventTitle { get; init; }
     public string? Notes { get; init; }
 }
+

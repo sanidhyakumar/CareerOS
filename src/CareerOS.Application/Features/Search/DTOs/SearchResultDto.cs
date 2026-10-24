@@ -27,3 +27,4 @@ public class SearchStatsDto
     public Dictionary<string, int> RecordsByType { get; set; } = new();
     public DateTime LastIndexedAt { get; set; } = DateTime.UtcNow;
 }
+

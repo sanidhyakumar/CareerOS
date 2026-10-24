@@ -26,3 +26,4 @@ public class WikiArticleLink : BaseEntity
         };
     }
 }
+

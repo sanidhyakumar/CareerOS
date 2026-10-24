@@ -28,3 +28,4 @@ public class DeleteReminderCommandHandler : IRequestHandler<DeleteReminderComman
         await _uow.SaveChangesAsync(cancellationToken);
     }
 }
+

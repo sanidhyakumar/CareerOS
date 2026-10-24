@@ -14,3 +14,4 @@ public enum ApplicationStatus
     Rejected = 9,
     Withdrawn = 10
 }
+

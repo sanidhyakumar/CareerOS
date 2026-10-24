@@ -7,3 +7,4 @@ public enum InterviewFormat
     Onsite = 2,
     Asynchronous = 3
 }
+

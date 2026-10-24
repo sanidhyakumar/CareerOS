@@ -19,3 +19,4 @@ public class GetWikiTagsQueryHandler : IRequestHandler<GetWikiTagsQuery, List<st
         return await _uow.Wiki.GetTagsAsync(cancellationToken);
     }
 }
+

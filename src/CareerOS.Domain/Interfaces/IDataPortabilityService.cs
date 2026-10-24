@@ -8,3 +8,4 @@ public interface IDataPortabilityService
     Task<byte[]> ExportFullSystemZipAsync(CancellationToken cancellationToken = default);
     Task<IDictionary<string, int>> ImportBackupJsonAsync(Stream jsonStream, bool overwriteExisting = false, CancellationToken cancellationToken = default);
 }
+

@@ -13,3 +13,4 @@ public interface ICareerProfileRepository
     Task DeleteAsync(CareerProfile profile, CancellationToken cancellationToken = default);
     Task SetActiveAsync(Guid id, CancellationToken cancellationToken = default);
 }
+

@@ -28,3 +28,4 @@ public class DeleteKanbanCardCommandHandler : IRequestHandler<DeleteKanbanCardCo
         await _uow.SaveChangesAsync(cancellationToken);
     }
 }
+

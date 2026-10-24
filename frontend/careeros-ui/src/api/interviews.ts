@@ -158,3 +158,4 @@ export const interviewsApi = {
   delete: (id: string) =>
     client.delete(`/interviews/${id}`).then((r) => r.data),
 }
+

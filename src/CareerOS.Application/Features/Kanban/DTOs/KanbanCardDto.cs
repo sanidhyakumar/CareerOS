@@ -44,3 +44,4 @@ public class KanbanBoardDto
     public List<KanbanColumnDto> Columns { get; set; } = new();
     public int TotalCards { get; set; }
 }
+

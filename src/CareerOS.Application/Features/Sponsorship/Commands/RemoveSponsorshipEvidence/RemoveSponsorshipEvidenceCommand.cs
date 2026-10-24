@@ -30,3 +30,4 @@ public class RemoveSponsorshipEvidenceCommandHandler : IRequestHandler<RemoveSpo
         await _uow.SaveChangesAsync(cancellationToken);
     }
 }
+

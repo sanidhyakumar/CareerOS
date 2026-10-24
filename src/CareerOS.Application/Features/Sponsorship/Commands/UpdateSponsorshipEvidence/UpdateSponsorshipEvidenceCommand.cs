@@ -50,3 +50,4 @@ public class UpdateSponsorshipEvidenceCommandHandler : IRequestHandler<UpdateSpo
         return _mapper.Map<SponsorshipEvidenceDto>(loaded ?? evidence);
     }
 }
+

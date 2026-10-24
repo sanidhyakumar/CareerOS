@@ -177,3 +177,4 @@ export const profilesApi = {
     await axios.delete(`${API_BASE}/${id}`)
   },
 }
+

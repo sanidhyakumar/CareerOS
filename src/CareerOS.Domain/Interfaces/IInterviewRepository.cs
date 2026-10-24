@@ -24,3 +24,4 @@ public interface IInterviewRepository
 
     Task SetInterviewersAsync(Guid interviewId, IEnumerable<(Guid ContactId, string? Role)> interviewers, CancellationToken cancellationToken = default);
 }
+

@@ -37,3 +37,4 @@ public class GetAllWikiArticlesQueryHandler : IRequestHandler<GetAllWikiArticles
         return _mapper.Map<List<WikiArticleDto>>(articles);
     }
 }
+

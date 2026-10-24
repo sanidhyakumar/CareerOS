@@ -64,3 +64,4 @@ public class InterviewStatsDto
     public int PassedCount { get; set; }
     public decimal PassRate { get; set; }
 }
+

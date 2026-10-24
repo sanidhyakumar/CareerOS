@@ -71,3 +71,4 @@ public class SponsorshipStatsDto
     public int VerifiedEvidenceCount { get; set; }
     public int TotalCountries { get; set; }
 }
+

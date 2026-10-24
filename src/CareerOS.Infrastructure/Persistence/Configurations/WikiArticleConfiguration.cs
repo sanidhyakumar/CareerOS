@@ -56,3 +56,4 @@ public class WikiArticleConfiguration : IEntityTypeConfiguration<WikiArticle>
             .OnDelete(DeleteBehavior.SetNull);
     }
 }
+

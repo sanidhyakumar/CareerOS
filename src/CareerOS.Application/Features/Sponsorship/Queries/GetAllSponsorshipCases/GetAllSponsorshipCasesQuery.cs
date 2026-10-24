@@ -39,3 +39,4 @@ public class GetAllSponsorshipCasesQueryHandler : IRequestHandler<GetAllSponsors
         return _mapper.Map<List<SponsorshipCaseDto>>(cases);
     }
 }
+

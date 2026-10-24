@@ -47,3 +47,4 @@ public class UpdateApplicationStatusCommandHandler : IRequestHandler<UpdateAppli
         return _mapper.Map<JobApplicationDto>(updated ?? application);
     }
 }
+

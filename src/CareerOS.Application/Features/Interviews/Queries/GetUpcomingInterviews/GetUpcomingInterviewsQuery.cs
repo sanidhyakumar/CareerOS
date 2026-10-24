@@ -24,3 +24,4 @@ public class GetUpcomingInterviewsQueryHandler : IRequestHandler<GetUpcomingInte
         return _mapper.Map<List<InterviewDto>>(items);
     }
 }
+

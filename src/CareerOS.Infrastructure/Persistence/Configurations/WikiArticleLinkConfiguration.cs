@@ -22,3 +22,4 @@ public class WikiArticleLinkConfiguration : IEntityTypeConfiguration<WikiArticle
         builder.HasIndex(x => new { x.SourceArticleId, x.TargetSlug });
     }
 }
+

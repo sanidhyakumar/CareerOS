@@ -20,3 +20,4 @@ public class ContactInteractionConfiguration : IEntityTypeConfiguration<ContactI
         builder.HasIndex(i => i.FollowUpDate);
     }
 }
+

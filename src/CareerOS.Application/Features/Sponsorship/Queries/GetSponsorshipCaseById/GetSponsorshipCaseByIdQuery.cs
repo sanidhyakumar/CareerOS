@@ -31,3 +31,4 @@ public class GetSponsorshipCaseByIdQueryHandler : IRequestHandler<GetSponsorship
         return _mapper.Map<SponsorshipCaseDto>(sc);
     }
 }
+

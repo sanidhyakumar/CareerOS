@@ -24,3 +24,4 @@ public class ConfigureMasterPasswordCommandHandler : IRequestHandler<ConfigureMa
         return await _keyManager.SetupMasterPasswordAsync(request.MasterPassword, cancellationToken);
     }
 }
+

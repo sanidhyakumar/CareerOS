@@ -13,3 +13,4 @@ public interface IKanbanRepository
     Task ReorderCardsAsync(KanbanColumnType column, List<Guid> cardIdsInOrder, CancellationToken cancellationToken = default);
     Task SyncWithJobsAndApplicationsAsync(CancellationToken cancellationToken = default);
 }
+

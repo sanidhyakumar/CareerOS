@@ -37,3 +37,4 @@ public class GetCredentialsQueryHandler : IRequestHandler<GetCredentialsQuery, L
         }).ToList();
     }
 }
+

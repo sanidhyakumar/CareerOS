@@ -30,3 +30,4 @@ public class ApplicationSnapshotConfiguration : IEntityTypeConfiguration<Applica
         builder.HasIndex(s => s.SnapshotDate);
     }
 }
+

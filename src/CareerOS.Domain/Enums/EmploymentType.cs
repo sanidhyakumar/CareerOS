@@ -9,3 +9,4 @@ public enum EmploymentType
     Freelance = 4,
     ContractToHire = 5
 }
+

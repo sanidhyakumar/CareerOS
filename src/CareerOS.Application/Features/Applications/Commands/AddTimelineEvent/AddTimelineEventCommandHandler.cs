@@ -37,3 +37,4 @@ public class AddTimelineEventCommandHandler : IRequestHandler<AddTimelineEventCo
         return _mapper.Map<ApplicationTimelineEventDto>(timelineEvent);
     }
 }
+

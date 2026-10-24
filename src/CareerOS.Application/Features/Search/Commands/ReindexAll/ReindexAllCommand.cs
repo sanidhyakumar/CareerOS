@@ -19,3 +19,4 @@ public class ReindexAllCommandHandler : IRequestHandler<ReindexAllCommand, int>
         return await _searchService.ReindexAllAsync(cancellationToken);
     }
 }
+

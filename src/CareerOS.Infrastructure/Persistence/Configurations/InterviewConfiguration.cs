@@ -61,3 +61,4 @@ public class InterviewConfiguration : IEntityTypeConfiguration<Interview>
         builder.HasIndex(i => i.JobApplicationId);
     }
 }
+

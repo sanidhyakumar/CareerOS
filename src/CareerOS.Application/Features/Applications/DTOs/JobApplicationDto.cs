@@ -102,3 +102,4 @@ public class ApplicationStatsDto
     public int RejectedCount { get; set; }
     public decimal OfferRate { get; set; }
 }
+

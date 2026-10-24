@@ -45,3 +45,4 @@ public class GetAllInterviewsQueryHandler : IRequestHandler<GetAllInterviewsQuer
         return _mapper.Map<List<InterviewDto>>(interviews);
     }
 }
+

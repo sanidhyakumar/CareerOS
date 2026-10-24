@@ -8,3 +8,4 @@ public enum InterviewStatus
     Rescheduled = 3,
     NoShow = 4
 }
+

@@ -24,3 +24,4 @@ public interface ISponsorshipRepository
     Task UpdateEvidenceAsync(SponsorshipEvidence evidence, CancellationToken cancellationToken = default);
     Task DeleteEvidenceAsync(SponsorshipEvidence evidence, CancellationToken cancellationToken = default);
 }
+

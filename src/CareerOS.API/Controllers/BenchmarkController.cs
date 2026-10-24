@@ -44,3 +44,4 @@ public class BenchmarkController : ControllerBase
         return Ok(summary);
     }
 }
+

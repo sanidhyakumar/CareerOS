@@ -134,3 +134,4 @@ public class ApplicationRepository : IApplicationRepository
         return snapshot;
     }
 }
+

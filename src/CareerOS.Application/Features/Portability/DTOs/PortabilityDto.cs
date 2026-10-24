@@ -16,3 +16,4 @@ public class ExportManifestDto
     public Dictionary<string, int> RecordCounts { get; set; } = new();
     public string ChecksumSha256 { get; set; } = string.Empty;
 }
+

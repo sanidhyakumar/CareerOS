@@ -9,3 +9,4 @@ public interface IEncryptionService
     bool VerifyPassword(string password, string storedHash, byte[] salt, int iterations = 100000);
     byte[] GenerateRandomBytes(int length);
 }
+

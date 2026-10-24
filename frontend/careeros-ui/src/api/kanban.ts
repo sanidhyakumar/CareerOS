@@ -124,3 +124,4 @@ export const kanbanApi = {
     await client.delete(`/kanban/cards/${id}`)
   },
 }
+

@@ -18,3 +18,4 @@ public record UpdateWikiArticleCommand : IRequest<WikiArticleDto>
     public bool IsStarred { get; init; }
     public bool IsPinned { get; init; }
 }
+

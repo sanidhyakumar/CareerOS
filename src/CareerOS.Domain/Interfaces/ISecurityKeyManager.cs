@@ -9,3 +9,4 @@ public interface ISecurityKeyManager
     void LockVault();
     byte[] GetActiveEncryptionKey();
 }
+

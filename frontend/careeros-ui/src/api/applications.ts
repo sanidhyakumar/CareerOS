@@ -172,3 +172,4 @@ export const applicationsApi = {
   delete: (id: string) =>
     client.delete(`/applications/${id}`).then((r) => r.data),
 }
+

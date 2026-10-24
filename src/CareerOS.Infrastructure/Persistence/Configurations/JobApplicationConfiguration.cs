@@ -64,3 +64,4 @@ public class JobApplicationConfiguration : IEntityTypeConfiguration<JobApplicati
         builder.HasIndex(a => a.ApplicationDate);
     }
 }
+

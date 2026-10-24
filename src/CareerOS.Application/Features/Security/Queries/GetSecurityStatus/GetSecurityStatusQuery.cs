@@ -35,3 +35,4 @@ public class GetSecurityStatusQueryHandler : IRequestHandler<GetSecurityStatusQu
         };
     }
 }
+

@@ -26,3 +26,4 @@ public record UpdateInterviewCommand : IRequest<InterviewDto>
     public int? Rating { get; init; }
     public List<Guid>? InterviewerContactIds { get; init; }
 }
+

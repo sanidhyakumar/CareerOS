@@ -8,3 +8,4 @@ public enum SponsorshipEligibilityStatus
     Ineligible = 3,             // Nationality or qualification restrictions
     Sponsored = 4               // Formal petition / sponsorship filed or approved
 }
+

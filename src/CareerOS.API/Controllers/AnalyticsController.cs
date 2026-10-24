@@ -60,3 +60,4 @@ public class AnalyticsController : ControllerBase
         return Ok(result.RejectionAnalytics);
     }
 }
+

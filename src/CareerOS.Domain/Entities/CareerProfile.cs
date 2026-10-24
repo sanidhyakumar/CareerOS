@@ -68,3 +68,4 @@ public class CareerProfile : BaseEntity
         return string.IsNullOrWhiteSpace(clean) ? "profile-" + Guid.NewGuid().ToString("N")[..8] : clean;
     }
 }
+

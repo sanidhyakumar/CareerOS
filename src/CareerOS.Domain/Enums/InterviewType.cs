@@ -11,3 +11,4 @@ public enum InterviewType
     TakeHomeReview = 6,
     Other = 7
 }
+

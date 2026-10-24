@@ -21,3 +21,4 @@ public class TriggerFollowUpScanCommandHandler : IRequestHandler<TriggerFollowUp
         return count;
     }
 }
+

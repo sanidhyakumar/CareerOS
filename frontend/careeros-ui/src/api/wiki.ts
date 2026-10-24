@@ -153,3 +153,4 @@ export const wikiApi = {
     await client.delete(`/wiki/${id}`)
   },
 }
+

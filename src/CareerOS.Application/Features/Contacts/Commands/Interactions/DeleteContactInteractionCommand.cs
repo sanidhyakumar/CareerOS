@@ -21,3 +21,4 @@ public class DeleteContactInteractionCommandHandler : IRequestHandler<DeleteCont
         return true;
     }
 }
+

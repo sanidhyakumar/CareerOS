@@ -18,3 +18,4 @@ public class BenchmarkSummary
     public bool IsProductionReady { get; set; } = true;
     public string Message { get; set; } = string.Empty;
 }
+

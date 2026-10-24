@@ -40,3 +40,4 @@ public class FollowUpSummaryDto
     public int ContactFollowUpsCount { get; set; }
     public int HighOrCriticalCount { get; set; }
 }
+

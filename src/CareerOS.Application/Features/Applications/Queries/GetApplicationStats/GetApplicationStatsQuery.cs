@@ -53,3 +53,4 @@ public class GetApplicationStatsQueryHandler : IRequestHandler<GetApplicationSta
         };
     }
 }
+

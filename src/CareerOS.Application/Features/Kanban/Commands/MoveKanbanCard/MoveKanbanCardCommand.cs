@@ -87,3 +87,4 @@ public class MoveKanbanCardCommandHandler : IRequestHandler<MoveKanbanCardComman
         return _mapper.Map<KanbanCardDto>(card);
     }
 }
+

@@ -7,3 +7,4 @@ public enum ReminderSeverity
     High = 2,      // Urgent / Critical Deadline / 7+ days Stale
     Critical = 3   // Expired / Immediate Action Required
 }
+

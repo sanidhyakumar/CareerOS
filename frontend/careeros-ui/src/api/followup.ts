@@ -114,3 +114,4 @@ export const followUpApi = {
     await client.delete(`/followup/${id}`)
   },
 }
+

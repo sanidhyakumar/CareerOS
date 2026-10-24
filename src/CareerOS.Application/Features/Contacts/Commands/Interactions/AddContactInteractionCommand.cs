@@ -55,3 +55,4 @@ public class AddContactInteractionCommandHandler : IRequestHandler<AddContactInt
         return _mapper.Map<ContactInteractionDto>(interaction);
     }
 }
+

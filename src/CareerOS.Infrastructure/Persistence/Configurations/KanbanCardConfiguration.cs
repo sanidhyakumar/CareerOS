@@ -49,3 +49,4 @@ public class KanbanCardConfiguration : IEntityTypeConfiguration<KanbanCard>
         builder.HasIndex(x => new { x.Column, x.Position });
     }
 }
+

@@ -28,3 +28,4 @@ public class GetInterviewByIdQueryHandler : IRequestHandler<GetInterviewByIdQuer
         return _mapper.Map<InterviewDto>(interview);
     }
 }
+

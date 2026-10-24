@@ -27,3 +27,4 @@ public class DeleteApplicationCommandHandler : IRequestHandler<DeleteApplication
         return true;
     }
 }
+
