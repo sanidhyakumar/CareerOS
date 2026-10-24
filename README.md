@@ -135,6 +135,15 @@ CareerOS.API             → Controllers, Middleware, Serilog, Swagger
 - ✅ **Tag Cloud & Category Filters** — Interactive multi-category classification (STAR Stories, System Design, Company Research, Interview Notes, Coding Patterns, Career Strategy)
 - ✅ **Knowledge Base UI** — Split-screen reading/previewing pane, quick-navigation backlink network, starred/pinned favorites, and template insertion helpers
 
+### Phase 11 — Sponsorship Center
+- ✅ **Global Visa Program Registry** — Comprehensive coverage of US H-1B, L-1, O-1, TN, E-3, Canada LMIA/GTS, EU Blue Card, Australia TSS 482, and UK Skilled Worker
+- ✅ **Eligibility Assessment Engine** — Multi-status classification (Eligible, Conditionally Eligible, Pending Review, Ineligible, Sponsored)
+- ✅ **Availability & Quota Tracking** — Statutory availability models (Open Year-Round, Cap-Subject Annual Lottery, Quota Waitlist, Expedited Processing, Paused)
+- ✅ **Salary Thresholds & Fiscal Windows** — Minimum wage bounds, currency selection, lottery registration dates, and application filing deadlines
+- ✅ **Credential Evidence Checklist** — Verification tracking for degree diplomas, transcripts, credential evaluations, employment verification letters, and direct integration with Document Vault
+- ✅ **PR & Dual Intent Pathways** — Direct tagging and filtering for permanent residency transitions and dual-intent immigrant visas
+- ✅ **Unified Sponsorship Center UI** — Dual-perspective view switcher (Interactive Cards with progress meters and Data Table), preset template launchers, and evidence checklist manager dialog
+
 ---
 
 ## 🏃 How to Run CareerOS

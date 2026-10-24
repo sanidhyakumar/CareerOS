@@ -34,5 +34,7 @@ public interface IApplicationDbContext
     DbSet<InterviewInterviewer> InterviewInterviewers { get; }
     DbSet<WikiArticle> WikiArticles { get; }
     DbSet<WikiArticleLink> WikiArticleLinks { get; }
+    DbSet<SponsorshipCase> SponsorshipCases { get; }
+    DbSet<SponsorshipEvidence> SponsorshipEvidences { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

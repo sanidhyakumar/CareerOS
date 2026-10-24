@@ -15,5 +15,6 @@ public interface IUnitOfWork : IDisposable
     IApplicationRepository Applications { get; }
     IInterviewRepository Interviews { get; }
     IWikiRepository Wiki { get; }
+    ISponsorshipRepository Sponsorship { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

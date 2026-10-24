@@ -40,6 +40,7 @@ public static class DependencyInjection
         services.AddScoped<IApplicationRepository, ApplicationRepository>();
         services.AddScoped<IInterviewRepository, InterviewRepository>();
         services.AddScoped<IWikiRepository, WikiRepository>();
+        services.AddScoped<ISponsorshipRepository, SponsorshipRepository>();
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 

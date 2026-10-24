@@ -37,6 +37,8 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<InterviewInterviewer> InterviewInterviewers => Set<InterviewInterviewer>();
     public DbSet<WikiArticle> WikiArticles => Set<WikiArticle>();
     public DbSet<WikiArticleLink> WikiArticleLinks => Set<WikiArticleLink>();
+    public DbSet<SponsorshipCase> SponsorshipCases => Set<SponsorshipCase>();
+    public DbSet<SponsorshipEvidence> SponsorshipEvidences => Set<SponsorshipEvidence>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -88,6 +88,44 @@ try
                     CONSTRAINT ""FK_WikiArticleLinks_WikiArticles_TargetArticleId"" FOREIGN KEY (""TargetArticleId"") REFERENCES ""WikiArticles"" (""Id"") ON DELETE SET NULL
                 );
                 CREATE INDEX IF NOT EXISTS ""IX_WikiArticleLinks_SourceArticleId_TargetSlug"" ON ""WikiArticleLinks"" (""SourceArticleId"", ""TargetSlug"");
+
+                CREATE TABLE IF NOT EXISTS ""SponsorshipCases"" (
+                    ""Id"" TEXT NOT NULL CONSTRAINT ""PK_SponsorshipCases"" PRIMARY KEY,
+                    ""CountryId"" TEXT NOT NULL,
+                    ""ProgramName"" TEXT NOT NULL,
+                    ""ProgramType"" INTEGER NOT NULL,
+                    ""CompanyId"" TEXT NULL,
+                    ""JobId"" TEXT NULL,
+                    ""Eligibility"" INTEGER NOT NULL,
+                    ""Availability"" INTEGER NOT NULL,
+                    ""MinimumSalaryRequirement"" TEXT NULL,
+                    ""Currency"" TEXT NULL,
+                    ""NextFiscalCycleDate"" TEXT NULL,
+                    ""FilingDeadline"" TEXT NULL,
+                    ""EstimatedProcessingMonths"" INTEGER NULL,
+                    ""SupportsDualIntent"" INTEGER NOT NULL,
+                    ""LeadsToPermanentResidency"" INTEGER NOT NULL,
+                    ""Notes"" TEXT NULL,
+                    ""CreatedAt"" TEXT NOT NULL,
+                    ""UpdatedAt"" TEXT NOT NULL,
+                    CONSTRAINT ""FK_SponsorshipCases_Countries_CountryId"" FOREIGN KEY (""CountryId"") REFERENCES ""Countries"" (""Id"") ON DELETE RESTRICT,
+                    CONSTRAINT ""FK_SponsorshipCases_Companies_CompanyId"" FOREIGN KEY (""CompanyId"") REFERENCES ""Companies"" (""Id"") ON DELETE SET NULL,
+                    CONSTRAINT ""FK_SponsorshipCases_Jobs_JobId"" FOREIGN KEY (""JobId"") REFERENCES ""Jobs"" (""Id"") ON DELETE SET NULL
+                );
+
+                CREATE TABLE IF NOT EXISTS ""SponsorshipEvidences"" (
+                    ""Id"" TEXT NOT NULL CONSTRAINT ""PK_SponsorshipEvidences"" PRIMARY KEY,
+                    ""SponsorshipCaseId"" TEXT NOT NULL,
+                    ""DocumentId"" TEXT NULL,
+                    ""EvidenceType"" TEXT NOT NULL,
+                    ""Description"" TEXT NOT NULL,
+                    ""IsVerified"" INTEGER NOT NULL,
+                    ""ExpiryDate"" TEXT NULL,
+                    ""CreatedAt"" TEXT NOT NULL,
+                    ""UpdatedAt"" TEXT NOT NULL,
+                    CONSTRAINT ""FK_SponsorshipEvidences_SponsorshipCases_SponsorshipCaseId"" FOREIGN KEY (""SponsorshipCaseId"") REFERENCES ""SponsorshipCases"" (""Id"") ON DELETE CASCADE,
+                    CONSTRAINT ""FK_SponsorshipEvidences_Documents_DocumentId"" FOREIGN KEY (""DocumentId"") REFERENCES ""Documents"" (""Id"") ON DELETE SET NULL
+                );
             ");
             Log.Information("Database initialization completed.");
         }

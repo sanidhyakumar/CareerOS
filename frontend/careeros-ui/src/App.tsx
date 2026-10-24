@@ -10,6 +10,7 @@ import CompaniesPage from './pages/CompaniesPage'
 import ApplicationsPage from './pages/ApplicationsPage'
 import InterviewsPage from './pages/InterviewsPage'
 import WikiPage from './pages/WikiPage'
+import SponsorshipPage from './pages/SponsorshipPage'
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/applications" element={<ApplicationsPage />} />
         <Route path="/interviews" element={<InterviewsPage />} />
         <Route path="/wiki" element={<WikiPage />} />
+        <Route path="/sponsorship" element={<SponsorshipPage />} />
         <Route path="/contacts" element={<ContactsPage />} />
         <Route path="/resumes" element={<ResumesPage />} />
         <Route path="/documents" element={<DocumentsPage />} />

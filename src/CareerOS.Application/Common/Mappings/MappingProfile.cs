@@ -142,5 +142,17 @@ public class MappingProfile : Profile
                 TargetArticleId = l.TargetArticleId,
                 LinkText = l.LinkText
             })));
+
+        // Sponsorship Mappings
+        CreateMap<CareerOS.Domain.Entities.SponsorshipCase, CareerOS.Application.Features.Sponsorship.DTOs.SponsorshipCaseDto>()
+            .ForMember(d => d.CountryName, opt => opt.MapFrom(s => s.Country != null ? s.Country.Name : string.Empty))
+            .ForMember(d => d.CountryCode, opt => opt.MapFrom(s => s.Country != null ? s.Country.Code : string.Empty))
+            .ForMember(d => d.CompanyName, opt => opt.MapFrom(s => s.Company != null ? s.Company.Name : null))
+            .ForMember(d => d.JobTitle, opt => opt.MapFrom(s => s.Job != null ? s.Job.Title : null))
+            .ForMember(d => d.EvidenceList, opt => opt.MapFrom(s => s.EvidenceList));
+
+        CreateMap<CareerOS.Domain.Entities.SponsorshipEvidence, CareerOS.Application.Features.Sponsorship.DTOs.SponsorshipEvidenceDto>()
+            .ForMember(d => d.DocumentName, opt => opt.MapFrom(s => s.Document != null ? s.Document.FileName : null))
+            .ForMember(d => d.DocumentType, opt => opt.MapFrom(s => s.Document != null ? s.Document.Category.ToString() : null));
     }
 }
