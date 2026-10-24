@@ -16,7 +16,8 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        CreateMap<Job, JobDto>().ReverseMap();
+        CreateMap<Job, JobDto>()
+            .ForMember(d => d.CompanyName, opt => opt.MapFrom(s => s.CompanyEntity != null ? s.CompanyEntity.Name : s.Company));
         CreateMap<Contact, ContactDto>().ReverseMap();
         CreateMap<Resume, ResumeDto>().ReverseMap();
 

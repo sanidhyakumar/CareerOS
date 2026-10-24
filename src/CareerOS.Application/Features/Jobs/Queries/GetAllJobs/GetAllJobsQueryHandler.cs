@@ -18,8 +18,16 @@ public sealed class GetAllJobsQueryHandler : IRequestHandler<GetAllJobsQuery, IE
 
     public async Task<IEnumerable<JobDto>> Handle(GetAllJobsQuery request, CancellationToken cancellationToken)
     {
-        var jobs = await _uow.Jobs.GetAllAsync(cancellationToken);
+        var jobs = await _uow.Jobs.GetAllAsync(
+            request.SearchTerm,
+            request.CompanyId,
+            request.Status,
+            request.Priority,
+            request.EmploymentType,
+            request.WorkplaceType,
+            request.Seniority,
+            cancellationToken);
+
         return _mapper.Map<IEnumerable<JobDto>>(jobs);
     }
 }
-

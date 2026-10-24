@@ -91,6 +91,16 @@ CareerOS.API             → Controllers, Middleware, Serilog, Swagger
 - ✅ **Reusable Entity Architecture** — Foreign key integration with Jobs (`Job.CompanyId`) and Contacts (`Contact.CompanyId`)
 - ✅ **Company CRM UI** — Multi-tab React + Material UI directory with grid cards and table view toggles, company stats banner, quick web/careers links, and dialog forms
 
+### Phase 6 — Job Position Management
+- ✅ **Multi-Position Tracking** — Link multiple distinct job opportunities and requisitions to a single employer/company entity
+- ✅ **Compensation Architecture** — Structured base salary bounds (`MinSalary`, `MaxSalary`, `Currency`), free-form text compensation, equity packages, and bonus structures
+- ✅ **Seniority & Role Categorization** — Multi-level seniority tracking (Intern, Junior, Mid, Senior, Lead, Staff, Principal, Director, VP)
+- ✅ **Workplace & Employment Policies** — Remote, Hybrid, and On-Site workplace models, coupled with Full-Time, Contract, Part-Time, and Internship employment types
+- ✅ **Priority Tiering** — Starred Dream Priority, High, Medium, and Low classifications to optimize job search focus
+- ✅ **Tech Stack & Requirement Tagging** — Free-text and comma-delimited tech stack inventory with real-time substring search
+- ✅ **Pipeline Analytics & KPI Dashboard** — Total positions, active pipeline count, dream targets, remote positions count, and average salary midpoint calculator
+- ✅ **Interactive Positions Console** — Grid and table view toggles, multi-faceted filtering toolbar, comprehensive position creation and edit modal with full company dropdowns
+
 ---
 
 ## 🏃 How to Run CareerOS

@@ -19,15 +19,45 @@ public sealed class CreateJobCommandHandler : IRequestHandler<CreateJobCommand, 
 
     public async Task<JobDto> Handle(CreateJobCommand request, CancellationToken cancellationToken)
     {
-        var job = Job.Create(request.Title, request.Company, request.Location, request.Url);
-        job.Notes = request.Notes;
-        job.Description = request.Description;
+        string companyName = request.Company;
+        if (request.CompanyId.HasValue && string.IsNullOrWhiteSpace(companyName))
+        {
+            var company = await _uow.Companies.GetByIdAsync(request.CompanyId.Value, cancellationToken: cancellationToken);
+            if (company != null)
+            {
+                companyName = company.Name;
+            }
+        }
+
+        var job = Job.Create(
+            request.Title,
+            companyName,
+            request.CompanyId,
+            request.Location,
+            request.Url,
+            request.Priority,
+            request.EmploymentType,
+            request.WorkplaceType,
+            request.Seniority,
+            request.MinSalary,
+            request.MaxSalary,
+            request.Currency,
+            request.Salary,
+            request.Equity,
+            request.Department,
+            request.TechStack,
+            request.Deadline,
+            request.Description,
+            request.Notes);
+
         job.Status = request.Status;
-        job.Salary = request.Salary;
+        job.AppliedAt = request.AppliedAt;
+        job.InterviewAt = request.InterviewAt;
 
         await _uow.Jobs.AddAsync(job, cancellationToken);
         await _uow.SaveChangesAsync(cancellationToken);
-        return _mapper.Map<JobDto>(job);
+
+        var reloaded = await _uow.Jobs.GetByIdAsync(job.Id, cancellationToken);
+        return _mapper.Map<JobDto>(reloaded ?? job);
     }
 }
-

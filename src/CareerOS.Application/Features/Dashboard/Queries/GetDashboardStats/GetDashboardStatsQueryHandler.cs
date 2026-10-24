@@ -12,7 +12,7 @@ public sealed class GetDashboardStatsQueryHandler : IRequestHandler<GetDashboard
 
     public async Task<DashboardStatsDto> Handle(GetDashboardStatsQuery request, CancellationToken cancellationToken)
     {
-        var jobs = (await _uow.Jobs.GetAllAsync(cancellationToken)).ToList();
+        var jobs = (await _uow.Jobs.GetAllAsync(cancellationToken: cancellationToken)).ToList();
         return new DashboardStatsDto
         {
             TotalJobs = jobs.Count,
