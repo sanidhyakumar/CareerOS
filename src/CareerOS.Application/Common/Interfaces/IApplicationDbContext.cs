@@ -13,6 +13,7 @@ public interface IApplicationDbContext
     DbSet<Document> Documents { get; }
     DbSet<Tag> Tags { get; }
     DbSet<DocumentTag> DocumentTags { get; }
+    DbSet<DocumentUsage> DocumentUsages { get; }
     DbSet<UserProfile> Profiles { get; }
     DbSet<ProfileCitizenship> ProfileCitizenships { get; }
     DbSet<WorkAuthorization> WorkAuthorizations { get; }

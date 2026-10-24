@@ -1,4 +1,5 @@
 using CareerOS.Domain.Entities;
+using CareerOS.Domain.Enums;
 using CareerOS.Domain.Interfaces;
 using CareerOS.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,7 @@ public class DocumentRepository : IDocumentRepository
             .Include(d => d.Region)
             .Include(d => d.DocumentTags)
                 .ThenInclude(dt => dt.Tag)
+            .Include(d => d.Usages)
             .AsQueryable();
 
         if (latestOnly)
@@ -39,7 +41,8 @@ public class DocumentRepository : IDocumentRepository
                 .Include(d => d.Region)
                 .Include(d => d.DocumentTags)
                     .ThenInclude(dt => dt.Tag)
-                .Include(d => d.ChildVersions);
+                .Include(d => d.ChildVersions)
+                .Include(d => d.Usages);
         }
 
         return await query.FirstOrDefaultAsync(d => d.Id == id, cancellationToken);
@@ -53,6 +56,9 @@ public class DocumentRepository : IDocumentRepository
         var rootId = doc.RootDocumentId ?? doc.Id;
 
         return await _context.Documents
+            .Include(d => d.DocumentTags)
+                .ThenInclude(dt => dt.Tag)
+            .Include(d => d.Usages)
             .Where(d => d.Id == rootId || d.RootDocumentId == rootId)
             .OrderByDescending(d => d.Version)
             .ToListAsync(cancellationToken);
@@ -93,6 +99,10 @@ public class DocumentRepository : IDocumentRepository
         Guid? countryId = null,
         Guid? regionId = null,
         Guid? tagId = null,
+        DocumentCategory? category = null,
+        bool? isExpired = null,
+        int? expiringWithinDays = null,
+        bool latestOnly = true,
         CancellationToken cancellationToken = default)
     {
         var query = _context.Documents
@@ -100,7 +110,13 @@ public class DocumentRepository : IDocumentRepository
             .Include(d => d.Region)
             .Include(d => d.DocumentTags)
                 .ThenInclude(dt => dt.Tag)
+            .Include(d => d.Usages)
             .AsQueryable();
+
+        if (latestOnly)
+        {
+            query = query.Where(d => d.IsLatestVersion);
+        }
 
         if (!string.IsNullOrWhiteSpace(searchTerm))
         {
@@ -108,7 +124,14 @@ public class DocumentRepository : IDocumentRepository
             query = query.Where(d =>
                 d.OriginalFileName.ToLower().Contains(term) ||
                 (d.Description != null && d.Description.ToLower().Contains(term)) ||
+                (d.DocumentNumber != null && d.DocumentNumber.ToLower().Contains(term)) ||
+                (d.IssuingAuthority != null && d.IssuingAuthority.ToLower().Contains(term)) ||
                 d.Sha256Hash.Contains(term));
+        }
+
+        if (category.HasValue)
+        {
+            query = query.Where(d => d.Category == category.Value);
         }
 
         if (countryId.HasValue)
@@ -126,7 +149,65 @@ public class DocumentRepository : IDocumentRepository
             query = query.Where(d => d.DocumentTags.Any(dt => dt.TagId == tagId.Value));
         }
 
+        var today = DateTime.UtcNow.Date;
+
+        if (isExpired.HasValue)
+        {
+            if (isExpired.Value)
+            {
+                query = query.Where(d => d.ExpiryDate.HasValue && d.ExpiryDate.Value.Date < today);
+            }
+            else
+            {
+                query = query.Where(d => !d.ExpiryDate.HasValue || d.ExpiryDate.Value.Date >= today);
+            }
+        }
+
+        if (expiringWithinDays.HasValue)
+        {
+            var targetDate = today.AddDays(expiringWithinDays.Value);
+            query = query.Where(d => d.ExpiryDate.HasValue && d.ExpiryDate.Value.Date >= today && d.ExpiryDate.Value.Date <= targetDate);
+        }
+
         return await query.OrderByDescending(d => d.CreatedAt).ToListAsync(cancellationToken);
     }
-}
 
+    public async Task<IEnumerable<Document>> GetExpiringDocumentsAsync(int daysThreshold, CancellationToken cancellationToken = default)
+    {
+        var today = DateTime.UtcNow.Date;
+        var thresholdDate = today.AddDays(daysThreshold);
+
+        return await _context.Documents
+            .Include(d => d.Country)
+            .Include(d => d.Region)
+            .Include(d => d.DocumentTags)
+                .ThenInclude(dt => dt.Tag)
+            .Include(d => d.Usages)
+            .Where(d => d.IsLatestVersion && d.ExpiryDate.HasValue && d.ExpiryDate.Value.Date <= thresholdDate)
+            .OrderBy(d => d.ExpiryDate)
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<IEnumerable<DocumentUsage>> GetUsagesAsync(Guid documentId, CancellationToken cancellationToken = default)
+    {
+        return await _context.DocumentUsages
+            .Where(u => u.DocumentId == documentId)
+            .OrderByDescending(u => u.UsedAt)
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<DocumentUsage> AddUsageAsync(DocumentUsage usage, CancellationToken cancellationToken = default)
+    {
+        await _context.DocumentUsages.AddAsync(usage, cancellationToken);
+        return usage;
+    }
+
+    public async Task DeleteUsageAsync(Guid usageId, CancellationToken cancellationToken = default)
+    {
+        var item = await _context.DocumentUsages.FindAsync([usageId], cancellationToken);
+        if (item != null)
+        {
+            _context.DocumentUsages.Remove(item);
+        }
+    }
+}

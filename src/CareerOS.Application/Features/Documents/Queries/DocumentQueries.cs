@@ -1,6 +1,8 @@
 using AutoMapper;
 using CareerOS.Application.Common.Interfaces;
 using CareerOS.Application.Features.Documents.DTOs;
+using CareerOS.Domain.Entities;
+using CareerOS.Domain.Enums;
 using CareerOS.Domain.Exceptions;
 using CareerOS.Domain.Interfaces;
 using MediatR;
@@ -12,6 +14,9 @@ public record GetAllDocumentsQuery(
     Guid? CountryId = null,
     Guid? RegionId = null,
     Guid? TagId = null,
+    DocumentCategory? Category = null,
+    bool? IsExpired = null,
+    int? ExpiringWithinDays = null,
     bool LatestOnly = true
 ) : IRequest<IEnumerable<DocumentDto>>;
 
@@ -33,12 +38,11 @@ public sealed class GetAllDocumentsQueryHandler : IRequestHandler<GetAllDocument
             request.CountryId,
             request.RegionId,
             request.TagId,
+            request.Category,
+            request.IsExpired,
+            request.ExpiringWithinDays,
+            request.LatestOnly,
             cancellationToken);
-
-        if (request.LatestOnly)
-        {
-            documents = documents.Where(d => d.IsLatestVersion);
-        }
 
         return _mapper.Map<IEnumerable<DocumentDto>>(documents);
     }
@@ -111,3 +115,95 @@ public sealed class GetDocumentVersionsQueryHandler : IRequestHandler<GetDocumen
     }
 }
 
+public record GetExpiringDocumentsQuery(int DaysThreshold = 90) : IRequest<IEnumerable<DocumentDto>>;
+
+public sealed class GetExpiringDocumentsQueryHandler : IRequestHandler<GetExpiringDocumentsQuery, IEnumerable<DocumentDto>>
+{
+    private readonly IUnitOfWork _uow;
+    private readonly IMapper _mapper;
+
+    public GetExpiringDocumentsQueryHandler(IUnitOfWork uow, IMapper mapper)
+    {
+        _uow = uow;
+        _mapper = mapper;
+    }
+
+    public async Task<IEnumerable<DocumentDto>> Handle(GetExpiringDocumentsQuery request, CancellationToken cancellationToken)
+    {
+        var documents = await _uow.Documents.GetExpiringDocumentsAsync(request.DaysThreshold, cancellationToken);
+        return _mapper.Map<IEnumerable<DocumentDto>>(documents);
+    }
+}
+
+// Usage Queries & Commands
+public record GetDocumentUsagesQuery(Guid DocumentId) : IRequest<IEnumerable<DocumentUsageDto>>;
+
+public sealed class GetDocumentUsagesQueryHandler : IRequestHandler<GetDocumentUsagesQuery, IEnumerable<DocumentUsageDto>>
+{
+    private readonly IUnitOfWork _uow;
+    private readonly IMapper _mapper;
+
+    public GetDocumentUsagesQueryHandler(IUnitOfWork uow, IMapper mapper)
+    {
+        _uow = uow;
+        _mapper = mapper;
+    }
+
+    public async Task<IEnumerable<DocumentUsageDto>> Handle(GetDocumentUsagesQuery request, CancellationToken cancellationToken)
+    {
+        var usages = await _uow.Documents.GetUsagesAsync(request.DocumentId, cancellationToken);
+        return _mapper.Map<IEnumerable<DocumentUsageDto>>(usages);
+    }
+}
+
+public record AddDocumentUsageCommand(
+    Guid DocumentId,
+    string EntityType,
+    Guid EntityId,
+    string? EntityName = null,
+    string? Purpose = null) : IRequest<DocumentUsageDto>;
+
+public sealed class AddDocumentUsageCommandHandler : IRequestHandler<AddDocumentUsageCommand, DocumentUsageDto>
+{
+    private readonly IUnitOfWork _uow;
+    private readonly IMapper _mapper;
+
+    public AddDocumentUsageCommandHandler(IUnitOfWork uow, IMapper mapper)
+    {
+        _uow = uow;
+        _mapper = mapper;
+    }
+
+    public async Task<DocumentUsageDto> Handle(AddDocumentUsageCommand request, CancellationToken cancellationToken)
+    {
+        var doc = await _uow.Documents.GetByIdAsync(request.DocumentId, false, cancellationToken)
+            ?? throw new NotFoundException("Document", request.DocumentId);
+
+        var usage = DocumentUsage.Create(
+            doc.Id,
+            request.EntityType,
+            request.EntityId,
+            request.EntityName,
+            request.Purpose);
+
+        await _uow.Documents.AddUsageAsync(usage, cancellationToken);
+        await _uow.SaveChangesAsync(cancellationToken);
+
+        return _mapper.Map<DocumentUsageDto>(usage);
+    }
+}
+
+public record DeleteDocumentUsageCommand(Guid UsageId) : IRequest;
+
+public sealed class DeleteDocumentUsageCommandHandler : IRequestHandler<DeleteDocumentUsageCommand>
+{
+    private readonly IUnitOfWork _uow;
+
+    public DeleteDocumentUsageCommandHandler(IUnitOfWork uow) => _uow = uow;
+
+    public async Task Handle(DeleteDocumentUsageCommand request, CancellationToken cancellationToken)
+    {
+        await _uow.Documents.DeleteUsageAsync(request.UsageId, cancellationToken);
+        await _uow.SaveChangesAsync(cancellationToken);
+    }
+}

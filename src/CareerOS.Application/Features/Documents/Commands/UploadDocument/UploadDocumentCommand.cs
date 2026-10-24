@@ -2,6 +2,7 @@ using AutoMapper;
 using CareerOS.Application.Common.Interfaces;
 using CareerOS.Application.Features.Documents.DTOs;
 using CareerOS.Domain.Entities;
+using CareerOS.Domain.Enums;
 using CareerOS.Domain.Interfaces;
 using FluentValidation;
 using MediatR;
@@ -17,7 +18,12 @@ public record UploadDocumentCommand(
     Guid? CountryId = null,
     Guid? RegionId = null,
     List<Guid>? TagIds = null,
-    string? SubFolder = null
+    string? SubFolder = null,
+    DocumentCategory Category = DocumentCategory.General,
+    string? DocumentNumber = null,
+    string? IssuingAuthority = null,
+    DateTime? IssueDate = null,
+    DateTime? ExpiryDate = null
 ) : IRequest<DocumentDto>;
 
 public class UploadDocumentCommandValidator : AbstractValidator<UploadDocumentCommand>
@@ -28,6 +34,11 @@ public class UploadDocumentCommandValidator : AbstractValidator<UploadDocumentCo
         RuleFor(x => x.OriginalFileName).NotEmpty().MaximumLength(255);
         RuleFor(x => x.ContentType).NotEmpty().MaximumLength(150);
         RuleFor(x => x.FileSizeBytes).GreaterThan(0).WithMessage("File cannot be empty.");
+        RuleFor(x => x.DocumentNumber).MaximumLength(100);
+        RuleFor(x => x.IssuingAuthority).MaximumLength(200);
+        RuleFor(x => x)
+            .Must(x => !x.IssueDate.HasValue || !x.ExpiryDate.HasValue || x.ExpiryDate >= x.IssueDate)
+            .WithMessage("ExpiryDate must be greater than or equal to IssueDate.");
     }
 }
 
@@ -68,7 +79,7 @@ public sealed class UploadDocumentCommandHandler : IRequestHandler<UploadDocumen
 
         // 3. Determine unique storage path
         var folder = string.IsNullOrWhiteSpace(request.SubFolder)
-            ? $"documents/{DateTime.UtcNow:yyyy/MM}"
+            ? $"documents/{request.Category.ToString().ToLower()}/{DateTime.UtcNow:yyyy/MM}"
             : request.SubFolder.Trim('/');
 
         var storedFileName = $"{Guid.NewGuid()}{metadata.FileExtension}";
@@ -88,7 +99,12 @@ public sealed class UploadDocumentCommandHandler : IRequestHandler<UploadDocumen
             metadata.Sha256Hash,
             request.Description,
             request.CountryId,
-            request.RegionId);
+            request.RegionId,
+            request.Category,
+            request.DocumentNumber,
+            request.IssuingAuthority,
+            request.IssueDate,
+            request.ExpiryDate);
 
         // 6. Attach tags if provided
         if (request.TagIds != null && request.TagIds.Count > 0)
@@ -113,4 +129,3 @@ public sealed class UploadDocumentCommandHandler : IRequestHandler<UploadDocumen
         return _mapper.Map<DocumentDto>(created ?? document);
     }
 }
-

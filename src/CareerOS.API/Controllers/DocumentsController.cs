@@ -4,6 +4,7 @@ using CareerOS.Application.Features.Documents.Commands.UploadDocument;
 using CareerOS.Application.Features.Documents.Commands.UploadDocumentVersion;
 using CareerOS.Application.Features.Documents.DTOs;
 using CareerOS.Application.Features.Documents.Queries;
+using CareerOS.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,10 +25,26 @@ public class DocumentsController : ControllerBase
         [FromQuery] Guid? countryId,
         [FromQuery] Guid? regionId,
         [FromQuery] Guid? tagId,
+        [FromQuery] DocumentCategory? category,
+        [FromQuery] bool? isExpired,
+        [FromQuery] int? expiringWithinDays,
         [FromQuery] bool latestOnly = true,
         CancellationToken cancellationToken = default)
     {
-        var result = await _mediator.Send(new GetAllDocumentsQuery(searchTerm, countryId, regionId, tagId, latestOnly), cancellationToken);
+        var result = await _mediator.Send(new GetAllDocumentsQuery(
+            searchTerm, countryId, regionId, tagId, category, isExpired, expiringWithinDays, latestOnly),
+            cancellationToken);
+
+        return Ok(result);
+    }
+
+    [HttpGet("expiring")]
+    [ProducesResponseType(typeof(IEnumerable<DocumentDto>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetExpiring(
+        [FromQuery] int daysThreshold = 90,
+        CancellationToken cancellationToken = default)
+    {
+        var result = await _mediator.Send(new GetExpiringDocumentsQuery(daysThreshold), cancellationToken);
         return Ok(result);
     }
 
@@ -68,7 +85,12 @@ public class DocumentsController : ControllerBase
         [FromForm] Guid? regionId,
         [FromForm] List<Guid>? tagIds,
         [FromForm] string? subFolder,
-        CancellationToken cancellationToken)
+        [FromForm] DocumentCategory category = DocumentCategory.General,
+        [FromForm] string? documentNumber = null,
+        [FromForm] string? issuingAuthority = null,
+        [FromForm] DateTime? issueDate = null,
+        [FromForm] DateTime? expiryDate = null,
+        CancellationToken cancellationToken = default)
     {
         if (file == null || file.Length == 0)
         {
@@ -85,7 +107,12 @@ public class DocumentsController : ControllerBase
             countryId,
             regionId,
             tagIds,
-            subFolder);
+            subFolder,
+            category,
+            documentNumber,
+            issuingAuthority,
+            issueDate,
+            expiryDate);
 
         var result = await _mediator.Send(command, cancellationToken);
         return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
@@ -99,7 +126,12 @@ public class DocumentsController : ControllerBase
         Guid id,
         IFormFile file,
         [FromForm] string? description,
-        CancellationToken cancellationToken)
+        [FromForm] DocumentCategory? category,
+        [FromForm] string? documentNumber,
+        [FromForm] string? issuingAuthority,
+        [FromForm] DateTime? issueDate,
+        [FromForm] DateTime? expiryDate,
+        CancellationToken cancellationToken = default)
     {
         if (file == null || file.Length == 0)
         {
@@ -113,7 +145,12 @@ public class DocumentsController : ControllerBase
             file.FileName,
             file.ContentType,
             file.Length,
-            description);
+            description,
+            category,
+            documentNumber,
+            issuingAuthority,
+            issueDate,
+            expiryDate);
 
         var result = await _mediator.Send(command, cancellationToken);
         return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
@@ -143,7 +180,42 @@ public class DocumentsController : ControllerBase
         await _mediator.Send(new DeleteDocumentCommand(id, deletePhysicalFile), cancellationToken);
         return NoContent();
     }
+
+    // Usage Tracking Endpoints
+    [HttpGet("{id:guid}/usage")]
+    [ProducesResponseType(typeof(IEnumerable<DocumentUsageDto>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetUsages(Guid id, CancellationToken cancellationToken)
+    {
+        var result = await _mediator.Send(new GetDocumentUsagesQuery(id), cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpPost("{id:guid}/usage")]
+    [ProducesResponseType(typeof(DocumentUsageDto), StatusCodes.Status201Created)]
+    public async Task<IActionResult> AddUsage(
+        Guid id,
+        [FromBody] AddDocumentUsageRequest request,
+        CancellationToken cancellationToken)
+    {
+        var command = new AddDocumentUsageCommand(
+            id,
+            request.EntityType,
+            request.EntityId,
+            request.EntityName,
+            request.Purpose);
+
+        var result = await _mediator.Send(command, cancellationToken);
+        return CreatedAtAction(nameof(GetUsages), new { id }, result);
+    }
+
+    [HttpDelete("usage/{usageId:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public async Task<IActionResult> DeleteUsage(Guid usageId, CancellationToken cancellationToken)
+    {
+        await _mediator.Send(new DeleteDocumentUsageCommand(usageId), cancellationToken);
+        return NoContent();
+    }
 }
 
 public record MoveDocumentRequest(string TargetSubFolder);
-
+public record AddDocumentUsageRequest(string EntityType, Guid EntityId, string? EntityName = null, string? Purpose = null);

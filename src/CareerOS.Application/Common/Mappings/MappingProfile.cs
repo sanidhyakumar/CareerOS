@@ -26,9 +26,11 @@ public class MappingProfile : Profile
         CreateMap<Document, DocumentDto>()
             .ForMember(d => d.CountryName, opt => opt.MapFrom(s => s.Country != null ? s.Country.Name : null))
             .ForMember(d => d.RegionName, opt => opt.MapFrom(s => s.Region != null ? s.Region.Name : null))
-            .ForMember(d => d.Tags, opt => opt.MapFrom(s => s.DocumentTags.Select(dt => dt.Tag)));
+            .ForMember(d => d.Tags, opt => opt.MapFrom(s => s.DocumentTags.Select(dt => dt.Tag)))
+            .ForMember(d => d.Usages, opt => opt.MapFrom(s => s.Usages));
 
         CreateMap<Document, DocumentVersionDto>();
+        CreateMap<DocumentUsage, DocumentUsageDto>();
 
         // Phase 2: Personal Profile mappings
         CreateMap<UserProfile, UserProfileDto>();

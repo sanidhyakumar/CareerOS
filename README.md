@@ -63,6 +63,14 @@ CareerOS.API             → Controllers, Middleware, Serilog, Swagger
 - ✅ **Social & Portfolio Links** — LinkedIn, GitHub, personal site, and tech platform footprint with custom ordering
 - ✅ **Unified Profile UI** — Multi-tabbed responsive React interface with live validation, dialogs, and country dropdowns
 
+### Phase 3 — Document Vault
+- ✅ **Document Vault Categories** — Segregated categorization across Identity, Academics, Certifications, Employment, Immigration, and General
+- ✅ **Expiry Tracking & Proactive Alerts** — Document number, issuing authority, issue date, expiration date, days-until-expiry calculations, and visual alert indicators (Expired, Expiring Soon, Active)
+- ✅ **Document Usage Tracking** — Entity-linkage audit trail (Applications, Companies, Visas, Work Authorizations) tracking where and why each document was used or submitted
+- ✅ **Advanced Search & Category Filtering** — Quick tabbed filtering by category, text search across descriptions and document numbers, and expiry status filters
+- ✅ **Document Version Control** — Version chains preserving previous revisions while maintaining document identity and linked usages
+- ✅ **Rich Vault UI** — Modern tabbed Material UI vault interface with category badges, expiration status alerts, usage viewer dialog, and version management
+
 ---
 
 ## 🏃 How to Run CareerOS

@@ -16,6 +16,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Document> Documents => Set<Document>();
     public DbSet<Tag> Tags => Set<Tag>();
     public DbSet<DocumentTag> DocumentTags => Set<DocumentTag>();
+    public DbSet<DocumentUsage> DocumentUsages => Set<DocumentUsage>();
     public DbSet<UserProfile> Profiles => Set<UserProfile>();
     public DbSet<ProfileCitizenship> ProfileCitizenships => Set<ProfileCitizenship>();
     public DbSet<WorkAuthorization> WorkAuthorizations => Set<WorkAuthorization>();

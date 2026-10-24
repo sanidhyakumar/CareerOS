@@ -2,6 +2,7 @@ using AutoMapper;
 using CareerOS.Application.Common.Interfaces;
 using CareerOS.Application.Features.Documents.DTOs;
 using CareerOS.Domain.Entities;
+using CareerOS.Domain.Enums;
 using CareerOS.Domain.Exceptions;
 using CareerOS.Domain.Interfaces;
 using FluentValidation;
@@ -15,7 +16,12 @@ public record UploadDocumentVersionCommand(
     string OriginalFileName,
     string ContentType,
     long FileSizeBytes,
-    string? Description = null
+    string? Description = null,
+    DocumentCategory? Category = null,
+    string? DocumentNumber = null,
+    string? IssuingAuthority = null,
+    DateTime? IssueDate = null,
+    DateTime? ExpiryDate = null
 ) : IRequest<DocumentDto>;
 
 public class UploadDocumentVersionCommandValidator : AbstractValidator<UploadDocumentVersionCommand>
@@ -26,6 +32,11 @@ public class UploadDocumentVersionCommandValidator : AbstractValidator<UploadDoc
         RuleFor(x => x.FileStream).NotNull();
         RuleFor(x => x.OriginalFileName).NotEmpty();
         RuleFor(x => x.FileSizeBytes).GreaterThan(0);
+        RuleFor(x => x.DocumentNumber).MaximumLength(100);
+        RuleFor(x => x.IssuingAuthority).MaximumLength(200);
+        RuleFor(x => x)
+            .Must(x => !x.IssueDate.HasValue || !x.ExpiryDate.HasValue || x.ExpiryDate >= x.IssueDate)
+            .WithMessage("ExpiryDate must be greater than or equal to IssueDate.");
     }
 }
 
@@ -84,7 +95,12 @@ public sealed class UploadDocumentVersionCommandHandler : IRequestHandler<Upload
             metadata.FileSizeBytes,
             finalStoragePath,
             metadata.Sha256Hash,
-            request.Description);
+            request.Description,
+            request.Category,
+            request.DocumentNumber,
+            request.IssuingAuthority,
+            request.IssueDate,
+            request.ExpiryDate);
 
         // Copy tags from existing document
         foreach (var dt in existingDoc.DocumentTags)
@@ -96,6 +112,17 @@ public sealed class UploadDocumentVersionCommandHandler : IRequestHandler<Upload
             });
         }
 
+        // Copy usages from existing document
+        foreach (var usage in existingDoc.Usages)
+        {
+            newVersion.Usages.Add(DocumentUsage.Create(
+                newVersion.Id,
+                usage.EntityType,
+                usage.EntityId,
+                usage.EntityName,
+                usage.Purpose));
+        }
+
         await _uow.Documents.UpdateAsync(existingDoc, cancellationToken);
         await _uow.Documents.AddAsync(newVersion, cancellationToken);
         await _uow.SaveChangesAsync(cancellationToken);
@@ -104,4 +131,3 @@ public sealed class UploadDocumentVersionCommandHandler : IRequestHandler<Upload
         return _mapper.Map<DocumentDto>(created ?? newVersion);
     }
 }
-
