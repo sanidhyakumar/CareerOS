@@ -339,6 +339,7 @@ try
     app.UseCors("AllowAll");
     app.MapControllers();
     app.MapGet("/health", () => Results.Ok(new { status = "Healthy", timestamp = DateTime.UtcNow, service = "CareerOS Local-First" }));
+    app.MapGet("/api/health", () => Results.Ok(new { status = "Healthy", timestamp = DateTime.UtcNow, service = "CareerOS Local-First" }));
 
     app.Run();
 }

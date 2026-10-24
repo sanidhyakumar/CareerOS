@@ -65,15 +65,3 @@ public class ContactStatsDto
     public int StarredCount { get; set; }
 }
 
-public class ContactStatsDto
-{
-    public int TotalContacts { get; set; }
-    public int RecruitersCount { get; set; }
-    public int HiringManagersCount { get; set; }
-    public int HumanResourcesCount { get; set; }
-    public int ReferralsCount { get; set; }
-    public int ImmigrationCount { get; set; }
-    public int FollowUpsDueCount { get; set; }
-    public int StarredCount { get; set; }
-}
-
