@@ -21,6 +21,7 @@ Welcome to **CareerOS**, your **100% Local-First Career Management Operating Sys
 14. [Global Search Spotlight (Ctrl+K)](#14-global-search-spotlight-ctrlk)
 15. [Career Intelligence & Analytics](#15-career-intelligence--analytics)
 16. [Import, Export & Data Portability](#16-import-export--data-portability)
+17. [Data Safety, Deletion & Immutability Guarantee](#17-data-safety-deletion--immutability-guarantee)
 
 ---
 
@@ -223,6 +224,29 @@ Navigate to **Backup & Export** (`/portability`) to safeguard your data:
 - **Tabular CSV Spreadsheets**: Export Jobs, Applications, Companies, and Contacts for analysis in Excel or Google Sheets.
 - **Markdown Wiki Export**: Export your knowledge base and STAR stories into standalone markdown files ready for Obsidian or Notion.
 - **JSON Restore Engine**: Restore complete system snapshots with transaction safety and conflict detection.
+
+---
+
+## 17. Data Safety, Deletion & Immutability Guarantee
+
+CareerOS operates on a strict zero-compromise data governance model:
+
+### 🗑️ User-Confirmed Permanent Deletion Only
+- **Zero Soft-Delete Overhead**: When you delete an application, contact, interview, or credential, it is permanently deleted from SQLite. CareerOS does not hide records behind shadow flags (`IsDeleted`).
+- **Explicit Confirmation Dialogs**: Every deletion requires an explicit confirmation modal. Accidental single-click deletions are impossible.
+- **Physical File Control**: When deleting documents, you choose whether to delete only the database entry or also purge the physical file on disk.
+
+### 🚫 No Automatic or Silent Data Purging
+- CareerOS **never** silently deletes or prunes your data in the background.
+- Follow-up reminders, document expiration notices, and stale application flags are purely informative alerts to aid your decision making. They will never alter or purge your records automatically.
+
+### 📜 Immutability via Versioning & Snapshots
+- **Document Versioning**: Rather than overwriting or soft-deleting past files, the Document Vault tracks full version lineages (`v1`, `v2`, etc.). You retain access to prior revisions whenever you upload a newer copy.
+- **Cryptographic Submission Snapshots**: When you submit an application, CareerOS creates an immutable cryptographic snapshot freezing the exact resume version, SHA-256 hash, and cover letter markdown used at that exact moment. Updating your resume later never alters historical application evidence.
+
+### 🔄 Data Preservation & Additive Upgrades
+- All future CareerOS updates use migration-safe, additive schema transitions (`CREATE TABLE IF NOT EXISTS`, `ALTER TABLE ... ADD COLUMN ...`).
+- Your local database (`data/careeros.db`) and files are 100% preserved and will never be overwritten or lost during version updates.
 
 ---
 

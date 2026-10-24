@@ -15,6 +15,10 @@
 | **Zero Cloud / Zero SaaS** | No external APIs, telemetry, phone-home telemetry, or third-party hosted dependencies. |
 | **Cryptographic Sovereignty** | Sensitive credentials and portal secrets are encrypted locally using AES-256-GCM derived via PBKDF2 from a user master passphrase never stored on disk. |
 | **Portability via Git & Local Storage** | Database state and storage folders are completely portable and can be checked into private Git repositories or backed up to encrypted external storage. |
+| **No Soft Delete** | Strictly zero soft delete. No `IsDeleted`, `DeletedAt`, or `DeletedBy` columns. User-confirmed permanent deletion only. |
+| **Zero Automatic Data Deletion** | No silent background purges, retention TTLs, or automated record deletions. User has total data sovereignty. |
+| **Additive & Backward-Compatible Evolution** | All SQLite migrations are additive, preserving existing user data without breaking schema transitions. |
+| **Historical Immutability via Versioning & Snapshots** | Document versioning chains and cryptographic submission snapshots preserve history without soft-delete shadow records. |
 
 ---
 
@@ -189,6 +193,56 @@ Validated via `BenchmarkService` under synthetic enterprise workloads:
 - **10,000 Applications**: Ingestion throughput > 1,200 records/sec; P95 query latency < 1.8 ms.
 - **50,000 Documents Metadata**: Ingestion throughput > 2,500 records/sec; P95 query latency < 2.4 ms.
 - **100,000 SQLite FTS5 Search Records**: Ingestion throughput > 3,200 records/sec; BM25 search latency < 3.1 ms.
+
+---
+
+## 9. Data Deletion, Immutability & Schema Evolution Architecture
+
+CareerOS enforces a strict architectural policy regarding data lifecycle, deletion semantics, and schema evolutions:
+
+```mermaid
+graph LR
+    subgraph DeletionPolicy["Permanent User-Confirmed Deletion"]
+        UIConfirm["User Explicit Confirmation Dialog"] --> Cmd["CQRS DeleteCommand"]
+        Cmd --> EFDelete["Permanent Database Delete (No Soft-Delete)"]
+        Cmd --> FileDelete["Optional Physical File Purge"]
+    end
+    subgraph Immutability["Historical Integrity via Versioning"]
+        DocV["Document Version Chain (v1, v2, RootId)"]
+        AppSnap["Immutable Submission Snapshot (SHA-256 + Frozen Text)"]
+    end
+```
+
+### Architectural Policy Directives
+
+1. **Strictly No Soft Delete**:
+   - Soft-delete patterns (retaining ghost records with hidden status flags) bloat local SQLite files, degrade index performance, and violate user trust in a local-first system.
+   - When a user deletes an application, contact, company, document, interview, or credential, it is permanently removed from the database via SQL `DELETE`.
+
+2. **No `IsDeleted`, `DeletedAt`, or `DeletedBy` Fields**:
+   - Domain entities, EF Core configurations, and database tables must never declare `IsDeleted`, `DeletedAt`, `DeletedBy`, or equivalent shadow flags.
+   - The query model remains completely clean with zero global query filtering overhead (`HasQueryFilter(e => !e.IsDeleted)`).
+
+3. **User-Confirmed Deletion Only**:
+   - All delete actions in the user interface require explicit confirmation dialogs before dispatching deletion commands.
+   - Accidental single-click deletions are completely prevented across all application screens.
+
+4. **Zero Automatic / Silent Data Deletion**:
+   - The system never executes automatic background purges, TTL data expirations, or silent record cleanups.
+   - Follow-up reminders, stale application warnings, and expiring document alerts are strictly informational notifications; they never trigger automatic record alteration or deletion.
+
+5. **Backward-Compatible Schema Evolution & Data Preservation**:
+   - Upgrades must preserve 100% of existing user data across database versions.
+   - EF Core and raw SQLite migrations must always use additive changes:
+     - `CREATE TABLE IF NOT EXISTS`
+     - `CREATE INDEX IF NOT EXISTS`
+     - `ALTER TABLE ... ADD COLUMN ...` with nullability or sensible defaults.
+   - Never drop existing user columns or destructively recreate existing tables during version upgrades.
+
+6. **Historical Immutability via Versioning & Snapshots**:
+   - Rather than relying on soft delete to maintain history, CareerOS implements explicit first-class architectural constructs:
+     - **Document Versioning**: Revisions are modeled as explicit child entities (`Version`, `IsLatestVersion`, `RootDocumentId`), preserving previous file revisions as queryable versions.
+     - **Application Snapshots**: When a resume is submitted to a company, `ApplicationSnapshot` cryptographically freezes the exact resume text, SHA-256 hash, and cover letter markdown at that moment in time. Subsequent edits to base resumes never alter past application history.
 
 ---
 

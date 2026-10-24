@@ -12,6 +12,11 @@ CareerOS is a **100% Local-First Career Management Operating System**. This chec
 - [x] **CQRS & MediatR Pipeline**: Commands and Queries routed via MediatR with centralized FluentValidation behaviors.
 - [x] **Local-First & Offline First**: Zero cloud dependencies, zero external tracking, zero phone-home calls. All data, metadata, search indexes, and binary documents remain strictly on the host machine.
 - [x] **Multi-Profile Root Ownership Boundary**: `CareerProfile` aggregate root governs 100% of all entities (Documents, Applications, Interviews, Contacts, Resumes, Sponsorships, Knowledge Base, Credentials).
+- [x] **No Soft Delete Policy**: Verified 100% absence of `IsDeleted`, `DeletedAt`, or `DeletedBy` columns across all domain entities and EF Core configurations.
+- [x] **User-Confirmed Permanent Deletion**: Verified that all frontend views require explicit confirmation prompts before executing delete commands.
+- [x] **Zero Automatic Data Deletion**: Verified that no background service, TTL worker, or cron job silently deletes or alters user records.
+- [x] **Additive Schema Migrations & Data Preservation**: Verified that all database initialization scripts and migrations use additive changes (`CREATE TABLE IF NOT EXISTS`, `ALTER TABLE ... ADD COLUMN ...`), preserving 100% of existing user data during upgrades.
+- [x] **Historical Immutability via Versioning & Snapshots**: Verified that document history is maintained via explicit version chains (`Document.Version`) and application submissions are frozen in immutable cryptographic snapshots (`ApplicationSnapshot`).
 
 ---
 

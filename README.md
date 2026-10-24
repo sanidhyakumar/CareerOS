@@ -37,6 +37,17 @@ CareerOS.Infrastructure  → EF Core 9, SQLite, Repositories, Unit of Work
 CareerOS.API             → Controllers, Middleware, Serilog, Swagger
 ```
 
+## Core Principles & Data Governance
+
+| Principle | Policy & Implementation |
+|---|---|
+| **100% Local-First** | All data lives in local SQLite (`data/careeros.db`) and local filesystem vault (`data/storage/`). Zero telemetry, zero external APIs, zero SaaS lock-in. |
+| **No Soft Delete** | Soft delete patterns are strictly prohibited. Zero `IsDeleted`, `DeletedAt`, or `DeletedBy` columns. When records are deleted, they are permanently removed via SQL `DELETE`. |
+| **User-Confirmed Permanent Deletion** | Every deletion requires explicit user confirmation in the UI. No accidental deletions. |
+| **Zero Automatic Data Deletion** | The system never silently deletes, prunes, or purges user data via background jobs, TTLs, or retention policies. Reminders are strictly non-destructive alerts. |
+| **Additive Schema Evolutions** | All upgrades preserve 100% of existing user data through backward-compatible, additive schema migrations (`CREATE TABLE IF NOT EXISTS`, `ALTER TABLE ... ADD COLUMN ...`). |
+| **Immutability via Versioning & Snapshots** | Document history is tracked via explicit version chains (`Document.Version`, `ChildVersions`). Application submissions are frozen in immutable cryptographic snapshots (`ApplicationSnapshot`). |
+
 ## Features
 
 ### Phase 0 — Foundation & Architecture
@@ -52,7 +63,7 @@ CareerOS.API             → Controllers, Middleware, Serilog, Swagger
 - ✅ **File Storage Service** — Local filesystem storage engine with folder segregation, stream reading, and file lifecycle
 - ✅ **Metadata Engine** — Cryptographic SHA-256 hash calculation, MIME type detection, byte sizing, and version tracking
 - ✅ **Document Versioning** — Immutable version chain (`version`, `isLatestVersion`, `rootDocumentId`) with parent-child linkage
-- ✅ **File Operations** — Upload, new version upload, move across subfolders, download, and cascade delete
+- ✅ **File Operations** — Upload, new version upload, move across subfolders, download, and user-confirmed permanent delete
 - ✅ **Document Management UI** — React + TypeScript + Material UI interface for browsing, filtering, uploading, and version viewing
 
 ### Phase 2 — Personal Profile

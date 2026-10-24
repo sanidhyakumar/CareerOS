@@ -23,11 +23,14 @@ Non-negotiable requirements:
 
 When implementing any new feature:
 
-- Preserve existing data.
-- Prefer additive changes.
-- Use migration-safe schema evolution.
-- Use soft-delete instead of hard-delete.
-- Never remove user files.
+- Preserve existing data during upgrades.
+- Use additive schema changes whenever possible.
+- Use backward-compatible, migration-safe schema evolution.
+- Strictly NO soft delete: no IsDeleted, DeletedAt, or DeletedBy fields.
+- User-confirmed permanent deletion only (explicit confirmation required before any delete).
+- Strictly NO automatic data deletion (no silent background purging, retention TTLs, or automatic cleanup).
+- Never remove user files without explicit user confirmation.
+- Keep document versioning and immutable application snapshots to preserve history.
 - Maintain backward compatibility.
 - Provide automatic migration scripts for upgrades.
 - Existing CareerProfiles must continue working without modification.
