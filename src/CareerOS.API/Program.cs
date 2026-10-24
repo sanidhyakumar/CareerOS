@@ -1,5 +1,6 @@
 using CareerOS.API.Middleware;
 using CareerOS.Application;
+using CareerOS.Domain.Interfaces;
 using CareerOS.Infrastructure;
 using CareerOS.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -171,8 +172,34 @@ try
                 );
                 CREATE INDEX IF NOT EXISTS ""IX_ReminderItems_DeduplicationKey"" ON ""ReminderItems"" (""DeduplicationKey"");
                 CREATE INDEX IF NOT EXISTS ""IX_ReminderItems_IsDismissed_IsSnoozed"" ON ""ReminderItems"" (""IsDismissed"", ""IsSnoozed"");
+
+                CREATE VIRTUAL TABLE IF NOT EXISTS GlobalSearchEntries USING fts5(
+                    EntityId UNINDEXED,
+                    EntityType UNINDEXED,
+                    Title,
+                    Subtitle,
+                    Content,
+                    Tags,
+                    ActionUrl UNINDEXED,
+                    tokenize = 'porter unicode61'
+                );
             ");
             Log.Information("Database initialization completed.");
+
+            try
+            {
+                var searchService = scope.ServiceProvider.GetRequiredService<ISearchService>();
+                var stats = await searchService.GetSearchStatsAsync();
+                if (stats.Values.Sum() == 0)
+                {
+                    Log.Information("Initial search index is empty. Populating FTS5 index across all entities...");
+                    await searchService.ReindexAllAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Warning(ex, "Search index initialization warning, continuing.");
+            }
         }
         catch (Exception ex)
         {

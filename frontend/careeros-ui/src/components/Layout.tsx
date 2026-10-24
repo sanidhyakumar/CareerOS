@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import {
   Box, Drawer, AppBar, Toolbar, Typography, List, ListItemButton,
   ListItemIcon, ListItemText, IconButton, Divider, Avatar, Tooltip,
 } from '@mui/material'
 import DashboardIcon from '@mui/icons-material/Dashboard'
+import SearchIcon from '@mui/icons-material/Search'
 import WorkIcon from '@mui/icons-material/Work'
 import PeopleIcon from '@mui/icons-material/People'
 import DescriptionIcon from '@mui/icons-material/Description'
@@ -20,12 +21,14 @@ import MenuBookIcon from '@mui/icons-material/MenuBook'
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff'
 import ViewKanbanIcon from '@mui/icons-material/ViewKanban'
 import AlarmOnIcon from '@mui/icons-material/AlarmOn'
+import { SearchModal } from './SearchModal'
 
 const DRAWER_WIDTH = 240
 const DRAWER_COLLAPSED = 72
 
 const navItems = [
   { label: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard' },
+  { label: 'Global Search', icon: <SearchIcon />, path: '/search' },
   { label: 'Profile', icon: <PersonIcon />, path: '/profile' },
   { label: 'Companies', icon: <BusinessIcon />, path: '/companies' },
   { label: 'Jobs', icon: <WorkIcon />, path: '/jobs' },
@@ -44,13 +47,29 @@ interface LayoutProps { children: React.ReactNode }
 
 export default function Layout({ children }: LayoutProps) {
   const [open, setOpen] = useState(true)
+  const [isSearchOpen, setIsSearchOpen] = useState(false)
   const location = useLocation()
   const navigate = useNavigate()
 
   const drawerWidth = open ? DRAWER_WIDTH : DRAWER_COLLAPSED
 
+  // Global shortcut Ctrl+K / Cmd+K
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault()
+        setIsSearchOpen(true)
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
+
   return (
     <Box sx={{ display: 'flex', height: '100vh', overflow: 'hidden' }}>
+      {/* Search Modal Spotlight */}
+      <SearchModal open={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
+
       {/* Sidebar */}
       <Drawer
         variant="permanent"
@@ -80,7 +99,7 @@ export default function Layout({ children }: LayoutProps) {
           </IconButton>
         </Toolbar>
         <Divider />
-        <List sx={{ pt: 1 }}>
+        <List sx={{ pt: 1, overflowY: 'auto', flexGrow: 1 }}>
           {navItems.map((item) => {
             const active = location.pathname === item.path
             return (
@@ -108,7 +127,7 @@ export default function Layout({ children }: LayoutProps) {
             )
           })}
         </List>
-        <Box sx={{ mt: 'auto', p: 2, display: 'flex', alignItems: 'center', gap: 1.5 }}>
+        <Box sx={{ mt: 'auto', p: 2, display: 'flex', alignItems: 'center', gap: 1.5, borderTop: '1px solid rgba(255,255,255,0.08)' }}>
           <Avatar sx={{ width: 36, height: 36, bgcolor: 'primary.main', fontSize: 14 }}>U</Avatar>
           {open && (
             <Box>
@@ -126,11 +145,56 @@ export default function Layout({ children }: LayoutProps) {
           elevation={0}
           sx={{ bgcolor: 'background.paper', borderBottom: '1px solid rgba(255,255,255,0.08)' }}
         >
-          <Toolbar>
+          <Toolbar sx={{ gap: 2 }}>
             <Typography variant="h6" fontWeight={600} color="text.primary">
               {navItems.find((n) => n.path === location.pathname)?.label ?? 'CareerOS'}
             </Typography>
+
             <Box sx={{ flexGrow: 1 }} />
+
+            {/* Quick Search Trigger */}
+            <Box
+              onClick={() => setIsSearchOpen(true)}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+                bgcolor: 'action.hover',
+                border: '1px solid',
+                borderColor: 'divider',
+                borderRadius: 2,
+                px: 2,
+                py: 0.6,
+                cursor: 'pointer',
+                color: 'text.secondary',
+                transition: 'all 0.2s',
+                '&:hover': {
+                  borderColor: 'primary.main',
+                  bgcolor: 'action.selected',
+                },
+              }}
+            >
+              <SearchIcon fontSize="small" />
+              <Typography variant="body2" sx={{ fontSize: '0.875rem' }}>
+                Search CareerOS...
+              </Typography>
+              <Box
+                sx={{
+                  bgcolor: 'background.paper',
+                  border: '1px solid',
+                  borderColor: 'divider',
+                  borderRadius: 1,
+                  px: 0.6,
+                  py: 0.1,
+                  fontSize: '0.7rem',
+                  fontWeight: 600,
+                  ml: 1,
+                }}
+              >
+                Ctrl K
+              </Box>
+            </Box>
+
             <Typography variant="caption" color="text.secondary">
               v0.1.0 · Local-First
             </Typography>
@@ -143,4 +207,3 @@ export default function Layout({ children }: LayoutProps) {
     </Box>
   )
 }
-

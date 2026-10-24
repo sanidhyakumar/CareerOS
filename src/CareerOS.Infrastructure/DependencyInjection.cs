@@ -44,6 +44,9 @@ public static class DependencyInjection
         services.AddScoped<IKanbanRepository, KanbanRepository>();
         services.AddScoped<IReminderRepository, ReminderRepository>();
 
+        // Search Service (SQLite FTS5)
+        services.AddScoped<ISearchService, SearchService>();
+
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return services;

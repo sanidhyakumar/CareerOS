@@ -159,6 +159,14 @@ CareerOS.API             → Controllers, Middleware, Serilog, Swagger
 - ✅ **Custom Reminders** — Ability to author custom action items and interview follow-up directives with direct navigation links
 - ✅ **Follow-Up Reminder Dashboard** — Dedicated console with category filter tabs, high/critical urgency alerts, on-demand proactive scanner trigger, and instant action launchers
 
+### Phase 14 — Global Search
+- ✅ **SQLite FTS5 Full-Text Search Engine** — Virtual table `GlobalSearchEntries` utilizing SQLite's built-in FTS5 module with Porter stemming and Unicode61 tokenization
+- ✅ **Unified Cross-Entity Indexing** — Comprehensive catalog indexing across 7 core entities: Companies, Jobs, Applications, Contacts, Documents, Knowledge Base (Wiki), and Interviews
+- ✅ **BM25 Relevance Scoring & Snippet Generation** — Native SQLite FTS5 `bm25()` ranking function combined with `snippet()` extraction highlighting search terms in HTML `<mark>` tags
+- ✅ **Resilient Fallback Mechanism** — Automatic token sanitization, prefix matching (`"term"*`), and zero-downtime LIKE query fallback for special characters or partial keywords
+- ✅ **Global Quick Search Spotlight (Ctrl+K)** — Instant modal command palette accessible anywhere across CareerOS with live debounced search, keyboard navigation (↑/↓/Enter), and direct entity deep-linking
+- ✅ **Dedicated Search Center UI** — Full-page search console at `/search` featuring real-time index metrics, category facet filtering, BM25 score chips, and on-demand index rebuild trigger
+
 ---
 
 ## 🏃 How to Run CareerOS
