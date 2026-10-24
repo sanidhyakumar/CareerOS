@@ -184,6 +184,14 @@ CareerOS.API             → Controllers, Middleware, Serilog, Swagger
 - ✅ **Built-in Strong Password Generator** — Cryptographically secure (`crypto.getRandomValues`) random 16-character password generator with symbols and numbers
 - ✅ **Interactive Security Console UI** — Master passphrase setup and unlock modals, password reveal toggles, quick copy-to-clipboard, and password age review indicators
 
+### Phase 17 — Import Export & Data Portability
+- ✅ **Complete Data Portability Archive (ZIP)** — All-in-one export bundling the full JSON database state, tabular CSV files, Markdown knowledge base articles, and SHA-256 checksum manifest
+- ✅ **Database Backup & Restore (JSON)** — Complete relational database snapshot engine preserving companies, positions, applications, contacts, and wiki stories with JSON schema validation
+- ✅ **Spreadsheet Exports (CSV)** — Tabular UTF-8 CSV exports for Jobs, Applications, Companies, and Contacts ready for Excel and Google Sheets
+- ✅ **Personal Wiki & STAR Stories Export (Markdown)** — Clean `.md` file export organized by folder category with YAML frontmatter, compatible with Obsidian and Notion
+- ✅ **JSON Restore & Import Engine** — Safe database restore with conflict resolution, transaction rollback protection, and detailed import summary telemetry
+- ✅ **Dedicated Portability Console UI** — Multi-card download launchers, responsive drag-and-drop JSON restore zone, and real-time import summary dialog
+
 ---
 
 ## 🏃 How to Run CareerOS

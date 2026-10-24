@@ -22,6 +22,7 @@ import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff'
 import ViewKanbanIcon from '@mui/icons-material/ViewKanban'
 import AlarmOnIcon from '@mui/icons-material/AlarmOn'
 import LockIcon from '@mui/icons-material/Lock'
+import ImportExportIcon from '@mui/icons-material/ImportExport'
 import { SearchModal } from './SearchModal'
 
 const DRAWER_WIDTH = 240
@@ -43,6 +44,7 @@ const navItems = [
   { label: 'Resumes', icon: <DescriptionIcon />, path: '/resumes' },
   { label: 'Documents', icon: <FolderIcon />, path: '/documents' },
   { label: 'Security Vault', icon: <LockIcon />, path: '/security' },
+  { label: 'Backup & Export', icon: <ImportExportIcon />, path: '/portability' },
 ]
 
 interface LayoutProps { children: React.ReactNode }

@@ -52,6 +52,9 @@ public static class DependencyInjection
         services.AddSingleton<IEncryptionService, AesGcmEncryptionService>();
         services.AddSingleton<ISecurityKeyManager, SecurityKeyManager>();
 
+        // Data Portability & Import/Export
+        services.AddScoped<IDataPortabilityService, DataPortabilityService>();
+
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return services;
