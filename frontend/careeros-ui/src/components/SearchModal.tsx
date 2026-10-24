@@ -265,6 +265,20 @@ export const SearchModal: React.FC<SearchModalProps> = ({ open, onClose }) => {
                             color: colorInfo.text,
                           }}
                         />
+                        {item.profileName && (
+                          <Chip
+                            label={item.profileName}
+                            size="small"
+                            sx={{
+                              height: 18,
+                              fontSize: '0.65rem',
+                              fontWeight: 700,
+                              backgroundColor: `${item.profileColor || '#2563eb'}22`,
+                              color: item.profileColor || '#2563eb',
+                              border: `1px solid ${item.profileColor || '#2563eb'}55`,
+                            }}
+                          />
+                        )}
                       </Box>
                     }
                     secondary={

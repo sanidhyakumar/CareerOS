@@ -192,6 +192,15 @@ CareerOS.API             → Controllers, Middleware, Serilog, Swagger
 - ✅ **JSON Restore & Import Engine** — Safe database restore with conflict resolution, transaction rollback protection, and detailed import summary telemetry
 - ✅ **Dedicated Portability Console UI** — Multi-card download launchers, responsive drag-and-drop JSON restore zone, and real-time import summary dialog
 
+### Phase 18 — Multi-Person Workspace Foundation
+- ✅ **CareerProfile Aggregate Root Boundary** — Centralized ownership model (`CareerProfile`, `CareerProfilePreference`, `CareerProfileAddress`) governing all career domain entities
+- ✅ **Multi-Profile Workspace Support** — Native multi-person setup pre-seeded with 7 profiles: Sanidhya Kumar (Primary / Self), Komal Kumari (Spouse), Pranay Singh (Child), Nayansh Singh (Child), Friend, Client, and Other
+- ✅ **Strict Ownership Validation** — Relational `CareerProfileId` foreign keys across Documents, Applications, Interviews, Contacts, Resumes, Sponsorships, Wiki Articles, and Credentials ensuring 100% entity ownership
+- ✅ **Filesystem Profile Partitioning** — Automatic directory provisioning by profile slug (`storage/profiles/{profile-slug}/identity`, `academics`, `certifications`, `employment`, `immigration`, `resumes`, and `applications/{profile-slug}/`)
+- ✅ **Profile Context Header & Profile Switcher** — Real-time profile switcher in the top navigation bar with color badges, relationship tags, and 1-click context switching
+- ✅ **Family Dashboard & Workspace Hub (`/profiles`)** — Centralized family overview tracking aggregate metrics across all profiles, comparative summary cards, and cross-family activity streams
+- ✅ **Cross-Profile Search & Analytics** — Search results displaying profile ownership badges with color coding, alongside per-profile and cross-profile analytics filters
+
 ---
 
 ## 🏃 How to Run CareerOS

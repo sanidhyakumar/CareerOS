@@ -4,6 +4,9 @@ namespace CareerOS.Domain.Entities;
 
 public class ResumeProfile : BaseEntity
 {
+    public Guid? CareerProfileId { get; set; }
+    public CareerProfile? CareerProfile { get; set; }
+
     public string Name { get; set; } = string.Empty;
     public string TargetRole { get; set; } = string.Empty;
     public string? TargetIndustry { get; set; }

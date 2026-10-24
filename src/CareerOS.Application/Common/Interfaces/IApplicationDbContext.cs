@@ -40,5 +40,8 @@ public interface IApplicationDbContext
     DbSet<ReminderItem> ReminderItems { get; }
     DbSet<CredentialItem> Credentials { get; }
     DbSet<SecuritySetting> SecuritySettings { get; }
+    DbSet<CareerProfile> CareerProfiles { get; }
+    DbSet<CareerProfilePreference> CareerProfilePreferences { get; }
+    DbSet<CareerProfileAddress> CareerProfileAddresses { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

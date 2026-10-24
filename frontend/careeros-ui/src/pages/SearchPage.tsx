@@ -299,6 +299,20 @@ export const SearchPage: React.FC = () => {
                                 color: colorInfo.text,
                               }}
                             />
+                            {item.profileName && (
+                              <Chip
+                                label={item.profileName}
+                                size="small"
+                                sx={{
+                                  height: 20,
+                                  fontSize: '0.7rem',
+                                  fontWeight: 700,
+                                  backgroundColor: `${item.profileColor || '#2563eb'}22`,
+                                  color: item.profileColor || '#2563eb',
+                                  border: `1px solid ${item.profileColor || '#2563eb'}55`,
+                                }}
+                              />
+                            )}
                             {item.score !== 0 && (
                               <Chip
                                 label={`BM25: ${item.score}`}

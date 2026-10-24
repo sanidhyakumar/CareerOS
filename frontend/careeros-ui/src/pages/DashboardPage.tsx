@@ -49,10 +49,13 @@ import {
 } from 'recharts';
 
 import { analyticsApi, type CareerAnalytics } from '../api/analytics';
+import { useProfile } from '../context/ProfileContext';
 
 const PIE_COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4'];
 
 export default function DashboardPage() {
+  const { profiles } = useProfile();
+  const [selectedProfileId, setSelectedProfileId] = useState<string>('all');
   const [analytics, setAnalytics] = useState<CareerAnalytics | null>(null);
   const [loading, setLoading] = useState(true);
   const [timeframeDays, setTimeframeDays] = useState<number>(0);
@@ -118,6 +121,23 @@ export default function DashboardPage() {
         </Box>
 
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+          <FormControl size="small" sx={{ minWidth: 200 }}>
+            <InputLabel id="profile-scope-label">Profile Analytics</InputLabel>
+            <Select
+              labelId="profile-scope-label"
+              value={selectedProfileId}
+              label="Profile Analytics"
+              onChange={(e) => setSelectedProfileId(e.target.value)}
+            >
+              <MenuItem value="all">Cross-Profile / All Profiles</MenuItem>
+              {profiles.map((p) => (
+                <MenuItem key={p.id} value={p.id}>
+                  {p.name} ({p.relationship})
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
           <FormControl size="small" sx={{ minWidth: 150 }}>
             <InputLabel id="timeframe-select-label">Timeframe</InputLabel>
             <Select

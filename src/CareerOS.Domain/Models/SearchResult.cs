@@ -11,4 +11,6 @@ public class SearchResult
     public string ActionUrl { get; set; } = string.Empty;
     public string Tags { get; set; } = string.Empty;
     public double Score { get; set; }
+    public string? ProfileName { get; set; }
+    public string? ProfileColor { get; set; }
 }

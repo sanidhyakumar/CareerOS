@@ -5,6 +5,9 @@ namespace CareerOS.Domain.Entities;
 
 public class Contact : BaseEntity
 {
+    public Guid? CareerProfileId { get; set; }
+    public CareerProfile? CareerProfile { get; set; }
+
     public string Name { get; set; } = string.Empty;
     public ContactCategory Category { get; set; } = ContactCategory.Recruiter;
 

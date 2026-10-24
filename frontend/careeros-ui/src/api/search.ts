@@ -11,6 +11,8 @@ export interface SearchResultItem {
   actionUrl: string;
   tags: string;
   score: number;
+  profileName?: string;
+  profileColor?: string;
 }
 
 export interface SearchSummary {

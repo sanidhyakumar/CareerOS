@@ -5,6 +5,9 @@ namespace CareerOS.Domain.Entities;
 
 public class ReminderItem : BaseEntity
 {
+    public Guid? CareerProfileId { get; set; }
+    public CareerProfile? CareerProfile { get; set; }
+
     public ReminderCategory Category { get; set; } = ReminderCategory.General;
     public ReminderSeverity Severity { get; set; } = ReminderSeverity.Medium;
 

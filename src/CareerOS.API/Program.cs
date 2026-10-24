@@ -58,6 +58,12 @@ try
             }
             db.Database.EnsureCreated();
             db.Database.ExecuteSqlRaw(@"
+                PRAGMA journal_mode = WAL;
+                PRAGMA synchronous = NORMAL;
+                PRAGMA cache_size = -64000;
+                PRAGMA temp_store = MEMORY;
+                PRAGMA mmap_size = 268435456;
+
                 CREATE TABLE IF NOT EXISTS ""WikiArticles"" (
                     ""Id"" TEXT NOT NULL CONSTRAINT ""PK_WikiArticles"" PRIMARY KEY,
                     ""Title"" TEXT NOT NULL,
@@ -208,8 +214,99 @@ try
                     ""Value"" TEXT NOT NULL,
                     ""UpdatedAt"" TEXT NOT NULL
                 );
+
+                CREATE TABLE IF NOT EXISTS ""CareerProfiles"" (
+                    ""Id"" TEXT NOT NULL CONSTRAINT ""PK_CareerProfiles"" PRIMARY KEY,
+                    ""Name"" TEXT NOT NULL,
+                    ""Slug"" TEXT NOT NULL,
+                    ""Relationship"" TEXT NOT NULL,
+                    ""Email"" TEXT NOT NULL,
+                    ""PhoneNumber"" TEXT NULL,
+                    ""AvatarUrl"" TEXT NULL,
+                    ""ColorCode"" TEXT NOT NULL,
+                    ""IsPrimary"" INTEGER NOT NULL,
+                    ""IsActive"" INTEGER NOT NULL,
+                    ""Headline"" TEXT NULL,
+                    ""Bio"" TEXT NULL,
+                    ""CreatedAt"" TEXT NOT NULL,
+                    ""UpdatedAt"" TEXT NOT NULL
+                );
+                CREATE UNIQUE INDEX IF NOT EXISTS ""IX_CareerProfiles_Slug"" ON ""CareerProfiles"" (""Slug"");
+
+                CREATE TABLE IF NOT EXISTS ""CareerProfilePreferences"" (
+                    ""Id"" TEXT NOT NULL CONSTRAINT ""PK_CareerProfilePreferences"" PRIMARY KEY,
+                    ""CareerProfileId"" TEXT NOT NULL,
+                    ""TargetRoles"" TEXT NOT NULL,
+                    ""TargetLocations"" TEXT NOT NULL,
+                    ""TargetSalaryMin"" TEXT NULL,
+                    ""TargetSalaryMax"" TEXT NULL,
+                    ""Currency"" TEXT NOT NULL,
+                    ""OpenToRelocation"" INTEGER NOT NULL,
+                    ""RemotePreference"" TEXT NOT NULL,
+                    ""Notes"" TEXT NULL,
+                    ""CreatedAt"" TEXT NOT NULL,
+                    ""UpdatedAt"" TEXT NOT NULL,
+                    CONSTRAINT ""FK_CareerProfilePreferences_CareerProfiles_CareerProfileId"" FOREIGN KEY (""CareerProfileId"") REFERENCES ""CareerProfiles"" (""Id"") ON DELETE CASCADE
+                );
+
+                CREATE TABLE IF NOT EXISTS ""CareerProfileAddresses"" (
+                    ""Id"" TEXT NOT NULL CONSTRAINT ""PK_CareerProfileAddresses"" PRIMARY KEY,
+                    ""CareerProfileId"" TEXT NOT NULL,
+                    ""Type"" TEXT NOT NULL,
+                    ""Street"" TEXT NOT NULL,
+                    ""City"" TEXT NOT NULL,
+                    ""StateOrProvince"" TEXT NOT NULL,
+                    ""PostalCode"" TEXT NOT NULL,
+                    ""Country"" TEXT NOT NULL,
+                    ""IsPrimary"" INTEGER NOT NULL,
+                    ""CreatedAt"" TEXT NOT NULL,
+                    ""UpdatedAt"" TEXT NOT NULL,
+                    CONSTRAINT ""FK_CareerProfileAddresses_CareerProfiles_CareerProfileId"" FOREIGN KEY (""CareerProfileId"") REFERENCES ""CareerProfiles"" (""Id"") ON DELETE CASCADE
+                );
+
+                CREATE INDEX IF NOT EXISTS ""IX_JobApplications_Status_ApplicationDate"" ON ""JobApplications"" (""Status"", ""ApplicationDate"");
+                CREATE INDEX IF NOT EXISTS ""IX_Companies_Industry_SponsorshipStatus"" ON ""Companies"" (""Industry"", ""SponsorshipStatus"");
+                CREATE INDEX IF NOT EXISTS ""IX_Jobs_Status_Priority"" ON ""Jobs"" (""Status"", ""Priority"");
+                CREATE INDEX IF NOT EXISTS ""IX_Contacts_CompanyId_Category"" ON ""Contacts"" (""CompanyId"", ""Category"");
+                CREATE INDEX IF NOT EXISTS ""IX_Interviews_ScheduledAt_Status"" ON ""Interviews"" (""ScheduledAt"", ""Status"");
+                CREATE INDEX IF NOT EXISTS ""IX_Documents_Category_ExpiryDate"" ON ""Documents"" (""Category"", ""ExpiryDate"");
             ");
+
+            // Migration: Add CareerProfileId column to domain tables if missing (SQLite ALTER TABLE ADD COLUMN)
+            var alterQueries = new[]
+            {
+                "ALTER TABLE \"Documents\" ADD COLUMN \"CareerProfileId\" TEXT NULL;",
+                "ALTER TABLE \"JobApplications\" ADD COLUMN \"CareerProfileId\" TEXT NULL;",
+                "ALTER TABLE \"Contacts\" ADD COLUMN \"CareerProfileId\" TEXT NULL;",
+                "ALTER TABLE \"Interviews\" ADD COLUMN \"CareerProfileId\" TEXT NULL;",
+                "ALTER TABLE \"SponsorshipCases\" ADD COLUMN \"CareerProfileId\" TEXT NULL;",
+                "ALTER TABLE \"WikiArticles\" ADD COLUMN \"CareerProfileId\" TEXT NULL;",
+                "ALTER TABLE \"ResumeProfiles\" ADD COLUMN \"CareerProfileId\" TEXT NULL;",
+                "ALTER TABLE \"Credentials\" ADD COLUMN \"CareerProfileId\" TEXT NULL;",
+                "ALTER TABLE \"ReminderItems\" ADD COLUMN \"CareerProfileId\" TEXT NULL;",
+                "ALTER TABLE \"KanbanCards\" ADD COLUMN \"CareerProfileId\" TEXT NULL;",
+                "ALTER TABLE \"Profiles\" ADD COLUMN \"CareerProfileId\" TEXT NULL;"
+            };
+            foreach (var sql in alterQueries)
+            {
+                try
+                {
+                    db.Database.ExecuteSqlRaw(sql);
+                }
+                catch { /* Column already exists */ }
+            }
+
             Log.Information("Database initialization completed.");
+
+            try
+            {
+                var profileService = scope.ServiceProvider.GetRequiredService<CareerOS.Application.Common.Interfaces.ICareerProfileService>();
+                await profileService.EnsureDefaultProfilesAndDirectoriesAsync();
+            }
+            catch (Exception ex)
+            {
+                Log.Warning(ex, "Career Profiles default provisioning warning, continuing.");
+            }
 
             try
             {
@@ -241,6 +338,7 @@ try
 
     app.UseCors("AllowAll");
     app.MapControllers();
+    app.MapGet("/health", () => Results.Ok(new { status = "Healthy", timestamp = DateTime.UtcNow, service = "CareerOS Local-First" }));
 
     app.Run();
 }

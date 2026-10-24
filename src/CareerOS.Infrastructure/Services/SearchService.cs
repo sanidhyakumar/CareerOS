@@ -36,6 +36,8 @@ public class SearchService : ISearchService
         limit = Math.Clamp(limit, 1, 100);
         var ftsQuery = BuildFtsQuery(query);
 
+        IReadOnlyList<SearchResult> results = Array.Empty<SearchResult>();
+
         // Try FTS5 MATCH query first
         if (!string.IsNullOrWhiteSpace(ftsQuery))
         {
@@ -44,7 +46,7 @@ public class SearchService : ISearchService
                 var ftsResults = await ExecuteFtsQueryAsync(ftsQuery, entityType, limit, cancellationToken);
                 if (ftsResults.Count > 0)
                 {
-                    return ftsResults;
+                    results = ftsResults;
                 }
             }
             catch (Exception ex)
@@ -53,8 +55,77 @@ public class SearchService : ISearchService
             }
         }
 
-        // Fallback to LIKE query
-        return await ExecuteLikeFallbackQueryAsync(query, entityType, limit, cancellationToken);
+        // Fallback to LIKE query if no FTS results
+        if (results.Count == 0)
+        {
+            results = await ExecuteLikeFallbackQueryAsync(query, entityType, limit, cancellationToken);
+        }
+
+        await EnrichResultsWithProfileOwnershipAsync(results, cancellationToken);
+        return results;
+    }
+
+    private async Task EnrichResultsWithProfileOwnershipAsync(IReadOnlyList<SearchResult> results, CancellationToken cancellationToken)
+    {
+        if (results == null || results.Count == 0) return;
+
+        try
+        {
+            var profiles = await _context.CareerProfiles.AsNoTracking().ToListAsync(cancellationToken);
+            var primaryProfile = profiles.FirstOrDefault(p => p.IsPrimary) ?? profiles.FirstOrDefault();
+            var profileLookup = profiles.ToDictionary(p => p.Id, p => p);
+
+            var entityGuids = results
+                .Select(r => Guid.TryParse(r.EntityId, out var g) ? g : Guid.Empty)
+                .Where(g => g != Guid.Empty)
+                .Distinct()
+                .ToList();
+
+            var docMap = await _context.Documents
+                .Where(d => entityGuids.Contains(d.Id) && d.CareerProfileId != null)
+                .ToDictionaryAsync(d => d.Id.ToString(), d => d.CareerProfileId!.Value, cancellationToken);
+
+            var appMap = await _context.JobApplications
+                .Where(a => entityGuids.Contains(a.Id) && a.CareerProfileId != null)
+                .ToDictionaryAsync(a => a.Id.ToString(), a => a.CareerProfileId!.Value, cancellationToken);
+
+            var contactMap = await _context.Contacts
+                .Where(c => entityGuids.Contains(c.Id) && c.CareerProfileId != null)
+                .ToDictionaryAsync(c => c.Id.ToString(), c => c.CareerProfileId!.Value, cancellationToken);
+
+            var interviewMap = await _context.Interviews
+                .Where(i => entityGuids.Contains(i.Id) && i.CareerProfileId != null)
+                .ToDictionaryAsync(i => i.Id.ToString(), i => i.CareerProfileId!.Value, cancellationToken);
+
+            var wikiMap = await _context.WikiArticles
+                .Where(w => entityGuids.Contains(w.Id) && w.CareerProfileId != null)
+                .ToDictionaryAsync(w => w.Id.ToString(), w => w.CareerProfileId!.Value, cancellationToken);
+
+            foreach (var r in results)
+            {
+                Guid? profileId = null;
+                if (docMap.TryGetValue(r.EntityId, out var dpId)) profileId = dpId;
+                else if (appMap.TryGetValue(r.EntityId, out var apId)) profileId = apId;
+                else if (contactMap.TryGetValue(r.EntityId, out var cpId)) profileId = cpId;
+                else if (interviewMap.TryGetValue(r.EntityId, out var ipId)) profileId = ipId;
+                else if (wikiMap.TryGetValue(r.EntityId, out var wpId)) profileId = wpId;
+
+                if (profileId.HasValue && profileLookup.TryGetValue(profileId.Value, out var prof))
+                {
+                    r.ProfileName = prof.Name;
+                    r.ProfileColor = prof.ColorCode;
+                }
+                else if (primaryProfile != null)
+                {
+                    r.ProfileName = primaryProfile.Name;
+                    r.ProfileColor = primaryProfile.ColorCode;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Failed to enrich search results with profile ownership, continuing.");
+        }
     }
 
     public async Task<int> ReindexAllAsync(CancellationToken cancellationToken = default)

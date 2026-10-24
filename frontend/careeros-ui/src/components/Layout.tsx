@@ -23,13 +23,17 @@ import ViewKanbanIcon from '@mui/icons-material/ViewKanban'
 import AlarmOnIcon from '@mui/icons-material/AlarmOn'
 import LockIcon from '@mui/icons-material/Lock'
 import ImportExportIcon from '@mui/icons-material/ImportExport'
+import GroupWorkIcon from '@mui/icons-material/GroupWork'
 import { SearchModal } from './SearchModal'
+import { ProfileSwitcher } from './ProfileSwitcher'
+import { useProfile } from '../context/ProfileContext'
 
 const DRAWER_WIDTH = 240
 const DRAWER_COLLAPSED = 72
 
 const navItems = [
   { label: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard' },
+  { label: 'Family Workspace', icon: <GroupWorkIcon />, path: '/profiles' },
   { label: 'Global Search', icon: <SearchIcon />, path: '/search' },
   { label: 'Profile', icon: <PersonIcon />, path: '/profile' },
   { label: 'Companies', icon: <BusinessIcon />, path: '/companies' },
@@ -50,6 +54,7 @@ const navItems = [
 interface LayoutProps { children: React.ReactNode }
 
 export default function Layout({ children }: LayoutProps) {
+  const { activeProfile } = useProfile()
   const [open, setOpen] = useState(true)
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const location = useLocation()
@@ -131,12 +136,38 @@ export default function Layout({ children }: LayoutProps) {
             )
           })}
         </List>
-        <Box sx={{ mt: 'auto', p: 2, display: 'flex', alignItems: 'center', gap: 1.5, borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-          <Avatar sx={{ width: 36, height: 36, bgcolor: 'primary.main', fontSize: 14 }}>U</Avatar>
+        <Box
+          onClick={() => navigate('/profiles')}
+          sx={{
+            mt: 'auto',
+            p: 2,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1.5,
+            borderTop: '1px solid rgba(255,255,255,0.08)',
+            cursor: 'pointer',
+            '&:hover': { bgcolor: 'action.hover' },
+          }}
+        >
+          <Avatar
+            sx={{
+              width: 36,
+              height: 36,
+              bgcolor: activeProfile?.colorCode || 'primary.main',
+              fontSize: 14,
+              fontWeight: 700,
+            }}
+          >
+            {activeProfile?.name ? activeProfile.name.substring(0, 2).toUpperCase() : 'U'}
+          </Avatar>
           {open && (
-            <Box>
-              <Typography variant="body2" fontWeight={600}>You</Typography>
-              <Typography variant="caption" color="text.secondary">Local User</Typography>
+            <Box sx={{ overflow: 'hidden' }}>
+              <Typography variant="body2" fontWeight={700} noWrap>
+                {activeProfile?.name || 'Local User'}
+              </Typography>
+              <Typography variant="caption" color="text.secondary" noWrap>
+                {activeProfile?.relationship ? `${activeProfile.relationship} Profile` : 'Local Workspace'}
+              </Typography>
             </Box>
           )}
         </Box>
@@ -155,6 +186,9 @@ export default function Layout({ children }: LayoutProps) {
             </Typography>
 
             <Box sx={{ flexGrow: 1 }} />
+
+            {/* Profile Context Header Switcher */}
+            <ProfileSwitcher />
 
             {/* Quick Search Trigger */}
             <Box

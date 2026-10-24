@@ -5,6 +5,9 @@ namespace CareerOS.Domain.Entities;
 
 public class Job : BaseEntity
 {
+    public Guid? CareerProfileId { get; set; }
+    public CareerProfile? CareerProfile { get; set; }
+
     public string Title { get; set; } = string.Empty;
     public string Company { get; set; } = string.Empty;
 

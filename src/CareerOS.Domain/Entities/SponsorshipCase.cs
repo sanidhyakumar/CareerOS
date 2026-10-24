@@ -5,6 +5,9 @@ namespace CareerOS.Domain.Entities;
 
 public class SponsorshipCase : BaseEntity
 {
+    public Guid? CareerProfileId { get; set; }
+    public CareerProfile? CareerProfile { get; set; }
+
     public Guid CountryId { get; set; }
     public Country Country { get; set; } = null!;
 

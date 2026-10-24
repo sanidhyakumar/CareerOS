@@ -21,6 +21,17 @@ Non-negotiable requirements:
 - Portable via Git repository
 - Docker deployable
 
+When implementing any new feature:
+
+- Preserve existing data.
+- Prefer additive changes.
+- Use migration-safe schema evolution.
+- Use soft-delete instead of hard-delete.
+- Never remove user files.
+- Maintain backward compatibility.
+- Provide automatic migration scripts for upgrades.
+- Existing CareerProfiles must continue working without modification.
+
 ====================================================
 TECHNOLOGY STACK
 ====================================================
@@ -122,11 +133,9 @@ For this phase generate:
 13. Pages
 14. Routing
 15. State Management
-16. Unit Tests
-17. Integration Tests
-18. Docker Updates
-19. Migration Scripts
-20. Folder Structure Changes
+17. Docker Updates
+18. Migration Scripts
+19. Folder Structure Changes
 
 For every class provide production-ready code.
 
@@ -635,9 +644,120 @@ Success Criteria:
 
 Data portability enabled.
 
+CURRENT PHASE
 
+Phase 18 - Multi-Person Workspace Foundation
 
+Objective
 
+Transform CareerOS from a single-user career tracker into a multi-profile career operating system.
+
+Requirements
+
+Introduce CareerProfile aggregate as the root ownership boundary.
+
+Support multi profile:
+
+- Sanidhya Kumar
+- Komal Kumari
+- Pranay Singh
+- Nayansh Singh
+- Friend
+- Client
+- Other
+
+Architecture
+
+Workspace
+    └── CareerProfile
+            ├── Personal Profile
+            ├── Documents
+            ├── Resumes
+            ├── Applications
+            ├── Interviews
+            ├── Contacts
+            ├── Sponsorships
+            └── Knowledge Base
+
+Database
+
+Create:
+
+- CareerProfiles
+
+Add:
+
+- CareerProfileId FK
+
+to all domain entities.
+
+Required Entities
+
+CareerProfile
+CareerProfilePreference
+CareerProfileAddress
+
+Filesystem Structure
+
+storage/
+  profiles/
+    {profile-slug}/
+      identity/
+      academics/
+      certifications/
+      employment/
+      immigration/
+      resumes/
+
+Applications Structure
+
+applications/
+  {profile-slug}/
+    country/
+      company/
+        position/
+
+UI
+
+Create Profile Switcher.
+
+Examples:
+
+Sanidhya
+Komal
+Pranay
+Nayansh
+
+Add:
+
+- Profile Dashboard
+- Family Dashboard
+- Profile Context Header
+
+Search
+
+Search results must display profile ownership.
+
+Analytics
+
+Provide:
+
+- Per Profile Analytics
+- Cross Profile Analytics
+
+Validation Rule
+
+No entity may exist without CareerProfile ownership.
+
+Success Criteria
+
+Every document, application, resume, interview,
+contact, sponsorship record, and knowledge article
+belongs to exactly one CareerProfile.
+
+Commit
+
+git commit -m "Phase 18 - Multi Profile Foundation completed"
 
 CURRENT PHASE
 

@@ -5,6 +5,9 @@ namespace CareerOS.Domain.Entities;
 
 public class KanbanCard : BaseEntity
 {
+    public Guid? CareerProfileId { get; set; }
+    public CareerProfile? CareerProfile { get; set; }
+
     public KanbanColumnType Column { get; set; } = KanbanColumnType.Interested;
     public int Position { get; set; }
 

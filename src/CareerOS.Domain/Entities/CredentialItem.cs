@@ -4,6 +4,9 @@ namespace CareerOS.Domain.Entities;
 
 public class CredentialItem : BaseEntity
 {
+    public Guid? CareerProfileId { get; set; }
+    public CareerProfile? CareerProfile { get; set; }
+
     public string ServiceName { get; set; } = string.Empty;
     public string? PortalUrl { get; set; }
     public string Username { get; set; } = string.Empty;

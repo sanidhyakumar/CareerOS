@@ -44,6 +44,8 @@ public static class DependencyInjection
         services.AddScoped<IKanbanRepository, KanbanRepository>();
         services.AddScoped<IReminderRepository, ReminderRepository>();
         services.AddScoped<ICredentialRepository, CredentialRepository>();
+        services.AddScoped<ICareerProfileRepository, CareerProfileRepository>();
+        services.AddScoped<ICareerProfileService, CareerProfileService>();
 
         // Search Service (SQLite FTS5)
         services.AddScoped<ISearchService, SearchService>();
@@ -54,6 +56,9 @@ public static class DependencyInjection
 
         // Data Portability & Import/Export
         services.AddScoped<IDataPortabilityService, DataPortabilityService>();
+
+        // Production Hardening & Benchmarking
+        services.AddScoped<IBenchmarkService, BenchmarkService>();
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 

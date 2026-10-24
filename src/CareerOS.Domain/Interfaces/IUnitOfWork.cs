@@ -19,5 +19,6 @@ public interface IUnitOfWork : IDisposable
     IKanbanRepository Kanban { get; }
     IReminderRepository Reminders { get; }
     ICredentialRepository Credentials { get; }
+    ICareerProfileRepository CareerProfiles { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

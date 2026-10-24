@@ -5,6 +5,9 @@ namespace CareerOS.Domain.Entities;
 
 public class Document : BaseEntity
 {
+    public Guid? CareerProfileId { get; set; }
+    public CareerProfile? CareerProfile { get; set; }
+
     public string FileName { get; set; } = string.Empty;
     public string OriginalFileName { get; set; } = string.Empty;
     public string FileExtension { get; set; } = string.Empty;

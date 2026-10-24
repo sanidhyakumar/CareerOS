@@ -43,6 +43,9 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<ReminderItem> ReminderItems => Set<ReminderItem>();
     public DbSet<CredentialItem> Credentials => Set<CredentialItem>();
     public DbSet<SecuritySetting> SecuritySettings => Set<SecuritySetting>();
+    public DbSet<CareerProfile> CareerProfiles => Set<CareerProfile>();
+    public DbSet<CareerProfilePreference> CareerProfilePreferences => Set<CareerProfilePreference>();
+    public DbSet<CareerProfileAddress> CareerProfileAddresses => Set<CareerProfileAddress>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -6,6 +6,9 @@ namespace CareerOS.Domain.Entities;
 
 public class WikiArticle : BaseEntity
 {
+    public Guid? CareerProfileId { get; set; }
+    public CareerProfile? CareerProfile { get; set; }
+
     public string Title { get; set; } = string.Empty;
     public string Slug { get; set; } = string.Empty;
     public WikiCategory Category { get; set; } = WikiCategory.General;

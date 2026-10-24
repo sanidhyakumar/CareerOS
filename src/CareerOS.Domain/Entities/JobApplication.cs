@@ -5,6 +5,9 @@ namespace CareerOS.Domain.Entities;
 
 public class JobApplication : BaseEntity
 {
+    public Guid? CareerProfileId { get; set; }
+    public CareerProfile? CareerProfile { get; set; }
+
     public Guid JobId { get; set; }
     public Job Job { get; set; } = null!;
 
